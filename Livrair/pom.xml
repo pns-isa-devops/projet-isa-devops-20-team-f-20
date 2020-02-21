@@ -118,7 +118,7 @@
     </dependencies>
 
     <build>
-        <finalName>tcf-backend</finalName>
+        <finalName>livrair-backend</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
 <!--            <plugin>-->
@@ -148,10 +148,6 @@
                     <forkMode>always</forkMode>
                     <!-- otherwise openejb embedded and tomee embedded shares the same context and EJBContainer is broken -->
                     <reuseForks>false</reuseForks>
-                    <excludes>
-                        <exclude>**/PaymentIntegrationTest.java</exclude>
-                        <exclude>features/*</exclude>
-                    </excludes>
                 </configuration>
                 <executions>
                     <execution>
@@ -164,9 +160,6 @@
                             <excludes>
                                 <exclude>**/*Test.java</exclude>
                             </excludes>
-                            <includes>
-                                <include>**/PaymentIntegrationTest.java</include>
-                            </includes>
                         </configuration>
                     </execution>
                 </executions>
