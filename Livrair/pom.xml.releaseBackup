@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.unice.polytech.isa</groupId>
     <artifactId>Livrair</artifactId>
-<!--    <packaging>war</packaging>-->
+    <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>ISA :: Livrair :: J2E Backend</name>
 
@@ -13,22 +13,22 @@
         <!-- General Properties -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <versions.maven.compiler>3.6.1</versions.maven.compiler>
-        <versions.json>20190722</versions.json>
+        <versions.json>20160810</versions.json>
         <versions.java>1.8</versions.java>
         <!-- J2E 7.x technological stack -->
-        <versions.javaee>8.0-3</versions.javaee>
-        <versions.openejb>8.0.1</versions.openejb>
-        <versions.tomee>8.0.1</versions.tomee>
+        <versions.javaee>7.0-1</versions.javaee>
+        <versions.openejb>7.0.2</versions.openejb>
+        <versions.tomee>7.0.2</versions.tomee>
         <versions.openjpa>2.4.1</versions.openjpa>
-        <versions.myface>2.3.6</versions.myface>
+        <versions.myface>2.2.10</versions.myface>
         <!-- Testing dependencies -->
         <versions.maven.surefire>2.19.1</versions.maven.surefire>
-        <versions.junit>4.13</versions.junit>
-        <versions.mockito>3.2.4</versions.mockito>
-        <versions.cukespace>1.6.7</versions.cukespace>
-        <versions.arquillian.junit>1.6.0.Final</versions.arquillian.junit>
+        <versions.junit>4.12</versions.junit>
+        <versions.mockito>1.10.19</versions.mockito>
+        <versions.cukespace>1.6.5</versions.cukespace>
+        <versions.arquillian.junit>1.1.12.Final</versions.arquillian.junit>
         <versions.arquilian.jta>1.0.3.Final</versions.arquilian.jta>
-        <versions.shrinkwrap>3.1.4</versions.shrinkwrap>
+        <versions.shrinkwrap>2.2.6</versions.shrinkwrap>
     </properties>
 
     <dependencies>
@@ -121,25 +121,25 @@
         <finalName>tcf-backend</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
-<!--            <plugin>-->
-<!--                <groupId>org.apache.openjpa</groupId>-->
-<!--                <artifactId>openjpa-maven-plugin</artifactId>-->
-<!--                <version>${versions.openjpa}</version>-->
-<!--                <configuration>-->
-<!--                    <includes>**/entities/*.class</includes>-->
-<!--                    <addDefaultConstructor>true</addDefaultConstructor>-->
-<!--                    <enforcePropertyRestrictions>true</enforcePropertyRestrictions>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>enhancer</id>-->
-<!--                        <phase>process-classes</phase>-->
-<!--                        <goals>-->
-<!--                            <goal>enhance</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
+            <plugin>
+                <groupId>org.apache.openjpa</groupId>
+                <artifactId>openjpa-maven-plugin</artifactId>
+                <version>${versions.openjpa}</version>
+                <configuration>
+                    <includes>**/entities/*.class</includes>
+                    <addDefaultConstructor>true</addDefaultConstructor>
+                    <enforcePropertyRestrictions>true</enforcePropertyRestrictions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>enhancer</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>enhance</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
