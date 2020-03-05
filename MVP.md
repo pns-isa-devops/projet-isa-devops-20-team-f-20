@@ -19,12 +19,12 @@ Quand marcel charge un drone, il est alors concidere comme 'en livraion', et est
 A chaque retour de drone, si le colis a été livré, on passe le statut de la livraion a 'validé', et on notifie Gisèle de la commande effectué (voir paragraphe associe). Egalement, chaque drone qui revient est forcé a etre placé en rechargement. Comme une livraion dure 1h, tous les drones chargeront en le meme temps. Le drone peut également etre apporté en révision s'il a depassé les 20h de vols, et la revison durera 1h fixe.
 
 ## Facturation :
-Chaque forunisseur possède un objet 'Factures' qui recense les factures qui lui sont associés sur la journée. Quand un colis est livré, Gisèle recoit la livraison en question, et prend connaissance du fourniseur, elle va ensuite soit créé l'objet facture du fournisseur si c'est la premiere livraison de la journée, soit ajouter sur sa facture la livraion en question. 
+Chaque forunisseur a un objet 'Factures' qui lui ait associé, et qui recense les livraisons qui lui sont associés sur la journée. Quand un colis est livré, Gisèle recoit la livraison en question, et prend connaissance du fourniseur, elle va ensuite soit créé l'objet facture du fournisseur si c'est sa premiere livraison de la journée, soit ajouter la livraion en question sur sa facture. 
 A la fin de la journée, elle va finalement renseigner les dernières informations de la facture, et l'envoyer au fournisseur.
 
 ## Retour client, statistiques : 
 Un client peut appeler Clissandre pour donner un retour client. Ce dernier donne son numero de livraion, et une note/commentaire voulu. Le systeme stocke les 'Reviews'. 
-Le boss peut accder en temps reel a l'etat de sa flotte, et à l'integralité des retours clients
+Le boss peut accder en temps reel à l'etat de sa flotte, et à l'integralité des retours clients.
 
 
 
