@@ -1,8 +1,6 @@
-package interfaces;
-
 import entities.Delivery;
 
-public interface PlanningSlot {
+public interface PlanningDelivery {
     void getPlanning() ;
     void planDelivery(Delivery delivery);
 }

@@ -1,5 +1,3 @@
-package interfaces;
-
 import entities.Drone;
 
 import java.util.Set;
