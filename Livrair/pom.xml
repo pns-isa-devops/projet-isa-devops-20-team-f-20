@@ -22,10 +22,23 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <versions.javaee>7.0-1</versions.javaee>
+        <versions.maven.compiler>3.6.1</versions.maven.compiler>
+        <versions.java>1.8</versions.java>
     </properties>
 
     <build>
         <finalName>livrair</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${versions.maven.compiler}</version>
+                <configuration>
+                    <source>${versions.java}</source>
+                    <target>${versions.java}</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 
     <dependencies>
@@ -42,4 +55,6 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+
+
 </project>
