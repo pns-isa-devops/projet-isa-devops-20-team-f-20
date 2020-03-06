@@ -24,6 +24,8 @@
         <versions.javaee>7.0-1</versions.javaee>
         <versions.maven.compiler>3.6.1</versions.maven.compiler>
         <versions.java>1.8</versions.java>
+        <versions.maven.surefire>2.22.0</versions.maven.surefire>
+        <junit-platform.version>5.3.1</junit-platform.version>
     </properties>
 
     <build>
@@ -38,6 +40,16 @@
                     <target>${versions.java}</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${versions.maven.surefire}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>${versions.maven.surefire}</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -45,14 +57,20 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.3.2</version>
-            <scope>compile</scope>
+            <version>${junit-platform.version}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomee</groupId>
             <artifactId>javaee-api</artifactId>
             <version>${versions.javaee}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit-platform.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
