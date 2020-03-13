@@ -1,29 +1,17 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="secondary"
-      dark
-    >
+    <v-app-bar app color="secondary" dark>
       <div class="d-flex align-center">
-        <v-img
-          alt="Livrair'"
-          class="shrink mr-2"
-          contain
-          src="../src/assets/drone_green.png"
-          transition="scale-transition"
-          width="40"
-        />
+        <v-img alt="Livrair'" class="shrink mr-2" contain src="../src/assets/drone_green.png"
+          transition="scale-transition" width="40" />
       </div>
-        <span class="mr-2">Livrair</span>
+      <v-toolbar-title class="headline text-upper">
+        <span class="font-weight-light">LIVRAIR</span>
+      </v-toolbar-title>
 
       <v-spacer></v-spacer>
 
-      <v-btn
-        href="https://github.com/pns-isa-devops/projet-isa-devops-20-team-f-20"
-        target="_blank"
-        text
-      >
+      <v-btn href="https://github.com/pns-isa-devops/projet-isa-devops-20-team-f-20" target="_blank" text>
         <span class="mr-2">Git Repo</span>
         <v-icon>mdi-open-in-new</v-icon>
       </v-btn>
@@ -36,12 +24,11 @@
 </template>
 
 <script>
+  export default {
+    name: 'App',
 
-export default {
-  name: 'App',
-
-  data: () => ({
-    //
-  }),
-};
+    data: () => ({
+      //
+    }),
+  };
 </script>
