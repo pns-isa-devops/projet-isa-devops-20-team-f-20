@@ -1,4 +1,5 @@
 import entities.Delivery;
+import interfaces.Availability;
 
 import javax.ejb.EJB;
 
