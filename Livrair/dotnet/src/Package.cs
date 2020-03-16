@@ -1,7 +1,7 @@
 using System.Runtime.Serialization;
 using System;
 
-namespace Package.Data {
+namespace delivery {
     [DataContract(Namespace = "http://partner/external/package/data/",
                   Name = "Package")]
     public class Package

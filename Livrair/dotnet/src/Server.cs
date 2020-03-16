@@ -3,8 +3,7 @@ using System.IO;
 using System.Threading;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-
-using Partner.Service;
+using delivery;
 
 /**
  * References:
@@ -28,7 +27,7 @@ public class Server
    */
   public void start() {
     Console.WriteLine("Starting a WCF self-hosted .Net server... ");
-    string url = "http://" + "localhost" + ":" + Port;
+    string url = "http://localhost:" + Port;
 
     WebHttpBinding b = new WebHttpBinding();
     Host = new WebServiceHost(typeof(PackageService), new Uri (url));

@@ -3,16 +3,14 @@ using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Collections.Generic;
 
-using Package.Data;
 
-namespace Package.Service {
+namespace delivery {
 
     [ServiceContract]
     public interface IPackageService
     {
         [OperationContract]
-        [WebInvoke( Method = "GET", UriTemplate = "partners/{ APIkey }/packages",
-                    ResponseFormat = WebMessageFormat.Json)]
-        Package[] ReceivePackages();
+        [WebInvoke( Method = "GET", UriTemplate = "partners/{apikey}/packages", ResponseFormat = WebMessageFormat.Json)]
+        Package[] RetrievePackages(string apikey);
     }
 }
