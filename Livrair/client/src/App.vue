@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <v-app-bar app color="secondary" dark>
-      <div class="d-flex align-center">
+      <div class="d-flex align-center" @click="goToHome()">
         <v-img alt="Livrair'" class="shrink mr-2" contain src="../src/assets/drone_green.png"
           transition="scale-transition" width="40" />
       </div>
-      <v-toolbar-title class="headline text-upper">
+      <v-toolbar-title class="headline text-upper" @click="goToHome()">
         <span class="font-weight-light">LIVRAIR</span>
       </v-toolbar-title>
 
@@ -30,5 +30,10 @@
     data: () => ({
       //
     }),
+    methods : {
+      goToHome() {
+        this.$router.push('/')
+      }
+    }
   };
 </script>
