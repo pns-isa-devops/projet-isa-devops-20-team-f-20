@@ -1,3 +1,5 @@
+package core;
+
 import javax.ejb.Local;
 
 @Local
