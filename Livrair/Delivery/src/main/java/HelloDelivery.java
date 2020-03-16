@@ -1,3 +1,4 @@
+import core.PackageSupplyAPI;
 import entities.Package;
 import entities.Supplier;
 import exceptions.ExternalPartnerException;

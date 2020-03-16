@@ -1,3 +1,5 @@
+package core;
+
 import com.google.gson.Gson;
 import entities.Package;
 
