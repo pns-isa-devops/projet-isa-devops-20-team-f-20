@@ -16,3 +16,5 @@ target
 .idea
 **/.idea
 **/*.exe
+Livrair/Dockerfile
+docker-compose.yml
