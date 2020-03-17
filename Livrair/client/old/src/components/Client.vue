@@ -88,29 +88,31 @@
       },
     },
     mounted() {
-      let enveloppe =
-        '<?xml version="1.0"?><soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://www.polytech.unice.fr/si/4a/isa/tcf/customer-care">' +
-        '<soapenv:Header/>' +
-        '<soapenv:Body>' +
-        '<cus:listAllRecipes/>' +
-        '</soapenv:Body>' +
-        '</soapenv:Envelope>'
+      // let enveloppe =
+      //   '<?xml version="1.0"?>' +
+      //   '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://www.polytech.unice.fr/si/4a/isa/tcf/customer-care">' +
+      //   '<soapenv:Header/>' +
+      //   '<soapenv:Body>' +
+      //   '<cus:listAllRecipes/>' +
+      //   '</soapenv:Body>' +
+      //   '</soapenv:Envelope>';
 
-      this.axios
-        .post('http://localhost:8080/tcf-backend/webservices/CustomerCareWS',
-          enveloppe, {
-            headers: {
-              'Accept': 'application/xml',
-              'Content-Type': 'application/xml',
-              'Access-Control-Allow-Origin': '*'
-            }
-          }).then(result => {
-
-          console.log(result.data)
-          this.info = result.data
-        }).catch(err => {
-          console.log(err.response)
+      this.axios({
+          method: 'post',
+          url: 'http://localhost:8080/tcf-backend/webservices/CustomerCareWS',
+          data: '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://www.polytech.unice.fr/si/4a/isa/tcf/customer-care">'
+                + '<soapenv:Header/>'
+                + '<soapenv:Body>'
+                + '<cus:listAllRecipes/>'
+                + '</soapenv:Body>'
+                + '</soapenv:Envelope>'
         })
+        .then(function (response) {
+          console.log(response);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
 
     }
   }
