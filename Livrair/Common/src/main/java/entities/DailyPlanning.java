@@ -1,12 +1,10 @@
 package entities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class DailyPlanning {
-
 
     private List<Delivery> deliveries;
     public List<Slot> slots;
@@ -24,6 +22,13 @@ public class DailyPlanning {
      */
     private void build(List<Delivery> deliveries) {
         initSlots();
+        for (Delivery d : deliveries) {
+            int hour = d.getDeliveryDate().getHour();
+            for (Slot s : slots) {
+                if (s.isAvailable && s.matchThisHour(hour))
+                    s.book(d);
+            }
+        }
     }
 
     /**
@@ -32,10 +37,10 @@ public class DailyPlanning {
     private void initSlots() {
         slots = new ArrayList<>();
 
-        slots.add(new Slot(8,11));
-        slots.add(new Slot(11,14));
-        slots.add(new Slot(14,17));
-        slots.add(new Slot(17,20));
+        slots.add(new Slot(8, 11));
+        slots.add(new Slot(11, 14));
+        slots.add(new Slot(14, 17));
+        slots.add(new Slot(17, 20));
     }
 
     /**
@@ -45,6 +50,15 @@ public class DailyPlanning {
      */
     public List<Slot> getAvailabilities() {
         return slots.stream().filter((slot) -> slot.isAvailable).collect(Collectors.toList());
+    }
+
+    public boolean availableSlotForGivenDate(int deliveryDate) {
+        for (Slot s :
+                getAvailabilities()) {
+            if (s.matchThisHour(deliveryDate))
+                return true;
+        }
+        return false;
     }
 
     /**
