@@ -2,15 +2,15 @@ package cli.commands;
 
 import api.LivrairPublicAPI;
 import cli.framework.Command;
-import stubs.customerCare.Cookies;
 
 import java.util.List;
 
 public class ListPackageContents extends Command<LivrairPublicAPI> {
 
 	@Override
-	public String identifier() { return "recipes"; }
+	public String identifier() { return "hello"; }
 
+	/*
 	@Override
 	public void execute() {
 		List<Cookies> recipes = shell.system.ccs.listAllRecipes();
@@ -22,10 +22,18 @@ public class ListPackageContents extends Command<LivrairPublicAPI> {
 			}
 		}
 	}
+	*/
+
+	@Override
+	public void execute() {
+		String msg = shell.system.ccs.getPackageById("3");
+		System.out.println("Voici la reponse :");
+		System.out.println(msg);
+	}
 
 	@Override
 	public String describe() {
-		return "List all available recipes";
+		return "List all available packages";
 	}
 
 }
