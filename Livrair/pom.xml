@@ -5,10 +5,10 @@
 
 
     <modules>
+        <module>Common</module>
         <module>Logistic</module>
         <module>Scheduler</module>
         <module>Delivery</module>
-        <module>Common</module>
     </modules>
 
     <modelVersion>4.0.0</modelVersion>
