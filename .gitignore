@@ -18,3 +18,5 @@ target
 **/*.exe
 Livrair/Dockerfile
 docker-compose.yml
+Livrair/client/node_modules/*
+**/node_modules/*

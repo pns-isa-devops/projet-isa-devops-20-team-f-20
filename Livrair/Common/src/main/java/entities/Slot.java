@@ -26,4 +26,8 @@ public class Slot {
         this.isAvailable = true;
         return d;
     }
+
+    public boolean matchThisHour(int hour) {
+        return start <= hour && hour < finish;
+    }
 }

@@ -1,4 +1,5 @@
 
+import entities.DailyPlanning;
 import entities.Delivery;
 import entities.Package;
 import interfaces.Availability;
@@ -10,7 +11,7 @@ import javax.jms.*;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Stateless
@@ -23,14 +24,13 @@ public class SchedulerBean implements PlanningInterface {
 //    @EJB CookieScheduler scheduler;
     @EJB private Availability availability;
 
-
     @Override
-    public Delivery planDelivery(Package item, int deliveryDate) {
-        return null;
+    public Delivery planDelivery(Package item, LocalDateTime deliveryDate, List<Delivery> deliveries) {
+        return DeliveryScheduler.planDelivery(item, deliveryDate, deliveries);
     }
 
     @Override
-    public String getPlanning(List<Delivery> deliveries) {
-        return null;
+    public DailyPlanning getPlanning(List<Delivery> deliveries) {
+        return PlanningCreator.create(deliveries);
     }
 }

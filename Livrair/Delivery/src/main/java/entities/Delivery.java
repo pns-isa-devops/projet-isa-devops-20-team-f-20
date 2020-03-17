@@ -76,4 +76,12 @@ public class Delivery {
     public void setStatus(DeliveryStatus status) {
         this.status = status;
     }
+
+    public Delivery(Package aPackage, Drone drone, LocalDateTime deliveryDate) {
+        this.aPackage = aPackage;
+        this.drone = drone;
+        this.deliveryDate = deliveryDate;
+
+        // TODO
+    }
 }
