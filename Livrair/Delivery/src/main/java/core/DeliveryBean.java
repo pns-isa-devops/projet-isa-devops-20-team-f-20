@@ -5,6 +5,7 @@ import entities.PackageStatus;
 import entities.Supplier;
 import exceptions.ExternalPartnerException;
 
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+@Stateless
 public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryManager {
 
     private PackageSupplyAPI packageSupplyAPI;
@@ -36,8 +39,8 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         } catch (NoResultException nre){
             return Optional.empty();
         }*/
-
         retrieveIncomingPackages();
+
         return Optional.of(myPackages.get(0));
     }
 
@@ -63,7 +66,7 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public void retrieveIncomingPackages() {
-        packageSupplyAPI = new PackageSupplyAPI("localhost", "9090", "123", new Supplier("UPS", "Biot"));
+        packageSupplyAPI = new PackageSupplyAPI();
         myPackages = new ArrayList<>();
         try {
             packageSupplyAPI.retrievePackages().forEach((incomingPackage)->{

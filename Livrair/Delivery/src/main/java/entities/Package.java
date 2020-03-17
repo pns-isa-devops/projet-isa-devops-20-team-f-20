@@ -1,23 +1,26 @@
 package entities;
 
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@Embeddable
+@Entity
 public class Package implements Serializable {
 
     @Id
     private String id;
 
+    @NotNull
     private String customerName;
 
+    @NotNull
     private PackageStatus packageStatus;
 
+    @NotNull
     private String address;
 
+    @NotNull
     private Supplier supplier;
 
     public Package() {

@@ -12,11 +12,11 @@ public class HelloDelivery {
     }
 
     public static void main(String[] args) {
-        PackageSupplyAPI api = new PackageSupplyAPI("192.168.99.100", "1880", "123", new Supplier("UPS", "Biot"));
+        PackageSupplyAPI api = new PackageSupplyAPI("localhost", "9090", "123", new Supplier("UPS", "Biot"));
 
         try {
             List<Package> tmp = api.retrievePackages();
-            System.out.println(tmp.get(1).getCustomerName());
+            System.out.println(tmp.get(0).getCustomerName());
         } catch (ExternalPartnerException e) {
             e.printStackTrace();
         }

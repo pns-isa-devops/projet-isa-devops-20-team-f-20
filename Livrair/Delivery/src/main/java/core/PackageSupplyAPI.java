@@ -1,6 +1,9 @@
 package core;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 import entities.Package;
 
 import java.util.ArrayList;
@@ -10,10 +13,8 @@ import entities.PackageStatus;
 import entities.Supplier;
 import exceptions.ExternalPartnerException;
 import org.apache.cxf.jaxrs.client.WebClient;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
-import javax.json.JsonObject;
+
 
 public class PackageSupplyAPI {
     private String APIkey;
@@ -25,15 +26,21 @@ public class PackageSupplyAPI {
         this.supplier = supplier;
     }
 
+    public PackageSupplyAPI(){
+        this("localhost", "9090", "123", new Supplier("UPS", "Biot"));
+    }
+
     public List<Package> retrievePackages() throws ExternalPartnerException{
         // Retrieving the packages from transporters
-        JSONArray packages;
+
         List<Package> packagesReceived = new ArrayList<>();
         try {
             String response = WebClient.create(url).path("/partners/" + APIkey + "/packages").get(String.class);
-            packages = new JSONArray(response);
-            for(int i =0; i< packages.length(); i++){
-                Package p = new Gson().fromJson(packages.get(i).toString(), Package.class);
+            System.out.println(response);
+            JsonParser parser = new JsonParser();
+            JsonArray packages = parser.parse(response).getAsJsonArray();
+            for (JsonElement pack : packages) {
+                Package p = new Gson().fromJson(pack, Package.class);
                 p.setPackageStatus(PackageStatus.REGISTERED);
                 p.setSupplier(supplier);
                 packagesReceived.add(p);
