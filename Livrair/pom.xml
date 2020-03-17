@@ -3,7 +3,6 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 
-    <packaging>pom</packaging>
 
     <modules>
         <module>Logistic</module>
@@ -15,6 +14,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.unice.polytech.isa</groupId>
     <artifactId>Livrair</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>ISA :: Livrair :: J2E Backend</name>
 
@@ -26,11 +26,26 @@
         <versions.java>1.8</versions.java>
         <versions.maven.surefire>2.22.0</versions.maven.surefire>
         <junit-platform.version>5.3.1</junit-platform.version>
+        <versions.openejb>7.0.2</versions.openejb>
+        <versions.tomee>7.0.2</versions.tomee>
+        <versions.openjpa>2.4.1</versions.openjpa>
     </properties>
 
     <build>
         <finalName>livrair</finalName>
+        <defaultGoal>package</defaultGoal>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${versions.maven.surefire}</version>
+                <configuration>
+                    <forkMode>always</forkMode>
+                    <!-- otherwise openejb embedded and tomee embedded shares the same context and EJBContainer is broken -->
+                    <reuseForks>false</reuseForks>
+
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -41,14 +56,15 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${versions.maven.surefire}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <version>${versions.maven.surefire}</version>
+                <groupId>org.apache.tomee.maven</groupId>
+                <artifactId>tomee-maven-plugin</artifactId>
+                <version>${versions.tomee}</version>
+                <configuration>
+                    <!-- From TomEE to TomEE+ to support the web services stack -->
+                    <tomeeClassifier>plus</tomeeClassifier>
+                    <args>-Xmx512m -XX:PermSize=256m</args>
+                    <deployOpenEjbApplication>true</deployOpenEjbApplication>
+                </configuration>
             </plugin>
         </plugins>
     </build>
@@ -71,6 +87,24 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit-platform.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>${versions.javaee}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>openejb-core</artifactId>
+            <version>${versions.openejb}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>tomee-embedded</artifactId>
+            <version>${versions.tomee}</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
