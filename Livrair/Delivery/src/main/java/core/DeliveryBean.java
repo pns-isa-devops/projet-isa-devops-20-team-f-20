@@ -2,6 +2,7 @@ package core;
 
 import entities.Package;
 import entities.PackageStatus;
+import entities.Supplier;
 import exceptions.ExternalPartnerException;
 
 import javax.persistence.EntityManager;
@@ -20,8 +21,8 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
     private PackageSupplyAPI packageSupplyAPI;
     private List<Package> myPackages;
 
-    @PersistenceContext
-    private EntityManager manager;
+    //@PersistenceContext
+    //private EntityManager manager;
 
     @Override
     public Optional<Package> findById(String id) {
@@ -35,13 +36,14 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         } catch (NoResultException nre){
             return Optional.empty();
         }*/
+
         retrieveIncomingPackages();
         return Optional.of(myPackages.get(0));
     }
 
     @Override
     public Optional<Package> findByCustomer(String customerName) {
-        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        /*CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
         Root<Package> root =  criteria.from(Package.class);
         criteria.select(root).where(builder.equal(root.get("customerName"), customerName));
@@ -50,7 +52,8 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
             return Optional.of(query.getSingleResult());
         } catch (NoResultException nre){
             return Optional.empty();
-        }
+        }*/
+        return null;
     }
 
     @Override
@@ -60,6 +63,7 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public void retrieveIncomingPackages() {
+        packageSupplyAPI = new PackageSupplyAPI("localhost", "9090", "123", new Supplier("UPS", "Biot"));
         myPackages = new ArrayList<>();
         try {
             packageSupplyAPI.retrievePackages().forEach((incomingPackage)->{

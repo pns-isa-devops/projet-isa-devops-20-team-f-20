@@ -7,11 +7,13 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 
-@WebService(targetNamespace = "http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery")
+@WebService(targetNamespace = "http://www.delivrair.fr/backend/delivery")
 @Stateless(name="DeliveryWS")
 public class DeliveryWebServiceImpl implements DeliveryWebService {
 
-    @EJB private PackageFinder finder;
+    @EJB(name="stateless-delivery") private PackageFinder finder;
+
+
     @Override
     public Package getPackageById(String id) {
         return finder.findById(id).get();
