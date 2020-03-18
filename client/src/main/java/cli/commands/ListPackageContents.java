@@ -2,13 +2,14 @@ package cli.commands;
 
 import api.LivrairPublicAPI;
 import cli.framework.Command;
+import fr.unice.polytech.si._4a.isa.drone_delivery.delivery.Package;
 
 import java.util.List;
 
 public class ListPackageContents extends Command<LivrairPublicAPI> {
 
 	@Override
-	public String identifier() { return "hello"; }
+	public String identifier() { return "packages"; }
 
 	/*
 	@Override
@@ -26,9 +27,10 @@ public class ListPackageContents extends Command<LivrairPublicAPI> {
 
 	@Override
 	public void execute() {
-		String msg = shell.system.ccs.getPackageById("3");
+		System.out.println("EXECUTION");
+		Package pack = shell.system.ccs.getPackageById("2");
 		System.out.println("Voici la reponse :");
-		System.out.println(msg);
+		System.out.println(pack);
 	}
 
 	@Override
