@@ -12,7 +12,7 @@ public class Supplier implements Serializable {
 
     private String address;
 
-    public Supplier(){};
+    public Supplier(){}
 
     public Supplier(String name, String address){
         this.name = name;
