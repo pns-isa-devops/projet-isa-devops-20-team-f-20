@@ -36,7 +36,6 @@ public class PackageSupplyAPI {
         List<Package> packagesReceived = new ArrayList<>();
         try {
             String response = WebClient.create(url).path("/partners/" + APIkey + "/packages").get(String.class);
-            System.out.println(response);
             JsonParser parser = new JsonParser();
             JsonArray packages = parser.parse(response).getAsJsonArray();
             for (JsonElement pack : packages) {

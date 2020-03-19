@@ -19,4 +19,8 @@ public class Supplier implements Serializable {
         this.address = address;
     }
 
+    @Override
+    public String toString() {
+        return name+" "+address;
+    }
 }

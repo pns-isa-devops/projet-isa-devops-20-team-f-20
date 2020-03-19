@@ -14,4 +14,6 @@ public interface PackageFinder {
     Optional<Package> findByCustomer(String customerName);
 
     Optional<List<Package>> findByStatus(PackageStatus status);
+
+    Optional<List<Package>> getAllPackages();
 }
