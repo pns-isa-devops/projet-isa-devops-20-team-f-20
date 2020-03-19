@@ -67,6 +67,13 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
     }
 
     @Override
+    public Optional<List<Package>> getAllPackages() {
+        if(myPackages == null)
+            retrieveIncomingPackages();
+        return Optional.of(myPackages);
+    }
+
+    @Override
     public void retrieveIncomingPackages() {
 
         packageSupplyAPI = new PackageSupplyAPI();

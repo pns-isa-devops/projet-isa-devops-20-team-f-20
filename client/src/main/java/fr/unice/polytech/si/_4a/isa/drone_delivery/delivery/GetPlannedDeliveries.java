@@ -7,12 +7,12 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour supplier complex type.
+ * <p>Classe Java pour getPlannedDeliveries complex type.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
- * &lt;complexType name="supplier"&gt;
+ * &lt;complexType name="getPlannedDeliveries"&gt;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "supplier")
-public class Supplier {
+@XmlType(name = "getPlannedDeliveries")
+public class GetPlannedDeliveries {
 
 
 }

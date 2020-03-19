@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 public class Delivery {
@@ -81,20 +82,18 @@ public class Delivery {
         this.aPackage = aPackage;
         this.drone = drone;
         this.deliveryDate = deliveryDate;
+        this.status = DeliveryStatus.READY;
 
         // TODO
     }
 
     @Override
     public String toString() {
-        return "Delivery{" +
-                "id='" + id + '\'' +
-                ", aPackage=" + aPackage +
-                ", drone=" + drone +
-                ", liftOffDate=" + liftOffDate +
-                ", deliveryDate=" + deliveryDate +
-                ", previsionalReturnDate=" + previsionalReturnDate +
-                ", status=" + status +
-                '}';
+        String s = "Delivery n°" + getId() + " :\n";
+        s += "\tSchedule for : " + getDeliveryDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "\n";
+        s += "\tAssign to drone : " + getDrone() + "\n";
+        s += "\tAssign to package : " + getaPackage().toString() + "\n";
+        s += "\t\tSTATUS : " + getStatus().toString()+ "\n\n";
+        return s;
     }
 }

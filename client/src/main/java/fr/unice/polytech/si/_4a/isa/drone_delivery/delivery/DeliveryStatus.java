@@ -6,34 +6,36 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Classe Java pour packageStatus.
+ * <p>Classe Java pour deliveryStatus.
  * 
  * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * <p>
  * <pre>
- * &lt;simpleType name="packageStatus"&gt;
+ * &lt;simpleType name="deliveryStatus"&gt;
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string"&gt;
- *     &lt;enumeration value="REGISTERED"/&gt;
- *     &lt;enumeration value="WAITING"/&gt;
- *     &lt;enumeration value="ASSIGNED"/&gt;
+ *     &lt;enumeration value="READY"/&gt;
+ *     &lt;enumeration value="SENT"/&gt;
+ *     &lt;enumeration value="DONE"/&gt;
+ *     &lt;enumeration value="FAILED"/&gt;
  *   &lt;/restriction&gt;
  * &lt;/simpleType&gt;
  * </pre>
  * 
  */
-@XmlType(name = "packageStatus")
+@XmlType(name = "deliveryStatus")
 @XmlEnum
-public enum PackageStatus {
+public enum DeliveryStatus {
 
-    REGISTERED,
-    WAITING,
-    ASSIGNED;
+    READY,
+    SENT,
+    DONE,
+    FAILED;
 
     public String value() {
         return name();
     }
 
-    public static PackageStatus fromValue(String v) {
+    public static DeliveryStatus fromValue(String v) {
         return valueOf(v);
     }
 

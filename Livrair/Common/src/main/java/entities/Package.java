@@ -71,4 +71,14 @@ public class Package implements Serializable {
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
     }
+
+    @Override
+    public String toString() {
+        String s = "Package n°" + getId() + " :\n";
+        s += "\tReceived from : " + getSupplier().toString() + "\n";
+        s += "\tDeliver to : " + getCustomerName() + "\n";
+        s += "\tAt " + getAddress() + "\n";
+        s += "\t\tSTATUS : " + getPackageStatus().toString() + "\n";
+        return s;
+    }
 }
