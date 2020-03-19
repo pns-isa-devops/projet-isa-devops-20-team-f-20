@@ -1,21 +1,51 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="DeliveryWebServiceImplService" targetNamespace="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" xmlns:ns1="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<?xml version='1.0' encoding='UTF-8'?><wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="DeliveryWebServiceImplService" targetNamespace="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">
   <wsdl:types>
-<xs:schema xmlns:tns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" elementFormDefault="unqualified" targetNamespace="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" version="1.0">
+
+  <xs:element name="createDelivery" type="tns:createDelivery"/>
+
+  <xs:element name="createDeliveryResponse" type="tns:createDeliveryResponse"/>
 
   <xs:element name="getPackageById" type="tns:getPackageById"/>
 
   <xs:element name="getPackageByIdResponse" type="tns:getPackageByIdResponse"/>
 
-  <xs:complexType name="getPackageById">
+  <xs:element name="getPlannedDeliveries" type="tns:getPlannedDeliveries"/>
+
+  <xs:element name="getPlannedDeliveriesResponse" type="tns:getPlannedDeliveriesResponse"/>
+
+  <xs:complexType name="getPlannedDeliveries">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getPlannedDeliveriesResponse">
     <xs:sequence>
-      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element maxOccurs="unbounded" minOccurs="0" name="planned_packages" type="tns:delivery"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="getPackageByIdResponse">
+  <xs:complexType name="delivery">
     <xs:sequence>
-      <xs:element minOccurs="0" name="matching_package" type="tns:package"/>
+      <xs:element minOccurs="0" name="deliveryDate" type="tns:localDateTime"/>
+      <xs:element minOccurs="0" name="drone" type="tns:drone"/>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element minOccurs="0" name="liftOffDate" type="tns:localDateTime"/>
+      <xs:element minOccurs="0" name="previsionalReturnDate" type="tns:localDateTime"/>
+      <xs:element minOccurs="0" name="status" type="tns:deliveryStatus"/>
+      <xs:element minOccurs="0" name="aPackage" type="tns:package"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType final="extension restriction" name="localDateTime">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="drone">
+    <xs:sequence>
+      <xs:element name="chargelevel" type="xs:double"/>
+      <xs:element name="flyingTime" type="xs:double"/>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element minOccurs="0" name="status" type="tns:droneStatus"/>
     </xs:sequence>
   </xs:complexType>
 
@@ -33,6 +63,53 @@
     <xs:sequence/>
   </xs:complexType>
 
+  <xs:complexType name="getPackageById">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getPackageByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="matching_package" type="tns:package"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createDelivery">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element name="jour" type="xs:int"/>
+      <xs:element name="mois" type="xs:int"/>
+      <xs:element name="annee" type="xs:int"/>
+      <xs:element name="heure" type="xs:int"/>
+      <xs:element name="minute" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="createDeliveryResponse">
+    <xs:sequence>
+      <xs:element name="is_planned" type="xs:boolean"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="droneStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AVAILABLE"/>
+      <xs:enumeration value="DELIVERING"/>
+      <xs:enumeration value="CHARGING"/>
+      <xs:enumeration value="REVIEW"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="deliveryStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="READY"/>
+      <xs:enumeration value="SENT"/>
+      <xs:enumeration value="DONE"/>
+      <xs:enumeration value="FAILED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
   <xs:simpleType name="packageStatus">
     <xs:restriction base="xs:string">
       <xs:enumeration value="REGISTERED"/>
@@ -43,24 +120,61 @@
 
 </xs:schema>
   </wsdl:types>
+  <wsdl:message name="createDeliveryResponse">
+    <wsdl:part element="tns:createDeliveryResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPlannedDeliveries">
+    <wsdl:part element="tns:getPlannedDeliveries" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createDelivery">
+    <wsdl:part element="tns:createDelivery" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
   <wsdl:message name="getPackageByIdResponse">
-    <wsdl:part name="parameters" element="ns1:getPackageByIdResponse">
+    <wsdl:part element="tns:getPackageByIdResponse" name="parameters">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPlannedDeliveriesResponse">
+    <wsdl:part element="tns:getPlannedDeliveriesResponse" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getPackageById">
-    <wsdl:part name="parameters" element="ns1:getPackageById">
+    <wsdl:part element="tns:getPackageById" name="parameters">
     </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="DeliveryWebService">
-    <wsdl:operation name="getPackageById">
-      <wsdl:input name="getPackageById" message="ns1:getPackageById">
+    <wsdl:operation name="getPlannedDeliveries">
+      <wsdl:input message="tns:getPlannedDeliveries" name="getPlannedDeliveries">
     </wsdl:input>
-      <wsdl:output name="getPackageByIdResponse" message="ns1:getPackageByIdResponse">
+      <wsdl:output message="tns:getPlannedDeliveriesResponse" name="getPlannedDeliveriesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getPackageById">
+      <wsdl:input message="tns:getPackageById" name="getPackageById">
+    </wsdl:input>
+      <wsdl:output message="tns:getPackageByIdResponse" name="getPackageByIdResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="createDelivery">
+      <wsdl:input message="tns:createDelivery" name="createDelivery">
+    </wsdl:input>
+      <wsdl:output message="tns:createDeliveryResponse" name="createDeliveryResponse">
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="DeliveryWebServiceImplServiceSoapBinding" type="ns1:DeliveryWebService">
+  <wsdl:binding name="DeliveryWebServiceImplServiceSoapBinding" type="tns:DeliveryWebService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getPlannedDeliveries">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPlannedDeliveries">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPlannedDeliveriesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
     <wsdl:operation name="getPackageById">
       <soap:operation soapAction="" style="document"/>
       <wsdl:input name="getPackageById">
@@ -70,10 +184,19 @@
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
+    <wsdl:operation name="createDelivery">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="createDelivery">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createDeliveryResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
   </wsdl:binding>
   <wsdl:service name="DeliveryWebServiceImplService">
-    <wsdl:port name="DeliveryWebServiceImplPort" binding="ns1:DeliveryWebServiceImplServiceSoapBinding">
-      <soap:address location="http://localhost:9090/DeliveryWebServiceImplPort"/>
+    <wsdl:port binding="tns:DeliveryWebServiceImplServiceSoapBinding" name="DeliveryWebServiceImplPort">
+      <soap:address location="http://localhost:8080/delivery/webservices/DeliveryWS"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
