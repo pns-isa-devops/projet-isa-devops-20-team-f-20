@@ -16,7 +16,7 @@ public class Main extends Shell<LivrairPublicAPI> {
 		// Registering the command available for the user
 		register(
 				// package catalogue
-				ListPackageContents.class
+				getPackage.class
 		);
 	}
 

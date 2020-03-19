@@ -6,30 +6,21 @@ import fr.unice.polytech.si._4a.isa.drone_delivery.delivery.Package;
 
 import java.util.List;
 
-public class ListPackageContents extends Command<LivrairPublicAPI> {
+public class getPackage extends Command<LivrairPublicAPI> {
+
+	private String packageId;
 
 	@Override
-	public String identifier() { return "packages"; }
+	public String identifier() { return "package"; }
 
-	/*
 	@Override
-	public void execute() {
-		List<Cookies> recipes = shell.system.ccs.listAllRecipes();
-		if (recipes.isEmpty()) {
-			System.out.println("  No recipes available");
-		} else {
-			for(Cookies c: recipes) {
-			  System.out.println("  " + c.name());
-			}
-		}
+	public void load(List<String> args) {
+		packageId = args.get(0);
 	}
-	*/
 
 	@Override
 	public void execute() {
-		System.out.println("EXECUTION");
-		Package pack = shell.system.ccs.getPackageById("2");
-		System.out.println("Voici la reponse :");
+		Package pack = shell.system.ccs.getPackageById(packageId);
 		String s = "Package n°" + pack.getId() + " :\n";
 		s += "\tReceived from : " + pack.getSupplier() + "\n";
 		s += "\tDeliver to : " + pack.getCustomerName() + "\n";
@@ -40,7 +31,7 @@ public class ListPackageContents extends Command<LivrairPublicAPI> {
 
 	@Override
 	public String describe() {
-		return "List all available packages";
+		return "Get a package by ID (package PACKAGE_ID)";
 	}
 
 }
