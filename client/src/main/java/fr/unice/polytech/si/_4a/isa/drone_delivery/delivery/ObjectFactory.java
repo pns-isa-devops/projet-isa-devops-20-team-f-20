@@ -26,6 +26,8 @@ public class ObjectFactory {
 
     private final static QName _CreateDelivery_QNAME = new QName("http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery", "createDelivery");
     private final static QName _CreateDeliveryResponse_QNAME = new QName("http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery", "createDeliveryResponse");
+    private final static QName _GetAllPackages_QNAME = new QName("http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery", "getAllPackages");
+    private final static QName _GetAllPackagesResponse_QNAME = new QName("http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery", "getAllPackagesResponse");
     private final static QName _GetPackageById_QNAME = new QName("http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery", "getPackageById");
     private final static QName _GetPackageByIdResponse_QNAME = new QName("http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery", "getPackageByIdResponse");
     private final static QName _GetPlannedDeliveries_QNAME = new QName("http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery", "getPlannedDeliveries");
@@ -52,6 +54,22 @@ public class ObjectFactory {
      */
     public CreateDeliveryResponse createCreateDeliveryResponse() {
         return new CreateDeliveryResponse();
+    }
+
+    /**
+     * Create an instance of {@link GetAllPackages }
+     * 
+     */
+    public GetAllPackages createGetAllPackages() {
+        return new GetAllPackages();
+    }
+
+    /**
+     * Create an instance of {@link GetAllPackagesResponse }
+     * 
+     */
+    public GetAllPackagesResponse createGetAllPackagesResponse() {
+        return new GetAllPackagesResponse();
     }
 
     /**
@@ -87,6 +105,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link Package }
+     * 
+     */
+    public Package createPackage() {
+        return new Package();
+    }
+
+    /**
+     * Create an instance of {@link Supplier }
+     * 
+     */
+    public Supplier createSupplier() {
+        return new Supplier();
+    }
+
+    /**
      * Create an instance of {@link Delivery }
      * 
      */
@@ -111,22 +145,6 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link Package }
-     * 
-     */
-    public Package createPackage() {
-        return new Package();
-    }
-
-    /**
-     * Create an instance of {@link Supplier }
-     * 
-     */
-    public Supplier createSupplier() {
-        return new Supplier();
-    }
-
-    /**
      * Create an instance of {@link JAXBElement }{@code <}{@link CreateDelivery }{@code >}}
      * 
      */
@@ -142,6 +160,24 @@ public class ObjectFactory {
     @XmlElementDecl(namespace = "http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery", name = "createDeliveryResponse")
     public JAXBElement<CreateDeliveryResponse> createCreateDeliveryResponse(CreateDeliveryResponse value) {
         return new JAXBElement<CreateDeliveryResponse>(_CreateDeliveryResponse_QNAME, CreateDeliveryResponse.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAllPackages }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery", name = "getAllPackages")
+    public JAXBElement<GetAllPackages> createGetAllPackages(GetAllPackages value) {
+        return new JAXBElement<GetAllPackages>(_GetAllPackages_QNAME, GetAllPackages.class, null, value);
+    }
+
+    /**
+     * Create an instance of {@link JAXBElement }{@code <}{@link GetAllPackagesResponse }{@code >}}
+     * 
+     */
+    @XmlElementDecl(namespace = "http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery", name = "getAllPackagesResponse")
+    public JAXBElement<GetAllPackagesResponse> createGetAllPackagesResponse(GetAllPackagesResponse value) {
+        return new JAXBElement<GetAllPackagesResponse>(_GetAllPackagesResponse_QNAME, GetAllPackagesResponse.class, null, value);
     }
 
     /**

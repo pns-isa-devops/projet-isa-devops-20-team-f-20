@@ -18,6 +18,9 @@ public class Main extends Shell<LivrairPublicAPI> {
 				// package finder
 				getPackage.class,
 
+				// all packages
+				getAllPackages.class,
+
 				// delivery creator
 				createDelivery.class,
 
