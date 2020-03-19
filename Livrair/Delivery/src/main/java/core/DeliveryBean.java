@@ -2,17 +2,12 @@ package core;
 
 import entities.Package;
 import entities.PackageStatus;
-import entities.Supplier;
 import exceptions.ExternalPartnerException;
+import interfaces.PlanningInterface;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +18,9 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     private PackageSupplyAPI packageSupplyAPI;
     private List<Package> myPackages;
+
+    @EJB
+    private PlanningInterface schedulder;
 
     //@PersistenceContext
     //private EntityManager manager;
@@ -69,14 +67,25 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         packageSupplyAPI = new PackageSupplyAPI();
         myPackages = new ArrayList<>();
         try {
-            packageSupplyAPI.retrievePackages().forEach((incomingPackage)->{
+            packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
                 //if(!findById(incomingPackage.getId()).isPresent())
-                  //  manager.persist(incomingPackage);
+                //  manager.persist(incomingPackage);
                 myPackages.add(incomingPackage); // To remove with persistency
             });
         } catch (ExternalPartnerException e) {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public boolean createDelivery(String id, LocalDateTime desiredTime) {
+        Optional<Package> pack = this.findById(id);
+        if (pack.isPresent()) {
+            schedulder.planDelivery(pack.get(), desiredTime, null);
+        } else {
+            return false;
+        }
+        return false;
     }
 }

@@ -22,7 +22,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <versions.javaee>7.0-1</versions.javaee>
-        <versions.maven.compiler>3.6.1</versions.maven.compiler>
+        <versions.maven.compiler>3.7.0</versions.maven.compiler>
         <versions.java>1.8</versions.java>
         <versions.maven.surefire>2.22.0</versions.maven.surefire>
         <junit-platform.version>5.3.1</junit-platform.version>
@@ -98,12 +98,6 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit-platform.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomee</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>${versions.javaee}</version>
-            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomee</groupId>

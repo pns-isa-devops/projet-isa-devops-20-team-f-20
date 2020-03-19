@@ -1,6 +1,8 @@
+package interfaces;
+
+import entities.DailyPlanning;
 import entities.Delivery;
 import entities.Package;
-import entities.DailyPlanning;
 
 import javax.ejb.Local;
 import java.time.LocalDateTime;
