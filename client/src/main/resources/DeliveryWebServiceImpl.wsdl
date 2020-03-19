@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="DeliveryWebServiceImplService" targetNamespace="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" xmlns:ns1="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xs:schema xmlns:tns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery" version="1.0">
+
+  <xs:element name="getPackageById" type="tns:getPackageById"/>
+
+  <xs:element name="getPackageByIdResponse" type="tns:getPackageByIdResponse"/>
+
+  <xs:complexType name="getPackageById">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getPackageByIdResponse">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="matching_package" type="tns:package"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="package">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="address" type="xs:string"/>
+      <xs:element minOccurs="0" name="customerName" type="xs:string"/>
+      <xs:element minOccurs="0" name="id" type="xs:string"/>
+      <xs:element minOccurs="0" name="packageStatus" type="tns:packageStatus"/>
+      <xs:element minOccurs="0" name="supplier" type="tns:supplier"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="supplier">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:simpleType name="packageStatus">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="REGISTERED"/>
+      <xs:enumeration value="WAITING"/>
+      <xs:enumeration value="ASSIGNED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getPackageByIdResponse">
+    <wsdl:part name="parameters" element="ns1:getPackageByIdResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getPackageById">
+    <wsdl:part name="parameters" element="ns1:getPackageById">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="DeliveryWebService">
+    <wsdl:operation name="getPackageById">
+      <wsdl:input name="getPackageById" message="ns1:getPackageById">
+    </wsdl:input>
+      <wsdl:output name="getPackageByIdResponse" message="ns1:getPackageByIdResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="DeliveryWebServiceImplServiceSoapBinding" type="ns1:DeliveryWebService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getPackageById">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getPackageById">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getPackageByIdResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="DeliveryWebServiceImplService">
+    <wsdl:port name="DeliveryWebServiceImplPort" binding="ns1:DeliveryWebServiceImplServiceSoapBinding">
+      <soap:address location="http://localhost:9090/DeliveryWebServiceImplPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

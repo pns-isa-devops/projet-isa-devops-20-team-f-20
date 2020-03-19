@@ -16,7 +16,8 @@ target
 .idea
 **/.idea
 **/*.exe
+
+**/node_modules/*
 Livrair/Dockerfile
 docker-compose.yml
 Livrair/client/node_modules/*
-**/node_modules/*
