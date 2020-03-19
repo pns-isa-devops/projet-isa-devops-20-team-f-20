@@ -5,5 +5,5 @@ import java.time.LocalDateTime;
 
 @Local
 public interface DeliveryManager {
-    boolean createDelivery(String id, LocalDateTime desiredTime);
+    //boolean createDelivery(String id, LocalDateTime desiredTime);
 }

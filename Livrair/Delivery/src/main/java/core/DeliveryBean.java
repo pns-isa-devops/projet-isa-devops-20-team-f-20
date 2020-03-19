@@ -3,7 +3,7 @@ package core;
 import entities.Package;
 import entities.PackageStatus;
 import exceptions.ExternalPartnerException;
-import interfaces.PlanningInterface;
+//import interfaces.PlanningInterface;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -19,8 +19,8 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
     private PackageSupplyAPI packageSupplyAPI;
     private List<Package> myPackages;
 
-    @EJB
-    private PlanningInterface schedulder;
+    //@EJB
+    //private PlanningInterface schedulder;
 
     //@PersistenceContext
     //private EntityManager manager;
@@ -78,7 +78,7 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     }
 
-    @Override
+    /*@Override
     public boolean createDelivery(String id, LocalDateTime desiredTime) {
         Optional<Package> pack = this.findById(id);
         if (pack.isPresent()) {
@@ -87,5 +87,5 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
             return false;
         }
         return false;
-    }
+    }*/
 }
