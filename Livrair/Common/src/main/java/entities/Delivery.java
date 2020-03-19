@@ -84,4 +84,17 @@ public class Delivery {
 
         // TODO
     }
+
+    @Override
+    public String toString() {
+        return "Delivery{" +
+                "id='" + id + '\'' +
+                ", aPackage=" + aPackage +
+                ", drone=" + drone +
+                ", liftOffDate=" + liftOffDate +
+                ", deliveryDate=" + deliveryDate +
+                ", previsionalReturnDate=" + previsionalReturnDate +
+                ", status=" + status +
+                '}';
+    }
 }
