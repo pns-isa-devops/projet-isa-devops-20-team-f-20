@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,20 +29,20 @@ class PlanDeliveryTest {
     @Test
     void planDeliveryAvailable() {
         SchedulerBean scheduler = new SchedulerBean();
-        Delivery d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
+        Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries);
         System.out.println(d);
-        assertNotNull(d);
+        assertTrue(d.isPresent());
     }
 
     @Test
     void planDeliveryNotAvailable(){
         SchedulerBean scheduler = new SchedulerBean();
-        Delivery d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
+        Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries);
         System.out.println(d);
-        assertNull(d);
+        assertFalse(d.isPresent());
     }
 }
