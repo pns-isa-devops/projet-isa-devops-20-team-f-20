@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for getPackageByIdResponse complex type.
+ * <p>Classe Java pour getPackageByIdResponse complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
  * &lt;complexType name="getPackageByIdResponse"&gt;
@@ -36,7 +36,7 @@ public class GetPackageByIdResponse {
     protected Package matchingPackage;
 
     /**
-     * Gets the value of the matchingPackage property.
+     * Obtient la valeur de la propriété matchingPackage.
      * 
      * @return
      *     possible object is
@@ -48,7 +48,7 @@ public class GetPackageByIdResponse {
     }
 
     /**
-     * Sets the value of the matchingPackage property.
+     * Définit la valeur de la propriété matchingPackage.
      * 
      * @param value
      *     allowed object is
