@@ -12,8 +12,8 @@ services:
   client:
     build: ./client
     container_name: livrair_client
-    depends_on:
-      - backend
+#    depends_on:
+#      - backend
     stdin_open: true
     tty: true
 

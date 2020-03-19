@@ -2,11 +2,12 @@
 
 # Dotnet
 echo "Build Dotnet.."
-./dotnet/compile.sh
+cd dotnet/
+.compile.sh
 
 # Client
 echo "Build client.."
-cd client/
+cd ../client/
 mvn -q -DskipTests clean package assembly:single
 
 # Backend
