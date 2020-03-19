@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>Java class for package complex type.
+ * <p>Classe Java pour package complex type.
  * 
- * <p>The following schema fragment specifies the expected content contained within this class.
+ * <p>Le fragment de schéma suivant indique le contenu attendu figurant dans cette classe.
  * 
  * <pre>
  * &lt;complexType name="package"&gt;
@@ -48,7 +48,7 @@ public class Package {
     protected Supplier supplier;
 
     /**
-     * Gets the value of the address property.
+     * Obtient la valeur de la propriété address.
      * 
      * @return
      *     possible object is
@@ -60,7 +60,7 @@ public class Package {
     }
 
     /**
-     * Sets the value of the address property.
+     * Définit la valeur de la propriété address.
      * 
      * @param value
      *     allowed object is
@@ -72,7 +72,7 @@ public class Package {
     }
 
     /**
-     * Gets the value of the customerName property.
+     * Obtient la valeur de la propriété customerName.
      * 
      * @return
      *     possible object is
@@ -84,7 +84,7 @@ public class Package {
     }
 
     /**
-     * Sets the value of the customerName property.
+     * Définit la valeur de la propriété customerName.
      * 
      * @param value
      *     allowed object is
@@ -96,7 +96,7 @@ public class Package {
     }
 
     /**
-     * Gets the value of the id property.
+     * Obtient la valeur de la propriété id.
      * 
      * @return
      *     possible object is
@@ -108,7 +108,7 @@ public class Package {
     }
 
     /**
-     * Sets the value of the id property.
+     * Définit la valeur de la propriété id.
      * 
      * @param value
      *     allowed object is
@@ -120,7 +120,7 @@ public class Package {
     }
 
     /**
-     * Gets the value of the packageStatus property.
+     * Obtient la valeur de la propriété packageStatus.
      * 
      * @return
      *     possible object is
@@ -132,7 +132,7 @@ public class Package {
     }
 
     /**
-     * Sets the value of the packageStatus property.
+     * Définit la valeur de la propriété packageStatus.
      * 
      * @param value
      *     allowed object is
@@ -144,7 +144,7 @@ public class Package {
     }
 
     /**
-     * Gets the value of the supplier property.
+     * Obtient la valeur de la propriété supplier.
      * 
      * @return
      *     possible object is
@@ -156,7 +156,7 @@ public class Package {
     }
 
     /**
-     * Sets the value of the supplier property.
+     * Définit la valeur de la propriété supplier.
      * 
      * @param value
      *     allowed object is

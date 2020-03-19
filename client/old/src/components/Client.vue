@@ -99,13 +99,14 @@
 
       this.axios({
           method: 'post',
-          url: 'http://localhost:8080/tcf-backend/webservices/CustomerCareWS',
-          data: '<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:cus="http://www.polytech.unice.fr/si/4a/isa/tcf/customer-care">'
-                + '<soapenv:Header/>'
-                + '<soapenv:Body>'
-                + '<cus:listAllRecipes/>'
-                + '</soapenv:Body>'
-                + '</soapenv:Envelope>'
+          url: 'http://localhost:8080/delivery/webservices/DeliveryWS',
+          data: '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">'
+            + '<Body>'
+            + '<getPackageById xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">'
+            + '<id xmlns="">1</id>'
+            + '</getPackageById>'
+            + '</Body>'
+            + '</Envelope>'
         })
         .then(function (response) {
           console.log(response);

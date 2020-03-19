@@ -30,7 +30,12 @@ public class ListPackageContents extends Command<LivrairPublicAPI> {
 		System.out.println("EXECUTION");
 		Package pack = shell.system.ccs.getPackageById("2");
 		System.out.println("Voici la reponse :");
-		System.out.println(pack);
+		String s = "Package n°" + pack.getId() + " :\n";
+		s += "\tReceived from : " + pack.getSupplier() + "\n";
+		s += "\tDeliver to : " + pack.getCustomerName() + "\n";
+		s += "\tAt " + pack.getAddress() + "\n";
+		s += "\t\tSTATUS : " + pack.getPackageStatus().value() + "\n";
+		System.out.println(s);
 	}
 
 	@Override
