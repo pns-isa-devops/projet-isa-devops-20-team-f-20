@@ -14,12 +14,12 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlanDeliveryTest {
+public class PlanDeliveryTest {
 
     private List<Delivery> deliveries = new ArrayList<>();
 
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         Supplier supplier = new Supplier("UPS", "Cannes");
         Package pack = new Package("1", "testuser", PackageStatus.REGISTERED, "210 avenue roumanille", supplier);
         Delivery existingDelivery = new Delivery(pack, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)));
@@ -27,7 +27,7 @@ class PlanDeliveryTest {
     }
 
     @Test
-    void planDeliveryAvailable() {
+    public void planDeliveryAvailable() {
         SchedulerBean scheduler = new SchedulerBean();
         Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
@@ -37,7 +37,7 @@ class PlanDeliveryTest {
     }
 
     @Test
-    void planDeliveryNotAvailable(){
+    public void planDeliveryNotAvailable(){
         SchedulerBean scheduler = new SchedulerBean();
         Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
