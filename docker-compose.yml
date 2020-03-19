@@ -17,15 +17,15 @@ services:
     stdin_open: true
     tty: true
 
-  backend:
-    build: ./Livrair
-    container_name: backend
-#    environment:
-#      - bank_host=tcf_partners
-#      - bank_port=9090
-    expose:
-      - "8080"
-    ports:
-      - "8080:8080"
-#    depends_on:
-#      - ext
+#  backend:
+#    build: ./Livrair
+#    container_name: backend
+##    environment:
+##      - bank_host=tcf_partners
+##      - bank_port=9090
+#    expose:
+#      - "8080"
+#    ports:
+#      - "8080:8080"
+##    depends_on:
+##      - ext
