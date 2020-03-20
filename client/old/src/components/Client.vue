@@ -96,24 +96,105 @@
       //   '<cus:listAllRecipes/>' +
       //   '</soapenv:Body>' +
       //   '</soapenv:Envelope>';
+      //
+      // this.axios({
+      //     method: 'post',
+      //     url: 'http://localhost:8080/delivery/webservices/DeliveryWS',
+      //     data: '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">'
+      //       + '<Body>'
+      //       + '<getPackageById xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">'
+      //       + '<id xmlns="">1</id>'
+      //       + '</getPackageById>'
+      //       + '</Body>'
+      //       + '</Envelope>'
+      //   })
+      //   .then(function (response) {
+      //     console.log(response);
+      //   })
+      //   .catch(function (error) {
+      //     console.log(error);
+      //   });
 
-      this.axios({
-          method: 'post',
-          url: 'http://localhost:8080/delivery/webservices/DeliveryWS',
-          data: '<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">'
-            + '<Body>'
-            + '<getPackageById xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">'
-            + '<id xmlns="">1</id>'
-            + '</getPackageById>'
-            + '</Body>'
-            + '</Envelope>'
-        })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        // this.axios({
+        //     method: 'post',
+        //     url: 'http://localhost:8080/delivery/webservices/DeliveryWS?wsdl',
+        //     data: `<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+        //               <Body>
+        //                   <getPackageById xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">
+        //                       <id xmlns="">1</id>
+        //                   </getPackageById>
+        //               </Body>
+        //           </Envelope>`
+        //   })
+        //   let enveloppe =
+        //   `<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:del="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">
+        //       <soapenv:Header/>
+        //       <soapenv:Body>
+        //           <del:getPackageById>
+        //             <!--Optional:-->
+        //             <id>1</id>
+        //           </del:getPackageById>
+        //       </soapenv:Body>
+        //     </soapenv:Envelope>`
+        // this.axios
+        //   .post('http://localhost:8080/delivery/webservices/DeliveryWS?wsdl',
+        //     enveloppe, {
+        //       headers: {
+        //         'Accept': '*/*',
+        //         'Content-Type': 'text/xml',
+        //         'Access-Control-Allow-Origin': '*',
+        //         SOAPAction: 'getPackageById'
+        //       }
+        //     })
+        //   .then(function (response) {
+        //     console.log(response);
+        //   })
+        //   .catch(function (error) {
+        //     console.log(error);
+        //   });
+
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open('POST', 'http://localhost:8080/delivery/webservices/DeliveryWS?wsdl', true);
+
+        // build SOAP request
+        var sr =
+            `<?xml version="1.0" encoding="utf-8"?>
+                <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:del="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">
+                  <soapenv:Header/>
+                  <soapenv:Body>
+                      <del:getPackageById>
+                        <!--Optional:-->
+                        <id>1</id>
+                      </del:getPackageById>
+                  </soapenv:Body>
+                </soapenv:Envelope>`
+
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4) {
+                if (xmlhttp.status == 200) {
+                    console.log(xmlhttp.responseXML.getElementsByTagName('address')[0].innerHTML)
+
+                    var result1 = require('xml-js').xml2json(xmlhttp.response, {
+                        compact: true,
+                        spaces: 4
+                    });
+
+                    console.log(result1)
+                    let respPackage = [{
+                        id: xmlhttp.responseXML.getElementsByTagName('id')[0].innerHTML,
+                        status: xmlhttp.responseXML.getElementsByTagName('packageStatus')[0].innerHTML,
+                        address: xmlhttp.responseXML.getElementsByTagName('address')[0].innerHTML,
+                    }]
+
+                    this.desserts = respPackage
+
+                    console.log(this.desserts)
+                }
+            }
+        }
+        // Send the POST request
+        xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+        xmlhttp.send(sr);
 
     }
   }
