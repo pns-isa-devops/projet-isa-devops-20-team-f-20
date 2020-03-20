@@ -1,11 +1,24 @@
-FROM tomcat:8.0
+#FROM tomcat:8.0
+#
+#COPY ./Delivery/target/delivery.war /usr/local/tomcat/webapps/
+#COPY ./Delivery/target/delivery-classes.jar /usr/local/tomcat/webapps/
+#COPY ./Logistic/target/logistic.war /usr/local/tomcat/webapps/
+#COPY ./Logistic/target/logistic-classes.jar /usr/local/tomcat/webapps/
+#
+#EXPOSE 8080
+#
+##RUN mvn tomee:run
+#CMD ["catalina.sh", "run"]
 
-COPY ./Delivery/target/delivery.war /usr/local/tomcat/webapps/
-COPY ./Delivery/target/delivery-classes.jar /usr/local/tomcat/webapps/
-COPY ./Logistic/target/logistic.war /usr/local/tomcat/webapps/
-COPY ./Logistic/target/logistic-classes.jar /usr/local/tomcat/webapps/
+FROM maven:3.5.2-jdk-8-alpine
 
-EXPOSE 8080
+# Create app directory
+RUN mkdir -p /usr/src/livrair
+WORKDIR /usr/src/livrair
 
-#RUN mvn tomee:run
-CMD ["catalina.sh", "run"]
+COPY . .
+
+RUN cd Delivery
+
+# Running the client using the starting shell script
+ENTRYPOINT ["mvn", "package", "tomee:run"]

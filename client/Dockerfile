@@ -6,8 +6,10 @@ WORKDIR /usr/src/livrair_client
 
 COPY target/livrair-client-1.0-SNAPSHOT-jar-with-dependencies.jar livrair-client.jar
 
+VOLUME /host
+
 # Running the client using the starting shell script
 ENTRYPOINT ["java", "-jar", "./livrair-client.jar"]
 
 # Default arguments to be forwarded to the entry point
-CMD ["localhost", "8080"]
+#CMD ["localhost", "8080"]

@@ -14,8 +14,14 @@ services:
     container_name: livrair_client
 #    depends_on:
 #      - backend
+#    ports:
+#      - "8080:8080"
+    command: "host.docker.internal 8080"
+#    volumes:
+#      - .:/host
     stdin_open: true
     tty: true
+#    network_mode: host
 
 #  backend:
 #    build: ./Livrair
@@ -27,5 +33,5 @@ services:
 #      - "8080"
 #    ports:
 #      - "8080:8080"
-##    depends_on:
-##      - ext
+#    depends_on:
+#      - ext

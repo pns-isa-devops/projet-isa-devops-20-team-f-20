@@ -3,12 +3,16 @@
 # Dotnet
 echo "Build Dotnet.."
 cd dotnet/
-.compile.sh
+./compile.sh
 
-# Client
+# Client CLI
 echo "Build client.."
-cd ../client/
+cd old
 mvn -q -DskipTests clean package assembly:single
+
+# Client Vue
+echo "Build client.."
+npm i
 
 # Backend
 cd ../Livrair
