@@ -1,26 +1,23 @@
 package entities;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
-@Entity
+@Embeddable
 public class Package implements Serializable {
 
     @Id
     private String id;
 
-    @NotNull
     private String customerName;
 
-    @NotNull
     private PackageStatus packageStatus;
 
-    @NotNull
     private String address;
 
-    @NotNull
     private Supplier supplier;
 
     public Package() {
@@ -73,5 +70,15 @@ public class Package implements Serializable {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    @Override
+    public String toString() {
+        String s = "Package n°" + getId() + " :\n";
+        s += "\tReceived from : " + getSupplier().toString() + "\n";
+        s += "\tDeliver to : " + getCustomerName() + "\n";
+        s += "\tAt " + getAddress() + "\n";
+        s += "\t\tSTATUS : " + getPackageStatus().toString() + "\n";
+        return s;
     }
 }

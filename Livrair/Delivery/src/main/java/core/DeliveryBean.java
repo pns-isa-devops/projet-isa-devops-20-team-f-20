@@ -1,25 +1,28 @@
 package core;
 
+import entities.Delivery;
 import entities.Package;
 import entities.PackageStatus;
-import entities.Supplier;
 import exceptions.ExternalPartnerException;
+import interfaces.PlanningInterface;
 
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
+@Stateless
 public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryManager {
 
     private PackageSupplyAPI packageSupplyAPI;
     private List<Package> myPackages;
+    private List<Delivery> myDeliveries;
+
+    @EJB
+    private PlanningInterface schedulder;
 
     //@PersistenceContext
     //private EntityManager manager;
@@ -37,8 +40,9 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
             return Optional.empty();
         }*/
 
-        retrieveIncomingPackages();
-        return Optional.of(myPackages.get(0));
+        if (myPackages == null)
+            retrieveIncomingPackages();
+        return myPackages.stream().filter(p -> p.getId().equals(id)).findFirst();
     }
 
     @Override
@@ -53,7 +57,9 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         } catch (NoResultException nre){
             return Optional.empty();
         }*/
-        return null;
+        if (myPackages == null)
+            retrieveIncomingPackages();
+        return myPackages.stream().filter(p -> p.getCustomerName().equals(customerName)).findFirst();
     }
 
     @Override
@@ -62,18 +68,48 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
     }
 
     @Override
+    public Optional<List<Package>> getAllPackages() {
+        if (myPackages == null)
+            retrieveIncomingPackages();
+        return Optional.of(myPackages);
+    }
+
+    @Override
     public void retrieveIncomingPackages() {
-        packageSupplyAPI = new PackageSupplyAPI("localhost", "9090", "123", new Supplier("UPS", "Biot"));
+
+        packageSupplyAPI = new PackageSupplyAPI();
         myPackages = new ArrayList<>();
         try {
-            packageSupplyAPI.retrievePackages().forEach((incomingPackage)->{
+            packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
                 //if(!findById(incomingPackage.getId()).isPresent())
-                  //  manager.persist(incomingPackage);
+                //  manager.persist(incomingPackage);
                 myPackages.add(incomingPackage); // To remove with persistency
             });
         } catch (ExternalPartnerException e) {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public Optional<List<Delivery>> retrievePlannedDeliveries() {
+        return Optional.of(myDeliveries);
+    }
+
+    @Override
+    public boolean createDelivery(String id, LocalDateTime desiredTime) {
+        if (myDeliveries == null) {
+            myDeliveries = new ArrayList<>();
+        }
+        Optional<Package> pack = this.findById(id);
+        if (pack.isPresent()) {
+            Optional<Delivery> tmp = schedulder.planDelivery(pack.get(), desiredTime, myDeliveries);
+            if (tmp.isPresent()) {
+                pack.get().setPackageStatus(PackageStatus.ASSIGNED);
+                myDeliveries.add(tmp.get());
+                return true;
+            }
+        }
+        return false;
     }
 }

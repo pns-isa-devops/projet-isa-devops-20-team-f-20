@@ -18,6 +18,4 @@ target
 **/*.exe
 
 **/node_modules/*
-Livrair/Dockerfile
-docker-compose.yml
-Livrair/client/node_modules/*
+client/src/main/java/fr/*

@@ -1,18 +1,14 @@
-
 import entities.DailyPlanning;
 import entities.Delivery;
 import entities.Package;
 import interfaces.Availability;
+import interfaces.PlanningInterface;
 
-import javax.annotation.Resource;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import javax.jms.*;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Stateless
 public class SchedulerBean implements PlanningInterface {
@@ -25,7 +21,7 @@ public class SchedulerBean implements PlanningInterface {
     @EJB private Availability availability;
 
     @Override
-    public Delivery planDelivery(Package item, LocalDateTime deliveryDate, List<Delivery> deliveries) {
+    public Optional<Delivery> planDelivery(Package item, LocalDateTime deliveryDate, List<Delivery> deliveries) {
         return DeliveryScheduler.planDelivery(item, deliveryDate, deliveries);
     }
 

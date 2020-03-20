@@ -2,12 +2,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HelloSchedulerTest {
+class HelloLogisticTest {
 
     @Test
     void hello() {
-        HelloScheduler helloScheduler = new HelloScheduler();
-        helloScheduler.hello();
+//        HelloLogistic helloLogistic = new HelloLogistic();
+//        helloLogistic.hello();
         assertTrue(true);
     }
 }

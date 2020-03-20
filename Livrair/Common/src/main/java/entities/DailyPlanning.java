@@ -1,14 +1,21 @@
 package entities;
 
+import javax.persistence.Entity;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class DailyPlanning {
+
+@Entity
+public class DailyPlanning implements Serializable {
 
     private List<Delivery> deliveries;
     public List<Slot> slots;
 
+    public  DailyPlanning(){
+
+    }
 
     public DailyPlanning(List<Delivery> deliveries) {
         build(deliveries);
