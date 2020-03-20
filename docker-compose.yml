@@ -21,7 +21,6 @@ services:
 #      - .:/host
     stdin_open: true
     tty: true
-#    network_mode: host
 
 #  backend:
 #    build: ./Livrair
