@@ -1,5 +1,6 @@
 version: '3'
 services:
+  # External Supplier .Net
   ext:
     build: ./dotnet
     container_name: livrair_ext
@@ -8,7 +9,7 @@ services:
     ports:
       - "9090:9090"
 
-  # A simple java CLI
+  # Clien Java CLI
   client:
     build: ./client
     container_name: livrair_client
