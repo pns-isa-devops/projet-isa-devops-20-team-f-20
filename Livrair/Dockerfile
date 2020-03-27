@@ -9,15 +9,44 @@
 ##RUN mvn tomee:run
 #CMD ["catalina.sh", "run"]
 
-FROM maven:3.5.2-jdk-8-alpine
+#FROM maven:3.5.2-jdk-8-alpine
+#
+## Create app directory
+#RUN mkdir -p /usr/src/livrair
+#WORKDIR /usr/src/livrair
+#
+#COPY . .
+#
+#RUN cd Delivery
+#
+## Running the client using the starting shell script
+#ENTRYPOINT ["mvn", "package", "tomee:run"]
 
-# Create app directory
-RUN mkdir -p /usr/src/livrair
-WORKDIR /usr/src/livrair
+FROM tomee:8-jdk-7.0.1-plus
 
-COPY . .
+# Working inside the local TomEE system
+WORKDIR /usr/local/tomee/
 
-RUN cd Delivery
+# Loading the executable server inside the image
+COPY ./Delivery/target/delivery.war ./webapps/.
+#COPY ./Scheduler/target/s.war ./webapps/.
 
-# Running the client using the starting shell script
-ENTRYPOINT ["mvn", "package", "tomee:run"]
+# Creating the tomee/eemot user to access to the web admin console
+COPY ./resources/tomcat-user.xml ./conf/tomcat-users.xml
+
+# Allow one to access to the manager from outside the container
+COPY ./resources/manager-context.xml ./webapps/manager/META-INF/context.xml
+
+
+# Copy the startup script
+COPY ./resources/start-tcf.sh .
+RUN ["chmod", "u+x", "./start-tcf.sh"]
+
+# Creating an health check verification to check TomEE status
+HEALTHCHECK --interval=5s CMD curl --fail http://localhost:8080/ || exit 1
+
+# exposing the 8080 port to support external connections
+EXPOSE 8080
+
+# Starting the service
+ENTRYPOINT ["./start-tcf.sh"]

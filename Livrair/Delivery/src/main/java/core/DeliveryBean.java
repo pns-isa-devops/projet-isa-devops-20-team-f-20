@@ -3,15 +3,19 @@ package core;
 import entities.Delivery;
 import entities.Package;
 import entities.PackageStatus;
+import entities.Supplier;
 import exceptions.ExternalPartnerException;
 import interfaces.PlanningInterface;
+import org.apache.cxf.common.i18n.UncheckedException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Properties;
 
 
 @Stateless
@@ -77,7 +81,16 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
     @Override
     public void retrieveIncomingPackages() {
 
-        packageSupplyAPI = new PackageSupplyAPI();
+//        packageSupplyAPI = new PackageSupplyAPI();
+        try {
+            Properties prop = new Properties();
+            prop.load(DeliveryBean.class.getResourceAsStream("/supplier.properties"));
+            packageSupplyAPI = new PackageSupplyAPI(prop.getProperty("supplierHostName"),
+                    prop.getProperty("supplierPortNumber"), "123", new Supplier("UPS", "Biot"));
+        } catch(IOException e) {
+//            log.log(Level.INFO, "Cannot read supplier.properties file", e);
+            throw new UncheckedException(e);
+        }
         myPackages = new ArrayList<>();
         try {
             packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {

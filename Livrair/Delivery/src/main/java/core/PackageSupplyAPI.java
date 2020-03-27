@@ -26,10 +26,6 @@ public class PackageSupplyAPI {
         this.supplier = supplier;
     }
 
-    public PackageSupplyAPI(){
-        this("localhost", "9090", "123", new Supplier("UPS", "Biot"));
-    }
-
     public List<Package> retrievePackages() throws ExternalPartnerException{
         // Retrieving the packages from transporters
 
