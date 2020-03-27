@@ -1,15 +1,13 @@
 package entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Table(name="suppliers")
 public class Supplier implements Serializable {
 
     private String name;
@@ -29,8 +27,8 @@ public class Supplier implements Serializable {
     }
 
 
-    @NotNull
-    @OneToMany(mappedBy="supplier")
+    //@NotNull
+    @OneToMany(cascade = {CascadeType.REMOVE},mappedBy="supplier")
     public Set<Package> getPackages() {
         return packages;
     }

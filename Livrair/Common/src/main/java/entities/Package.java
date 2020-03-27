@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@Table(name="packages")
 public class Package implements Serializable {
 
     private String id;
@@ -36,8 +37,8 @@ public class Package implements Serializable {
         return address;
     }
 
-    @NotNull
-    @ManyToOne
+    //@NotNull
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     public Supplier getSupplier() {
         return supplier;
     }
