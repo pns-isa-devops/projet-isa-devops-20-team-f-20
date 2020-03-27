@@ -1,24 +1,48 @@
 package entities;
 
-import javax.persistence.Embeddable;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Objects;
 
-@Embeddable
+@Entity
+@Table(name="packages")
 public class Package implements Serializable {
 
-    @Id
     private String id;
-
     private String customerName;
-
     private PackageStatus packageStatus;
-
     private String address;
-
     private Supplier supplier;
+
+
+    @Id
+    public String getId() {
+        return id;
+    }
+
+    @NotNull
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    public PackageStatus getPackageStatus() {
+        return packageStatus;
+    }
+
+    @NotNull
+    public String getAddress() {
+        return address;
+    }
+
+    //@NotNull
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
 
     public Package() {
         // Necessary for JPA instantiation process
@@ -32,40 +56,21 @@ public class Package implements Serializable {
         this.supplier = supplier;
     }
 
-    public String getId() {
-        return id;
-    }
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCustomerName() {
-        return customerName;
     }
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
-    public PackageStatus getPackageStatus() {
-        return packageStatus;
-    }
-
     public void setPackageStatus(PackageStatus packageStatus) {
         this.packageStatus = packageStatus;
     }
 
-    public String getAddress() {
-        return address;
-    }
-
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public Supplier getSupplier() {
-        return supplier;
     }
 
     public void setSupplier(Supplier supplier) {
@@ -80,5 +85,18 @@ public class Package implements Serializable {
         s += "\tAt " + getAddress() + "\n";
         s += "\t\tSTATUS : " + getPackageStatus().toString() + "\n";
         return s;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Package aPackage = (Package) o;
+        return getId().equals(aPackage.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }
