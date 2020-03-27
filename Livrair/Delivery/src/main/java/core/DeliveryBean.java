@@ -10,10 +10,8 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 
 @Stateless
@@ -41,7 +39,9 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         } catch (NoResultException nre){
             return Optional.empty();
         }*/
-        retrieveIncomingPackages();
+
+        if (myPackages == null)
+            retrieveIncomingPackages();
         return myPackages.stream().filter(p -> p.getId().equals(id)).findFirst();
     }
 
@@ -57,7 +57,8 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         } catch (NoResultException nre){
             return Optional.empty();
         }*/
-        retrieveIncomingPackages();
+        if (myPackages == null)
+            retrieveIncomingPackages();
         return myPackages.stream().filter(p -> p.getCustomerName().equals(customerName)).findFirst();
     }
 
@@ -68,7 +69,7 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public Optional<List<Package>> getAllPackages() {
-        if(myPackages == null)
+        if (myPackages == null)
             retrieveIncomingPackages();
         return Optional.of(myPackages);
     }
@@ -97,13 +98,13 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public boolean createDelivery(String id, LocalDateTime desiredTime) {
-        if(myDeliveries == null){
+        if (myDeliveries == null) {
             myDeliveries = new ArrayList<>();
         }
         Optional<Package> pack = this.findById(id);
         if (pack.isPresent()) {
             Optional<Delivery> tmp = schedulder.planDelivery(pack.get(), desiredTime, myDeliveries);
-            if(tmp.isPresent()) {
+            if (tmp.isPresent()) {
                 pack.get().setPackageStatus(PackageStatus.ASSIGNED);
                 myDeliveries.add(tmp.get());
                 return true;
