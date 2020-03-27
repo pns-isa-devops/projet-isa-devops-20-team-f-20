@@ -42,6 +42,7 @@ public class PackageSupplyAPI {
                 Package p = new Gson().fromJson(pack, Package.class);
                 p.setPackageStatus(PackageStatus.REGISTERED);
                 p.setSupplier(supplier);
+
                 packagesReceived.add(p);
             }
         } catch (Exception e) {

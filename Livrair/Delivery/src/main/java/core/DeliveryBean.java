@@ -8,6 +8,13 @@ import interfaces.PlanningInterface;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,16 +27,21 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
     private PackageSupplyAPI packageSupplyAPI;
     private List<Package> myPackages;
     private List<Delivery> myDeliveries;
+    private boolean retrieved = false;
 
     @EJB
     private PlanningInterface schedulder;
 
-    //@PersistenceContext
-    //private EntityManager manager;
+    @PersistenceContext
+    private EntityManager manager;
 
     @Override
     public Optional<Package> findById(String id) {
-        /*CriteriaBuilder builder = manager.getCriteriaBuilder();
+        if(!retrieved){
+            retrieveIncomingPackages();
+            retrieved = true;
+        }
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
         Root<Package> root =  criteria.from(Package.class);
         criteria.select(root).where(builder.equal(root.get("id"), id));
@@ -38,16 +50,20 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
             return Optional.of(query.getSingleResult());
         } catch (NoResultException nre){
             return Optional.empty();
-        }*/
-
+        }
+        /*
         if (myPackages == null)
             retrieveIncomingPackages();
-        return myPackages.stream().filter(p -> p.getId().equals(id)).findFirst();
+        return myPackages.stream().filter(p -> p.getId().equals(id)).findFirst();*/
     }
 
     @Override
     public Optional<Package> findByCustomer(String customerName) {
-        /*CriteriaBuilder builder = manager.getCriteriaBuilder();
+        if(!retrieved){
+            retrieveIncomingPackages();
+            retrieved = true;
+        }
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
         Root<Package> root =  criteria.from(Package.class);
         criteria.select(root).where(builder.equal(root.get("customerName"), customerName));
@@ -56,10 +72,7 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
             return Optional.of(query.getSingleResult());
         } catch (NoResultException nre){
             return Optional.empty();
-        }*/
-        if (myPackages == null)
-            retrieveIncomingPackages();
-        return myPackages.stream().filter(p -> p.getCustomerName().equals(customerName)).findFirst();
+        }
     }
 
     @Override
@@ -69,9 +82,20 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public Optional<List<Package>> getAllPackages() {
-        if (myPackages == null)
+        if(!retrieved){
             retrieveIncomingPackages();
-        return Optional.of(myPackages);
+            retrieved = true;
+        }
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
+        Root<Package> root =  criteria.from(Package.class);
+        criteria.select(root);
+        TypedQuery<Package> query = manager.createQuery(criteria);
+        try {
+            return Optional.of(query.getResultList());
+        } catch (NoResultException nre){
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -81,9 +105,8 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         myPackages = new ArrayList<>();
         try {
             packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
-                //if(!findById(incomingPackage.getId()).isPresent())
-                //  manager.persist(incomingPackage);
-                myPackages.add(incomingPackage); // To remove with persistency
+                manager.persist(incomingPackage);
+                    //myPackages.add(incomingPackage); // To remove with persistency
             });
         } catch (ExternalPartnerException e) {
             e.printStackTrace();
