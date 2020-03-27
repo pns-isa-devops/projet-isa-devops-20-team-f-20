@@ -21,6 +21,39 @@
         </dependency>
     </dependencies>
 
+    <repositories>
+        <repository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>libs-release</name>
+            <url>http://23.97.255.1:8081/artifactory/libs-release</url>
+        </repository>
+        <repository>
+            <snapshots/>
+            <id>snapshots</id>
+            <name>libs-snapshot</name>
+            <url>http://23.97.255.1:8081/artifactory/libs-snapshot</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+            <id>central</id>
+            <name>libs-release</name>
+            <url>http://23.97.255.1:8081/artifactory/libs-release</url>
+        </pluginRepository>
+        <pluginRepository>
+            <snapshots/>
+            <id>snapshots</id>
+            <name>libs-snapshot</name>
+            <url>http://23.97.255.1:8081/artifactory/libs-snapshot</url>
+        </pluginRepository>
+    </pluginRepositories>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>Delivery</artifactId>
