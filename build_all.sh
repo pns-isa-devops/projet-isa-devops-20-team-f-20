@@ -6,16 +6,17 @@ cd dotnet/
 ./compile.sh
 
 # Client CLI
-echo "Build client.."
+echo "Build client CLI.."
 cd ../client
 mvn -q -DskipTests clean package assembly:single
 
 # Client Vue
-#echo "Build client.."
-#npm i
+echo "Build client VueJS.."
+cd old/ #TODO modifier quand path changé
+npm i
 
 # Backend
-cd ../Livrair
+cd ../../Livrair
 mvn clean package
 cd Delivery
 mvn package

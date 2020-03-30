@@ -9,6 +9,20 @@ services:
     ports:
       - "9090:9090"
 
+  vue:
+    build: ./client/old
+    container_name: vue
+    ports:
+          - "8081:8081"
+    volumes:
+        - ./client/old/:/vuejs_client
+    environment:
+      - BACKEND=backend
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
+    tty: true
+
+
   # Clien Java CLI
   client:
     build: ./client
