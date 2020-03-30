@@ -17,6 +17,6 @@ npm i
 
 # Backend
 cd ../../Livrair
-mvn clean package
+mvn -q -DskipTests clean package
 cd Delivery
-mvn package
+mvn -q -DskipTests package
