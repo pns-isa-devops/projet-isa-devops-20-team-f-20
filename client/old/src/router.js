@@ -1,6 +1,6 @@
-import Home from './components/Home.vue';
-import Client from './components/Client.vue';
-import Manu from './components/Manu.vue';
+import Home from './pages/Home.vue';
+import Client from './pages/Client.vue';
+import Manu from './pages/Manu.vue';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
