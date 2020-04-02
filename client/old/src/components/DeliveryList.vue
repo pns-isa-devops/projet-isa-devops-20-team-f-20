@@ -3,7 +3,7 @@
     <v-col>
       <v-row align="center" justify="center">
         <span class="title text-upper" color="" dark>
-          <span style="margin-right: 5px;" >PACKAGE</span>
+          <span style="margin-right: 5px;" >DELIVERY</span>
           <span class="font-weight-light">LIST</span>
         </span>
       </v-row>
@@ -20,7 +20,7 @@
 
 <script>
   export default {
-    name: 'PackageList',
+    name: 'DeliveryList',
     props: {
       msg: String
     },
