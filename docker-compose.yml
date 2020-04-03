@@ -3,35 +3,50 @@ services:
   # External Supplier .Net
   ext:
     build: ./dotnet
-    container_name: livrair_ext
+    container_name: supplier
     expose:
       - "9090"
     ports:
       - "9090:9090"
 
+  vue:
+    build: ./client/old
+    container_name: vue
+    ports:
+          - "8081:8081"
+    volumes:
+        - ./client/old/:/vuejs_client
+    environment:
+      - BACKEND=backend
+      - CHOKIDAR_USEPOLLING=true
+    stdin_open: true
+    tty: true
+
+
   # Clien Java CLI
   client:
     build: ./client
-    container_name: livrair_client
+    container_name: client
 #    depends_on:
 #      - backend
 #    ports:
 #      - "8080:8080"
-    command: "host.docker.internal 8080"
+#    command: "host.docker.internal 8080"
+    command: "backend 8080"
 #    volumes:
 #      - .:/host
     stdin_open: true
     tty: true
 
-#  backend:
-#    build: ./Livrair
-#    container_name: backend
-##    environment:
-##      - bank_host=tcf_partners
-##      - bank_port=9090
-#    expose:
-#      - "8080"
-#    ports:
-#      - "8080:8080"
-#    depends_on:
-#      - ext
+  backend:
+    build: ./Livrair
+    container_name: backend
+    environment:
+      - supplier_host=supplier
+      - supplier_port=9090
+    expose:
+      - "8080"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - ext

@@ -19,6 +19,16 @@
             <classifier>classes</classifier>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0-1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0-1</version>
+        </dependency>
     </dependencies>
 
     <repositories>
