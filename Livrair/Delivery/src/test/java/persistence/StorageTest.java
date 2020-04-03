@@ -1,8 +1,8 @@
 package persistence;
 
+import arquillian.AbstractLivrairTest;
 import entities.Package;
 
-import arquillian.AbstractLivrairTest;
 import entities.PackageStatus;
 import entities.Supplier;
 import org.jboss.arquillian.junit.Arquillian;

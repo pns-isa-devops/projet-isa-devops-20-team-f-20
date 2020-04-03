@@ -1,10 +1,6 @@
 package persistence;
 
-import entities.Package;
-
 import arquillian.AbstractLivrairTest;
-import entities.PackageStatus;
-import entities.Supplier;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
