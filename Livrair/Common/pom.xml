@@ -90,27 +90,5 @@
         </snapshotRepository>
     </distributionManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <version>${versions.arquillian.junit}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.jboss.shrinkwrap.resolver</groupId>
-            <artifactId>shrinkwrap-resolver-depchain</artifactId>
-            <version>${versions.shrinkwrap}</version>
-            <type>pom</type>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomee</groupId>
-            <artifactId>arquillian-tomee-embedded</artifactId>
-            <version>${versions.tomee}</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
-
 
 </project>
