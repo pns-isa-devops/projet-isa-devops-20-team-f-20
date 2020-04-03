@@ -7,7 +7,8 @@ import java.util.Set;
 
 @Local
 public interface Availability {
-    Set<Drone> getStatus();
+    Set<Drone> getDrones();
 
-    String hello(String hello_param);
+    Set<Drone> getAvailableDrones();
+
 }
