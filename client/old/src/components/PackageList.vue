@@ -70,9 +70,10 @@
         else return 'grey'
       },
       getAllPackages() {
-        this.xmlhttp.open('POST', 'http://localhost:8080/delivery/webservices/DeliveryWS?wsdl', true);
+        this.xmlhttp.open('POST', 'http://192.168.99.100:8080/delivery/webservices/DeliveryWS?wsdl', true);
 
         // build SOAP request
+        
         var sr =
           `<?xml version="1.0" encoding="utf-8"?>
           <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:del="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">

@@ -7,8 +7,8 @@
           width="40" />
       </div>
       <v-toolbar-title class="headline text-upper" @click="goToHome()">
-        <span>LIVRAIR</span>
-        <span class="font-weight-light"> - SERVICE CLIENT</span>
+        <span>LIVRAIR - </span>
+        <span id="title" class="font-weight-light">SERVICE CLIENT</span>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>

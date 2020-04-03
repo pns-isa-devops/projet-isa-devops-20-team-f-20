@@ -21,7 +21,7 @@
     <v-row>
       <v-col cols="12">
         <v-row align="center" justify="center">
-          <v-card class="pa-1 mx-auto" outlined tile max-width="250" @click="goToClient()">
+          <v-card id="client" class="pa-1 mx-auto" outlined tile max-width="250" @click="goToClient()">
 
             <v-img class="white--text align-end" height="250px" transition="scale-transition"
               src="../assets/drone_cam.png" />
