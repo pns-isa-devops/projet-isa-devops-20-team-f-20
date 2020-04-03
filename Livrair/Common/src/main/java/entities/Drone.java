@@ -46,4 +46,21 @@ public class Drone {
     public void setStatus(DroneStatus status) {
         this.status = status;
     }
+
+    public Drone() {
+    }
+
+    public Drone(String id) {
+        this.id = id;
+        this.chargelevel=100;
+        this.flyingTime = 0;
+        this.status = DroneStatus.AVAILABLE;
+    }
+
+    public Drone(String id, double chargelevel, double flyingTime) {
+        this.id = id;
+        this.chargelevel = chargelevel;
+        this.flyingTime = flyingTime;
+        this.status = DroneStatus.AVAILABLE;
+    }
 }

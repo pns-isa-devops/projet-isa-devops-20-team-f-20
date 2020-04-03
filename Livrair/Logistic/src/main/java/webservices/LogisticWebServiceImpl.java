@@ -31,6 +31,6 @@ public class LogisticWebServiceImpl implements LogisticWebService {
 
     @Override
     public String hello(String hello_param) {
-        return availability.hello(hello_param);
+        return "Not implemented"; //availability.hello(hello_param);
     }
 }
