@@ -2,11 +2,18 @@ package entities;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlSchemaType;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 @Entity
-public class Delivery {
+public class Delivery implements Serializable {
     @Id
     private String id;
 
@@ -54,11 +61,12 @@ public class Delivery {
         this.liftOffDate = liftOffDate;
     }
 
+    @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     public LocalDateTime getDeliveryDate() {
         return deliveryDate;
     }
 
-    public void setDeliveryDate(LocalDateTime deliveryDate) {
+    public void setdeliveryDate(LocalDateTime deliveryDate) {
         this.deliveryDate = deliveryDate;
     }
 
@@ -87,6 +95,10 @@ public class Delivery {
         // TODO
     }
 
+    public Delivery(){
+
+    }
+
     @Override
     public String toString() {
         String s = "Delivery n°" + getId() + " :\n";
@@ -95,5 +107,15 @@ public class Delivery {
         s += "\tAssign to package : " + getaPackage().toString() + "\n";
         s += "\t\tSTATUS : " + getStatus().toString()+ "\n\n";
         return s;
+    }
+}
+
+class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
+    public LocalDateTime unmarshal(String v) throws Exception {
+        return LocalDateTime.parse(v);
+    }
+
+    public String marshal(LocalDateTime v) throws Exception {
+        return String.valueOf(v.toEpochSecond(ZoneOffset.UTC));
     }
 }
