@@ -21,12 +21,13 @@
 
 
     <v-row align="center" justify="space-around">
-      <v-col cols="6">
+      <v-col cols="6" align-self="start">
         <CalendarDelivery />
       </v-col>
-      <v-col cols="4" align-self="start">
-        <PackageList />
-        <DeliveryList />
+      <v-col cols="4" align-self="center">
+        <AddDelivery/>
+        <PackageList/>
+        <DeliveryList/>
       </v-col>
     </v-row>
 
@@ -41,12 +42,14 @@
   import PackageList from "../components/PackageList"
   import DeliveryList from "../components/DeliveryList"
   import CalendarDelivery from "../components/CalendarDelivery"
+  import AddDelivery from "../components/AddDelivery"
   export default {
     name: 'Client',
     components: {
       PackageList,
       DeliveryList,
-      CalendarDelivery
+      CalendarDelivery,
+      AddDelivery
     },
     props: {
       msg: String
