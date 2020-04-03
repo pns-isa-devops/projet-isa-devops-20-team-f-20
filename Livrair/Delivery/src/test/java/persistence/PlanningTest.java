@@ -1,3 +1,4 @@
+package persistence;
 
 import entities.Package;
 
@@ -24,5 +25,4 @@ public class PlanningTest extends AbstractLivrairTest {
     public void getPlanningTest() throws Exception {
         assertTrue(true);
     }
-
 }
