@@ -1,6 +1,7 @@
 package webservice;
 
 import core.DeliveryManager;
+import entities.DailyPlanning;
 import entities.Delivery;
 import entities.Package;
 import core.PackageFinder;
@@ -37,6 +38,11 @@ public class DeliveryWebServiceImpl implements DeliveryWebService {
     @Override
     public boolean createDelivery(String id, int jour, int mois, int annee, int heure, int minute) {
         return delivery.createDelivery(id, LocalDateTime.of(annee, mois, jour, heure, minute));
+    }
+
+    @Override
+    public DailyPlanning getPlanning() {
+        return delivery.getPlanning();
     }
 
 }
