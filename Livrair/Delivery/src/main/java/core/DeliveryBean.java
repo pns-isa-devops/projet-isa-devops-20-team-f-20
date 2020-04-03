@@ -1,9 +1,7 @@
 package core;
 
-import entities.Delivery;
+import entities.*;
 import entities.Package;
-import entities.PackageStatus;
-import entities.Supplier;
 import exceptions.ExternalPartnerException;
 import interfaces.PlanningInterface;
 import org.apache.cxf.common.i18n.UncheckedException;
@@ -126,6 +124,12 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         }
 
     }
+
+
+    public DailyPlanning getPlanning() {
+        return schedulder.getPlanning(myDeliveries);
+    }
+
 
     @Override
     public Optional<List<Delivery>> retrievePlannedDeliveries() {
