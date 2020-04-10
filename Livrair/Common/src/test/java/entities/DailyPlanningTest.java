@@ -1,8 +1,8 @@
 package entities;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.Before;
 import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,17 +12,17 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DailyPlanningTest {
+public class DailyPlanningTest {
 
     private DailyPlanning dailyPlanning;
 
-    @BeforeEach
-    void setUp(){
+    @Before
+    public void setUp(){
         dailyPlanning = new DailyPlanning(new ArrayList<>());
     }
 
     @Test
-    void availableSlotForGivenDate() {
+    public void availableSlotForGivenDate() {
         assertTrue(dailyPlanning.availableSlotForGivenDate(9));
         Delivery d = new Delivery(new Package("5", "Baptiste",
                 PackageStatus.REGISTERED, "1 rue de la paix",

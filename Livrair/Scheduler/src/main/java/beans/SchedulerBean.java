@@ -1,7 +1,6 @@
 package beans;
 
-import entities.DailyPlanning;
-import entities.Delivery;
+import entities.*;
 import entities.Package;
 import interfaces.Availability;
 import interfaces.PlanningInterface;
@@ -9,8 +8,10 @@ import interfaces.PlanningInterface;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Stateless
 public class SchedulerBean implements PlanningInterface {
@@ -24,11 +25,24 @@ public class SchedulerBean implements PlanningInterface {
 
     @Override
     public Optional<Delivery> planDelivery(Package item, LocalDateTime deliveryDate, List<Delivery> deliveries) {
-        return DeliveryScheduler.planDelivery(item, deliveryDate, deliveries);
+        DailyPlanning dailyPlanning = new DailyPlanning(deliveries);;
+
+        if (dailyPlanning.availableSlotForGivenDate(deliveryDate.getHour())) {
+            Set<Drone> drones = availability.getAvailableDrones();
+            drones.add(new Drone("1"));
+            if (drones.isEmpty()) {
+                return Optional.empty();
+            } else {
+                Drone drone = drones.iterator().next();
+                drone.setStatus(DroneStatus.DELIVERING);
+                return Optional.of(new Delivery(item, drone, deliveryDate));
+            }
+        }
+        return Optional.empty();
     }
 
     @Override
     public DailyPlanning getPlanning(List<Delivery> deliveries) {
-        return PlanningCreator.create(deliveries);
+        return new DailyPlanning(deliveries);
     }
 }

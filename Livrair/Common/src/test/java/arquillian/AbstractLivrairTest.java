@@ -15,12 +15,8 @@ public abstract class AbstractLivrairTest {
     @Deployment
     public static WebArchive createDeployment(){
         return ShrinkWrap.create(WebArchive.class).addAsWebInfResource(EmptyAsset.INSTANCE, "beans.xml")
+                // Entities
                 .addPackage(Package.class.getPackage())
-                .addPackage(Supplier.class.getPackage())
-                .addPackage(Drone.class.getPackage())
-                .addPackage(Delivery.class.getPackage())
-                .addPackage(DailyPlanning.class.getPackage())
-                .addPackage(Slot.class.getPackage())
                 .addAsManifestResource(new ClassLoaderAsset("META-INF/persistence.xml"), "persistence.xml");
 
 

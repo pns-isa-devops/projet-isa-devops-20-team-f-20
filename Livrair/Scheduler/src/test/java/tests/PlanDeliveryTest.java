@@ -1,3 +1,5 @@
+package tests;
+
 import arquillian.AbstractLivrairTest;
 import arquillian.AbstractSchedulerTest;
 import beans.SchedulerBean;
@@ -42,7 +44,6 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
 
     @Test
     public void planDeliveryAvailable() {
-        SchedulerBean scheduler = new SchedulerBean();
         Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries);
@@ -52,7 +53,6 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
 
     @Test
     public void planDeliveryNotAvailable(){
-        SchedulerBean scheduler = new SchedulerBean();
         Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries);
