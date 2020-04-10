@@ -6,6 +6,9 @@
           <span style="margin-right: 5px;" >PACKAGE</span>
           <span class="font-weight-light">LIST</span>
         </span>
+        <v-btn color="purple darken-2" icon @click="this.getAllPackages">
+          <v-icon>mdi-cached</v-icon>
+        </v-btn>
       </v-row>
       <v-row align="center" justify="center">
         <v-data-table :headers="headers" :items="packages" class="elevation-4">
@@ -74,7 +77,6 @@
         this.xmlhttp.open('POST', 'http://localhost:8080/delivery/webservices/DeliveryWS?wsdl', true);
 
         // build SOAP request
-        
         var sr =
           `<?xml version="1.0" encoding="utf-8"?>
           <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
@@ -97,10 +99,11 @@
               //console.log(respXML)
 
               let packages = respXML.getElementsByTagName('package')
-              console.log(packages)
+              //console.log(packages)
 
+              context.packages = []
               for (let pack of packages) {
-                console.log(pack)
+                //console.log(pack)
                 let respPackage = {
                   id: pack.getElementsByTagName('id')[0].innerHTML,
                   status: pack.getElementsByTagName('packageStatus')[0].innerHTML,

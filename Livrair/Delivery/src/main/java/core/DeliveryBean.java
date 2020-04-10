@@ -102,27 +102,28 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public void retrieveIncomingPackages() {
-
+        if(!retrieved) {
 //        packageSupplyAPI = new PackageSupplyAPI();
-        try {
-            Properties prop = new Properties();
-            prop.load(DeliveryBean.class.getResourceAsStream("/supplier.properties"));
-            packageSupplyAPI = new PackageSupplyAPI(prop.getProperty("supplierHostName"),
-                    prop.getProperty("supplierPortNumber"), "123", new Supplier("UPS", "Biot"));
-        } catch(IOException e) {
+            try {
+                Properties prop = new Properties();
+                prop.load(DeliveryBean.class.getResourceAsStream("/supplier.properties"));
+                packageSupplyAPI = new PackageSupplyAPI(prop.getProperty("supplierHostName"),
+                        prop.getProperty("supplierPortNumber"), "123", new Supplier("UPS", "Biot"));
+            } catch (IOException e) {
 //            log.log(Level.INFO, "Cannot read supplier.properties file", e);
-            throw new UncheckedException(e);
-        }
-        myPackages = new ArrayList<>();
-        try {
-            packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
-                manager.persist(incomingPackage);
+                throw new UncheckedException(e);
+            }
+            myPackages = new ArrayList<>();
+            try {
+                packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
+                    manager.persist(incomingPackage);
                     //myPackages.add(incomingPackage); // To remove with persistency
-            });
-        } catch (ExternalPartnerException e) {
-            e.printStackTrace();
+                });
+            } catch (ExternalPartnerException e) {
+                e.printStackTrace();
+            }
+            retrieved = true;
         }
-
     }
 
 

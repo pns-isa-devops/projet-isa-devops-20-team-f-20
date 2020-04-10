@@ -26,13 +26,13 @@
       </v-col>
       <v-col cols="4" align-self="center">
         <AddDelivery/>
-        <PackageList/>
+        <PackageList ref="packageList" />
       </v-col>
     </v-row>
 
     <v-row align="center" justify="center">
       <v-col md12>
-        <DeliveryList/>
+        <DeliveryList ref="deliveryList" />
       </v-col>
     </v-row>
 
