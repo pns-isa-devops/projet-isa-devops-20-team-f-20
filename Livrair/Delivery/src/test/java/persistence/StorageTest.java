@@ -30,4 +30,13 @@ public class StorageTest extends AbstractLivrairTest {
         assertEquals(stored, p);
     }
 
+    @Test
+    public void storingSupplier() throws Exception {
+        Supplier s = new Supplier("SupplierTest","AddressSupplierTest");
+        entityManager.persist(s);
+
+        Supplier stored = (Supplier) entityManager.find(Supplier.class, s.getName());
+        assertEquals(stored, s);
+    }
+
 }
