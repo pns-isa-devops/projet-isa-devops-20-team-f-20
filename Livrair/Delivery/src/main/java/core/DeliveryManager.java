@@ -1,5 +1,6 @@
 package core;
 
+import entities.DailyPlanning;
 import entities.Delivery;
 
 import javax.ejb.Local;
@@ -12,4 +13,6 @@ public interface DeliveryManager {
     boolean createDelivery(String id, LocalDateTime desiredTime);
 
     Optional<List<Delivery>> retrievePlannedDeliveries();
+
+    DailyPlanning getPlanning();
 }
