@@ -1,8 +1,11 @@
 // https://docs.cypress.io/api/introduction/api.html
 
+import {host} from "../support";
+
+
 describe('Init Test', () => {
   it('Visits the app root url', () => {
-    cy.visit('http://localhost:8844/')
+    cy.visit('http://'+ host +':8844/')
   })
   it('Go to Client Page', () => {
     //cy.visit('/client')

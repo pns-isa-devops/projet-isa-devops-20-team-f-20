@@ -16,5 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import './commands'
 
+export const host = Cypress.env('HOST') == null ? "localhost" : Cypress.env('HOST')
+
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
