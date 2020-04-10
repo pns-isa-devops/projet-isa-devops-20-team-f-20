@@ -1,4 +1,6 @@
 import arquillian.AbstractLivrairTest;
+import arquillian.AbstractSchedulerTest;
+import beans.SchedulerBean;
 import entities.Delivery;
 import entities.PackageStatus;
 import entities.Supplier;
@@ -23,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(Arquillian.class)
 @Transactional(TransactionMode.ROLLBACK)
-public class PlanDeliveryTest extends AbstractLivrairTest {
+public class PlanDeliveryTest extends AbstractSchedulerTest {
 
     @EJB
     private PlanningInterface scheduler;
@@ -40,6 +42,7 @@ public class PlanDeliveryTest extends AbstractLivrairTest {
 
     @Test
     public void planDeliveryAvailable() {
+        SchedulerBean scheduler = new SchedulerBean();
         Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries);
@@ -49,6 +52,7 @@ public class PlanDeliveryTest extends AbstractLivrairTest {
 
     @Test
     public void planDeliveryNotAvailable(){
+        SchedulerBean scheduler = new SchedulerBean();
         Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries);

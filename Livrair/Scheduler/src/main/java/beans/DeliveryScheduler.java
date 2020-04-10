@@ -1,3 +1,5 @@
+package beans;
+
 import entities.DailyPlanning;
 import entities.Delivery;
 import entities.Drone;
