@@ -1,10 +1,17 @@
+import arquillian.AbstractLivrairTest;
 import entities.Delivery;
 import entities.PackageStatus;
 import entities.Supplier;
 import entities.Package;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import interfaces.PlanningInterface;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
+import javax.ejb.EJB;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -14,11 +21,16 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PlanDeliveryTest {
+@RunWith(Arquillian.class)
+@Transactional(TransactionMode.ROLLBACK)
+public class PlanDeliveryTest extends AbstractLivrairTest {
+
+    @EJB
+    private PlanningInterface scheduler;
 
     private List<Delivery> deliveries = new ArrayList<>();
 
-    @BeforeEach
+    @Before
     public void setUp() {
         Supplier supplier = new Supplier("UPS", "Cannes");
         Package pack = new Package("1", "testuser", PackageStatus.REGISTERED, "210 avenue roumanille", supplier);
@@ -28,7 +40,6 @@ public class PlanDeliveryTest {
 
     @Test
     public void planDeliveryAvailable() {
-        SchedulerBean scheduler = new SchedulerBean();
         Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries);
@@ -38,7 +49,6 @@ public class PlanDeliveryTest {
 
     @Test
     public void planDeliveryNotAvailable(){
-        SchedulerBean scheduler = new SchedulerBean();
         Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries);
