@@ -6,8 +6,10 @@ services:
     container_name: supplier
     expose:
       - "9090"
-    ports:
-      - "9090:9090"
+#    ports:
+#      - "9090:9090"
+    networks:
+      - backend
 
   vue:
     build: ./client/old
@@ -21,6 +23,8 @@ services:
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
     tty: true
+    networks:
+      - frontend
 
 
   # Clien Java CLI
@@ -37,6 +41,8 @@ services:
 #      - .:/host
     stdin_open: true
     tty: true
+    networks:
+      - frontend
 
   backend:
     build: ./Livrair
@@ -46,7 +52,19 @@ services:
       - supplier_port=9090
     expose:
       - "8080"
-    ports:
-      - "8080:8080"
+#    ports:
+#      - "8080:8080"
     depends_on:
       - ext
+    networks:
+      - backend
+
+networks:
+  frontend:
+    # Use a custom driver
+#    driver: custom-driver-1
+  backend:
+    # Use a custom driver which takes special options
+#    driver: custom-driver-2
+#    driver_opts:
+#      foo: "1"
