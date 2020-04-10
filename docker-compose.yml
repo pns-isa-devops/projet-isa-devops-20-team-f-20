@@ -15,7 +15,9 @@ services:
     build: ./client/old
     container_name: vue
     ports:
-          - "8081:8081"
+          - "8844:8844"
+    expose:
+          - "8844"
     volumes:
         - ./client/old/:/vuejs_client
     environment:
