@@ -58,6 +58,7 @@ services:
       - ext
     networks:
       - backend
+      - frontend
 
 networks:
   frontend:
