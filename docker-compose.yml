@@ -27,6 +27,7 @@ services:
     tty: true
     networks:
       - frontend
+      - default
 
 
   # Clien Java CLI
