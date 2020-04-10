@@ -75,12 +75,11 @@
         // build SOAP request
         var sr =
           `<?xml version="1.0" encoding="utf-8"?>
-          <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:del="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">
-            <soapenv:Header/>
-            <soapenv:Body>
-                <del:getAllPackages/>
-            </soapenv:Body>
-          </soapenv:Envelope>`
+          <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+              <Body>
+                  <getPlannedDeliveries xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery"/>
+              </Body>
+          </Envelope>`
 
         let context = this
 
@@ -95,18 +94,18 @@
               // });
               console.log(respXML)
 
-              let packages = respXML.getElementsByTagName('package')
-              console.log(packages)
+              // let packages = respXML.getElementsByTagName('package')
+              // console.log(packages)
 
-              for (let pack of packages) {
-                console.log(pack)
-                let respPackage = {
-                  id: pack.getElementsByTagName('id')[0].innerHTML,
-                  status: pack.getElementsByTagName('packageStatus')[0].innerHTML,
-                  address: pack.getElementsByTagName('address')[0].innerHTML,
-                }
-                context.desserts.push(respPackage);
-              }
+              // for (let pack of packages) {
+              //   console.log(pack)
+              //   let respPackage = {
+              //     id: pack.getElementsByTagName('id')[0].innerHTML,
+              //     status: pack.getElementsByTagName('packageStatus')[0].innerHTML,
+              //     address: pack.getElementsByTagName('address')[0].innerHTML,
+              //   }
+              //   context.desserts.push(respPackage);
+              // }
             }
           }
         }

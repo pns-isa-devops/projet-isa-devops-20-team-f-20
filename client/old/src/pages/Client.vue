@@ -21,12 +21,17 @@
 
 
     <v-row align="center" justify="space-around">
-      <v-col cols="6" align-self="start">
+      <v-col cols="6" align-self="center">
         <CalendarDelivery />
       </v-col>
       <v-col cols="4" align-self="center">
         <AddDelivery/>
         <PackageList/>
+      </v-col>
+    </v-row>
+
+    <v-row align="center" justify="center">
+      <v-col md12>
         <DeliveryList/>
       </v-col>
     </v-row>

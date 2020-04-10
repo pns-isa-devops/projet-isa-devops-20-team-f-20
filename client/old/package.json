@@ -13,6 +13,7 @@
     "core-js": "^3.6.4",
     "cypress": "^4.3.0",
     "cypress-vue-unit-test": "^1.11.7",
+    "material-design-icons-iconfont": "^5.0.1",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
     "vue-axios-cors": "^1.0.1",

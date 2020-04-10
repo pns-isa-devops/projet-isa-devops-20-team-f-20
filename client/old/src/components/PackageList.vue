@@ -8,7 +8,7 @@
         </span>
       </v-row>
       <v-row align="center" justify="center">
-        <v-data-table :headers="headers" :items="desserts" class="elevation-4">
+        <v-data-table :headers="headers" :items="packages" class="elevation-4">
           <template v-slot:item.status="{ item }">
             <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
           </template>
@@ -43,21 +43,22 @@
             value: 'address'
           },
         ],
-        desserts: [{
-            id: '874512',
-            status: 'ASSIGNED',
-            address: '53 rue de la porte',
-          },
-          {
-            id: '654465',
-            status: 'ASSIGNED',
-            address: '18 avenue de chalaise',
-          },
-          {
-            id: '515845',
-            status: 'WAITING',
-            address: '74 boulerd garnier',
-          }
+        packages: [
+          // {
+          //   id: '874512',
+          //   status: 'ASSIGNED',
+          //   address: '53 rue de la porte',
+          // },
+          // {
+          //   id: '654465',
+          //   status: 'ASSIGNED',
+          //   address: '18 avenue de chalaise',
+          // },
+          // {
+          //   id: '515845',
+          //   status: 'WAITING',
+          //   address: '74 boulerd garnier',
+          // }
         ],
 
       }
@@ -70,18 +71,17 @@
         else return 'grey'
       },
       getAllPackages() {
-        this.xmlhttp.open('POST', 'http://192.168.99.100:8080/delivery/webservices/DeliveryWS?wsdl', true);
+        this.xmlhttp.open('POST', 'http://localhost:8080/delivery/webservices/DeliveryWS?wsdl', true);
 
         // build SOAP request
         
         var sr =
           `<?xml version="1.0" encoding="utf-8"?>
-          <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:del="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">
-            <soapenv:Header/>
-            <soapenv:Body>
-                <del:getAllPackages/>
-            </soapenv:Body>
-          </soapenv:Envelope>`
+          <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+              <Body>
+                  <getAllPackages xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery"/>
+              </Body>
+          </Envelope>`
 
         let context = this
 
@@ -94,7 +94,7 @@
               //   compact: true,
               //   spaces: 4
               // });
-              console.log(respXML)
+              //console.log(respXML)
 
               let packages = respXML.getElementsByTagName('package')
               console.log(packages)
@@ -106,7 +106,7 @@
                   status: pack.getElementsByTagName('packageStatus')[0].innerHTML,
                   address: pack.getElementsByTagName('address')[0].innerHTML,
                 }
-                context.desserts.push(respPackage);
+                context.packages.push(respPackage);
               }
             }
           }
