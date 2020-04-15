@@ -17,6 +17,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -150,6 +151,8 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         /*if (myDeliveries == null) {
             myDeliveries = new ArrayList<>();
         }*/
+        System.out.println("Sa daronne create");
+        System.out.println(desiredTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         Optional<List<Delivery>> myDeliveries = this.retrievePlannedDeliveries();
         Optional<Package> pack = this.findById(id);
         if (pack.isPresent()) {
