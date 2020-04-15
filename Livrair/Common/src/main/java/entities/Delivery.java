@@ -114,11 +114,6 @@ public class Delivery implements Serializable {
         setdeliveryDate(deliveryDate);
         this.status = DeliveryStatus.READY;
 
-        System.out.println("Sa daronne const");
-        System.out.println(deliveryDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-        System.out.println(getDeliveryDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
-
-        // TODO
     }
 
     public Delivery(){

@@ -16,11 +16,6 @@ import java.util.Set;
 @Stateless
 public class SchedulerBean implements PlanningInterface {
 
-
-//    @PersistenceContext private EntityManager entityManager;
-//    @Resource private ConnectionFactory connectionFactory;
-//    @Resource(name = "KitchenPrinter") private Queue printerQueue;
-//    @EJB CookieScheduler scheduler;
     @EJB private Availability availability;
 
     @Override
@@ -29,7 +24,6 @@ public class SchedulerBean implements PlanningInterface {
 
         if (dailyPlanning.availableSlotForGivenDate(deliveryDate.getHour())) {
             Set<Drone> drones = availability.getAvailableDrones();
-            //drones.add(new Drone("1"));
             if (drones.isEmpty()) {
                 return Optional.empty();
             } else {
