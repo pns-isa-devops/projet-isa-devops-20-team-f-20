@@ -21,3 +21,6 @@ target
 client/src/main/java/fr/*
 artifactory/*
 artifactory_docker.tar
+jenkins_docker.tar
+logs.txt
+package-lock.json

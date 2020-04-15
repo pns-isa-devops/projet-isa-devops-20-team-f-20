@@ -12,3 +12,6 @@ EXPOSE 8844
 
 # construit l'app pour la production en la minifiant
 ENTRYPOINT ["npm", "run", "serve"]
+
+#HEALTHCHECK --interval=1m --timeout=30s --retries=5 \
+#  CMD curl -f http://localhost:8844/ || exit 1
