@@ -5,8 +5,10 @@ import { router } from './router';
 import axios from 'axios'
 import VueAxios from 'vue-axios'
 import AxiosPlugin from 'vue-axios-cors';
- 
-Vue.use(VueAxios, axios, AxiosPlugin)
+import Vuex from 'vuex'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+
+Vue.use(VueAxios, axios, AxiosPlugin, Vuex)
 
 Vue.config.productionTip = false
 
