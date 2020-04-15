@@ -103,7 +103,6 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
     @Override
     public void retrieveIncomingPackages() {
 
-//        packageSupplyAPI = new PackageSupplyAPI();
         try {
             Properties prop = new Properties();
             prop.load(DeliveryBean.class.getResourceAsStream("/supplier.properties"));
@@ -117,7 +116,6 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         try {
             packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
                 manager.persist(incomingPackage);
-                    //myPackages.add(incomingPackage); // To remove with persistency
             });
         } catch (ExternalPartnerException e) {
             e.printStackTrace();
@@ -133,20 +131,35 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public Optional<List<Delivery>> retrievePlannedDeliveries() {
-        return Optional.of(myDeliveries);
+        //return Optional.of(myDeliveries);
+
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Delivery> criteria = builder.createQuery(Delivery.class);
+        Root<Delivery> root =  criteria.from(Delivery.class);
+        criteria.select(root);
+        TypedQuery<Delivery> query = manager.createQuery(criteria);
+        try {
+            return Optional.of(query.getResultList());
+        } catch (NoResultException nre){
+            return Optional.empty();
+        }
     }
 
     @Override
     public boolean createDelivery(String id, LocalDateTime desiredTime) {
-        if (myDeliveries == null) {
+        /*if (myDeliveries == null) {
             myDeliveries = new ArrayList<>();
-        }
+        }*/
+        Optional<List<Delivery>> myDeliveries = this.retrievePlannedDeliveries();
         Optional<Package> pack = this.findById(id);
         if (pack.isPresent()) {
-            Optional<Delivery> tmp = schedulder.planDelivery(pack.get(), desiredTime, myDeliveries);
+            //Optional<Delivery> tmp = schedulder.planDelivery(pack.get(), desiredTime, myDeliveries);
+            Optional<Delivery> tmp = schedulder.planDelivery(pack.get(), desiredTime, myDeliveries.get());
+
             if (tmp.isPresent()) {
                 pack.get().setPackageStatus(PackageStatus.ASSIGNED);
-                myDeliveries.add(tmp.get());
+                manager.persist(tmp.get());
+                //myDeliveries.add(tmp.get());
                 return true;
             }
         }

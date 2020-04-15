@@ -29,7 +29,7 @@ public class SchedulerBean implements PlanningInterface {
 
         if (dailyPlanning.availableSlotForGivenDate(deliveryDate.getHour())) {
             Set<Drone> drones = availability.getAvailableDrones();
-            drones.add(new Drone("1"));
+            //drones.add(new Drone("1"));
             if (drones.isEmpty()) {
                 return Optional.empty();
             } else {

@@ -1,7 +1,7 @@
 package entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -11,10 +11,12 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 @Entity
+@Table(name="deliveries")
 public class Delivery implements Serializable {
-    @Id
+
     private String id;
 
     private Package aPackage;
@@ -29,6 +31,8 @@ public class Delivery implements Serializable {
 
     private DeliveryStatus status;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     public String getId() {
         return id;
     }
@@ -37,6 +41,7 @@ public class Delivery implements Serializable {
         this.id = id;
     }
 
+    @OneToOne(cascade = {CascadeType.PERSIST})
     public Package getaPackage() {
         return aPackage;
     }
@@ -45,6 +50,7 @@ public class Delivery implements Serializable {
         this.aPackage = aPackage;
     }
 
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     public Drone getDrone() {
         return drone;
     }
@@ -61,6 +67,7 @@ public class Delivery implements Serializable {
         this.liftOffDate = liftOffDate;
     }
 
+    @NotNull
     @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     public LocalDateTime getDeliveryDate() {
         return deliveryDate;
@@ -78,6 +85,8 @@ public class Delivery implements Serializable {
         this.previsionalReturnDate = previsionalReturnDate;
     }
 
+
+    @Enumerated(EnumType.STRING)
     public DeliveryStatus getStatus() {
         return status;
     }
@@ -108,6 +117,22 @@ public class Delivery implements Serializable {
         s += "\t\tSTATUS : " + getStatus().toString()+ "\n\n";
         return s;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Delivery)) return false;
+        Delivery delivery = (Delivery) o;
+        return Objects.equals(getaPackage().getId(), delivery.getaPackage().getId()) &&
+                Objects.equals(getDrone(), delivery.getDrone()) &&
+                Objects.equals(getDeliveryDate(), delivery.getDeliveryDate()) &&
+                getStatus() == delivery.getStatus();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getaPackage().getId(), getDrone(), getDeliveryDate(), getStatus());
+    }
 }
 
 class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
@@ -117,5 +142,19 @@ class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
 
     public String marshal(LocalDateTime v) throws Exception {
         return String.valueOf(v.toEpochSecond(ZoneOffset.UTC));
+    }
+}
+
+@Converter
+class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDateTime, Timestamp> {
+
+    @Override
+    public Timestamp convertToDatabaseColumn(LocalDateTime locDateTime) {
+        return locDateTime == null ? null : Timestamp.valueOf(locDateTime);
+    }
+
+    @Override
+    public LocalDateTime convertToEntityAttribute(Timestamp sqlTimestamp) {
+        return sqlTimestamp == null ? null : sqlTimestamp.toLocalDateTime();
     }
 }

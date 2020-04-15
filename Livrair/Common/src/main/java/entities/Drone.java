@@ -1,12 +1,12 @@
 package entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
+@Table(name = "drones")
 public class Drone {
 
-    @Id
     private String id;
 
     private double chargelevel;
@@ -15,6 +15,7 @@ public class Drone {
 
     private DroneStatus status;
 
+    @Id
     public String getId() {
         return id;
     }
@@ -39,6 +40,7 @@ public class Drone {
         this.flyingTime = flyingTime;
     }
 
+    @Enumerated(EnumType.STRING)
     public DroneStatus getStatus() {
         return status;
     }
@@ -62,5 +64,22 @@ public class Drone {
         this.chargelevel = chargelevel;
         this.flyingTime = flyingTime;
         this.status = DroneStatus.AVAILABLE;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Drone)) return false;
+        Drone drone = (Drone) o;
+        return Double.compare(drone.getChargelevel(), getChargelevel()) == 0 &&
+                Double.compare(drone.getFlyingTime(), getFlyingTime()) == 0 &&
+                drone.getId().equals(getId()) &&
+                getStatus() == drone.getStatus();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId(),getChargelevel(), getFlyingTime(), getStatus());
     }
 }

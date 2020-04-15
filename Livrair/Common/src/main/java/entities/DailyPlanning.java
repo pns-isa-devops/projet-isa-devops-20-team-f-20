@@ -1,6 +1,8 @@
 package entities;
 
 import javax.persistence.Entity;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +13,9 @@ import java.util.stream.Collectors;
 public class DailyPlanning implements Serializable {
 
     private List<Delivery> deliveries;
+
+    @XmlElementWrapper(name="slots")
+    @XmlElement(name="slot")
     public List<Slot> slots;
 
     public  DailyPlanning(){

@@ -11,7 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class AvailabilityTest {
 
-
+/*
     private LogisticBean logisticBean;
 
     @Before
@@ -122,6 +122,6 @@ public class AvailabilityTest {
         assertThrows(DroneAlreadyExistsException.class, () -> logisticBean.addDrone("1"));
         assertEquals(1, logisticBean.getDrones().size());
     }
-
+*/ //Todo : Transform into arquillian test
 
 }

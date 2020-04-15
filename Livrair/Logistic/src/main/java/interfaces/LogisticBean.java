@@ -6,24 +6,56 @@ import exceptions.DroneAlreadyExistsException;
 import exceptions.DroneDoesNotExistException;
 
 import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Stateful
+@Stateless
 public class LogisticBean implements DroneModifier, Availability {
 
     private Set<Drone> drones = new HashSet<>();
 
+    @PersistenceContext
+    private EntityManager manager;
+
 
     @Override
     public Set<Drone> getDrones() {
-        return drones;
+        //return drones;
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
+        Root<Drone> root =  criteria.from(Drone.class);
+        criteria.select(root);
+        TypedQuery<Drone> query = manager.createQuery(criteria);
+        try {
+            return new HashSet<>(query.getResultList());
+        } catch (NoResultException nre){
+            return drones;
+        }
     }
 
     @Override
     public Set<Drone> getAvailableDrones() {
-        return drones.stream().filter(drone -> drone.getStatus().equals(DroneStatus.AVAILABLE)).collect(Collectors.toSet());
+        //return drones.stream().filter(drone -> drone.getStatus().equals(DroneStatus.AVAILABLE)).collect(Collectors.toSet());
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
+        Root<Drone> root =  criteria.from(Drone.class);
+        criteria.select(root).where(builder.equal(root.get("status"), DroneStatus.AVAILABLE));
+        TypedQuery<Drone> query = manager.createQuery(criteria);
+        try {
+            return new HashSet<>(query.getResultList());
+        } catch (NoResultException nre){
+            return drones;
+        }
     }
 
 
@@ -44,11 +76,13 @@ public class LogisticBean implements DroneModifier, Availability {
     }
 
     @Override
-    public void addDrone(String id) throws DroneAlreadyExistsException {
-        if (checkIfDroneIdAlreadyExist(id)) {
+    public boolean addDrone(String id) {
+        /*if (checkIfDroneIdAlreadyExist(id)) {
             throw new DroneAlreadyExistsException();
-        }
-        this.drones.add(new Drone(id));
+        }*/
+        //this.drones.add(new Drone(id));
+        this.manager.persist(new Drone(id));
+        return true;
     }
 
     @Override
@@ -56,7 +90,7 @@ public class LogisticBean implements DroneModifier, Availability {
         if (checkIfDroneIdAlreadyExist(id)) {
             throw new DroneAlreadyExistsException();
         }
-        this.drones.add(new Drone(id, chargeLevel, flyingTime));
+        this.manager.persist(new Drone(id, chargeLevel, flyingTime));
     }
 
     @Override
@@ -64,7 +98,7 @@ public class LogisticBean implements DroneModifier, Availability {
         if (checkIfDroneIdAlreadyExist(drone.getId())) {
             throw new DroneAlreadyExistsException();
         }
-        this.drones.add(drone);
+        this.manager.persist(drone);
     }
 
     private boolean checkIfDroneIdAlreadyExist(String id) {
