@@ -27,9 +27,9 @@ describe('Init Test', () => {
     //   cy.server()
     //   cy.route({
     //     method: 'POST',
-    //     url: 'http://localhost:8080/delivery/webservices/DeliveryWS?wsdl',
+    //     url: 'http://'+process.env.VUE_APP_BACKEND+':8080/delivery/webservices/DeliveryWS?wsdl',
     //   }).as('apiCheck')
-      
+
     //   cy.wait('@apiCheck').then((xhr) => {
     //     cy.get('[data-cy=refresh_package]').click()
     //     assert.isNotNull(xhr.response.body.data, '1st API call has data')

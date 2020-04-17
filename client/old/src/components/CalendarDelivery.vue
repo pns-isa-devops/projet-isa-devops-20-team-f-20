@@ -210,7 +210,7 @@
 
         (async () => {
           await this.delay(1000);
-        this.xmlhttp.open('POST', 'http://localhost:8080/delivery/webservices/DeliveryWS?wsdl', true);
+        this.xmlhttp.open('POST', 'http://'+process.env.VUE_APP_BACKEND+':8080/delivery/webservices/DeliveryWS?wsdl', true);
 
         // build SOAP request
         var sr =
