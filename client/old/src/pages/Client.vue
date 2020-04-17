@@ -8,7 +8,7 @@
       </div>
       <v-toolbar-title class="headline text-upper" @click="goToHome()">
         <span>LIVRAIR - </span>
-        <span id="title" class="font-weight-light">SERVICE CLIENT</span>
+        <span data-cy="client_title" class="font-weight-light">SERVICE CLIENT</span>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>

@@ -26,7 +26,7 @@
                     <v-menu v-model="menuDate" :close-on-content-click="false" :nudge-right="40"
                         transition="scale-transition" offset-y min-width="290px">
                         <template v-slot:activator="{ on }">
-                            <v-text-field v-model="date" label="Picker without buttons" prepend-icon="event" readonly
+                            <v-text-field v-model="date" label="Pick a Date" prepend-icon="event" readonly
                                 v-on="on">
                             </v-text-field>
                         </template>
@@ -37,7 +37,7 @@
                         :return-value.sync="time" transition="scale-transition" offset-y max-width="290px"
                         min-width="290px">
                         <template v-slot:activator="{ on }">
-                            <v-text-field v-model="time" label="Picker in menu" color="primary"
+                            <v-text-field v-model="time" label="Select a Time" color="primary"
                                 prepend-icon="access_time" readonly v-on="on">
                             </v-text-field>
                         </template>

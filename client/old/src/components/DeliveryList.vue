@@ -6,7 +6,7 @@
           <span style="margin-right: 5px;">DELIVERY</span>
           <span class="font-weight-light">LIST</span>
         </span>
-        <v-btn color="purple darken-2" icon @click="this.getAllDeliveries">
+        <v-btn data-cy="refresh_delivery" color="purple darken-2" icon @click="this.getAllDeliveries">
           <v-icon>mdi-cached</v-icon>
         </v-btn>
       </v-row>
