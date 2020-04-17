@@ -200,11 +200,16 @@
 
         nativeEvent.stopPropagation()
       },
+      delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      },
       updateRange({
         start,
         end
       }) {
 
+        (async () => {
+          await this.delay(1000);
         this.xmlhttp.open('POST', 'http://localhost:8080/delivery/webservices/DeliveryWS?wsdl', true);
 
         // build SOAP request
@@ -253,7 +258,9 @@
         }
         // Send the POST request
         this.xmlhttp.setRequestHeader('Content-Type', 'text/xml');
-        this.xmlhttp.send(sr);
+        console.log(sr)
+        //this.xmlhttp.send(sr);
+        })();
       },
       nth(d) {
         return d > 3 && d < 21 ?

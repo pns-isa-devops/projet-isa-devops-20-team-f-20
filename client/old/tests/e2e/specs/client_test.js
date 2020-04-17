@@ -41,17 +41,16 @@ describe('Init Test', () => {
     // })
 
     it('Should have 3 items in package list', () => {
-      //cy.get('[data-cy=refresh_package]').click()
+      cy.get('[data-cy=refresh_package]').click()
       cy.get("#app > div > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(2) > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody")
         .as('packages')
       cy.get('@packages').find('tr').should('have.length', 3)
     })
 
-    it('Should hav no items in delivery list', () => {
+    it('Should have no items in delivery list', () => {
       cy.get('[data-cy=refresh_delivery]').click()
       cy.get("#app > div > main > div > div > div.row.align-center.justify-center > div > div > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody > tr > td")
         .as('deliveries')
-      cy.wait('@deliveries')
       cy.get('@deliveries').contains('No data available')
     })
   })
