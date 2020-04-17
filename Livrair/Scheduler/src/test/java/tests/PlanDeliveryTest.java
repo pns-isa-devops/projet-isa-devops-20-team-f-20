@@ -3,9 +3,7 @@ package tests;
 import arquillian.AbstractLivrairTest;
 import arquillian.AbstractSchedulerTest;
 import beans.SchedulerBean;
-import entities.Delivery;
-import entities.PackageStatus;
-import entities.Supplier;
+import entities.*;
 import entities.Package;
 import interfaces.PlanningInterface;
 import org.jboss.arquillian.junit.Arquillian;
@@ -16,6 +14,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -34,12 +34,19 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
 
     private List<Delivery> deliveries = new ArrayList<>();
 
+    @PersistenceContext
+    private EntityManager entityManager;
+
+
     @Before
     public void setUp() {
         Supplier supplier = new Supplier("UPS", "Cannes");
         Package pack = new Package("1", "testuser", PackageStatus.REGISTERED, "210 avenue roumanille", supplier);
         Delivery existingDelivery = new Delivery(pack, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)));
         deliveries.add(existingDelivery);
+        entityManager.persist(new Drone("1"));
+
+        entityManager.persist(existingDelivery);
     }
 
     @Test
@@ -48,15 +55,17 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries);
         System.out.println(d);
-        //assertTrue(d.isPresent());
+        assertTrue(d.isPresent());
+        deliveries.add(d.get());
+
     }
 
     @Test
     public void planDeliveryNotAvailable(){
-        Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
+        Optional<Delivery> d = scheduler.planDelivery(new Package("3", "testuser", PackageStatus.REGISTERED,
                         "210 avenue roumanille", new Supplier("UPS", "Cannes")),
                 LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries);
         System.out.println(d);
-        //assertFalse(d.isPresent());
+        assertFalse(d.isPresent());
     }
 }

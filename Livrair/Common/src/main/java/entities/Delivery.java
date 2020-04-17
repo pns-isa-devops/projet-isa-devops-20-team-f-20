@@ -27,6 +27,8 @@ public class Delivery implements Serializable {
 
     private LocalDateTime deliveryDate;
 
+    private String deliveryDateTS;
+
     private LocalDateTime previsionalReturnDate;
 
     private DeliveryStatus status;
@@ -67,14 +69,25 @@ public class Delivery implements Serializable {
         this.liftOffDate = liftOffDate;
     }
 
-    @NotNull
-    @XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
+
+    @XmlElement(name="deliveryDate")
+    public String getDeliveryDateTS() {
+        return deliveryDateTS;
+    }
+
+    public void setDeliveryDateTS(String deliveryDateTS) {
+        this.deliveryDateTS = deliveryDateTS;
+    }
+
+    //@XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
     public LocalDateTime getDeliveryDate() {
-        return deliveryDate;
+        return LocalDateTime.ofEpochSecond(Long.valueOf(deliveryDateTS), 0, ZoneOffset.UTC);
+        //return deliveryDate;
     }
 
     public void setdeliveryDate(LocalDateTime deliveryDate) {
-        this.deliveryDate = deliveryDate;
+        this.deliveryDateTS = String.valueOf(deliveryDate.toEpochSecond(ZoneOffset.UTC));
+        //this.deliveryDate = deliveryDate;
     }
 
     public LocalDateTime getPrevisionalReturnDate() {
@@ -98,10 +111,9 @@ public class Delivery implements Serializable {
     public Delivery(Package aPackage, Drone drone, LocalDateTime deliveryDate) {
         this.aPackage = aPackage;
         this.drone = drone;
-        this.deliveryDate = deliveryDate;
+        setdeliveryDate(deliveryDate);
         this.status = DeliveryStatus.READY;
 
-        // TODO
     }
 
     public Delivery(){
@@ -125,14 +137,15 @@ public class Delivery implements Serializable {
         Delivery delivery = (Delivery) o;
         return Objects.equals(getaPackage().getId(), delivery.getaPackage().getId()) &&
                 Objects.equals(getDrone(), delivery.getDrone()) &&
-                Objects.equals(getDeliveryDate(), delivery.getDeliveryDate()) &&
+                Objects.equals(getDeliveryDateTS(), delivery.getDeliveryDateTS()) &&
                 getStatus() == delivery.getStatus();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getaPackage().getId(), getDrone(), getDeliveryDate(), getStatus());
+        return Objects.hash(getaPackage().getId(), getDrone(), getDeliveryDateTS(), getStatus());
     }
+
 }
 
 class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
@@ -146,15 +159,15 @@ class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
 }
 
 @Converter
-class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDateTime, Timestamp> {
+class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDateTime, String> {
 
     @Override
-    public Timestamp convertToDatabaseColumn(LocalDateTime locDateTime) {
-        return locDateTime == null ? null : Timestamp.valueOf(locDateTime);
+    public String convertToDatabaseColumn(LocalDateTime locDateTime) {
+        return String.valueOf(locDateTime.toEpochSecond(ZoneOffset.UTC));
     }
 
     @Override
-    public LocalDateTime convertToEntityAttribute(Timestamp sqlTimestamp) {
-        return sqlTimestamp == null ? null : sqlTimestamp.toLocalDateTime();
+    public LocalDateTime convertToEntityAttribute(String sqlTimestamp) {
+        return LocalDateTime.ofEpochSecond(Long.valueOf(sqlTimestamp), 0, ZoneOffset.UTC);
     }
 }
