@@ -28,8 +28,6 @@ import java.util.Properties;
 public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryManager {
 
     private PackageSupplyAPI packageSupplyAPI;
-    private List<Package> myPackages;
-    private List<Delivery> myDeliveries;
     private boolean retrieved = false;
 
     @EJB
@@ -110,7 +108,6 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 //            log.log(Level.INFO, "Cannot read supplier.properties file", e);
                 throw new UncheckedException(e);
             }
-            myPackages = new ArrayList<>();
             try {
                 packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
                     manager.persist(incomingPackage);
@@ -124,7 +121,7 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
 
     public DailyPlanning getPlanning() {
-        return schedulder.getPlanning(myDeliveries);
+        return schedulder.getPlanning(retrievePlannedDeliveries().orElse(new ArrayList<>()));
     }
 
 
