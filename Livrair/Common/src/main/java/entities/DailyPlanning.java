@@ -18,11 +18,7 @@ public class DailyPlanning implements Serializable {
     @XmlElement(name="slot")
     public List<Slot> slots;
 
-    public  DailyPlanning(){
-
-    }
-
-    public DailyPlanning(List<Delivery> deliveries) {
+    public DailyPlanning(List<Delivery> deliveries) throws Exception {
         build(deliveries);
         this.deliveries = deliveries;
     }
@@ -32,7 +28,7 @@ public class DailyPlanning implements Serializable {
      *
      * @param deliveries Deliveries of the day
      */
-    private void build(List<Delivery> deliveries) {
+    private void build(List<Delivery> deliveries) throws Exception {
         initSlots();
         for (Delivery d : deliveries) {
             int hour = d.getDeliveryDate().getHour();

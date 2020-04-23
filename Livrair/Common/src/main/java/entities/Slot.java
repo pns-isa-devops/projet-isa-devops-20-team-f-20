@@ -13,14 +13,16 @@ public class Slot {
         this.isAvailable = true;
     }
 
-    public void book(Delivery delivery) {
-        // TODO Exception
+    public void book(Delivery delivery) throws Exception {
+        if( isAvailable == false)
+            throw new Exception("Cannot book, already booked");
         this.delivery = delivery;
         this.isAvailable = false;
     }
 
-    public Delivery unbook() {
-        // TODO Exception
+    public Delivery unbook() throws Exception {
+        if( isAvailable == true)
+            throw new Exception("Cannot unbook, not booked");
         Delivery d = delivery;
         this.delivery = null;
         this.isAvailable = true;

@@ -117,7 +117,12 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
 
     public DailyPlanning getPlanning() {
-        return schedulder.getPlanning(retrievePlannedDeliveries().orElse(new ArrayList<>()));
+        try {
+            return schedulder.getPlanning(retrievePlannedDeliveries().orElse(new ArrayList<>()));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
