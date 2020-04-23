@@ -14,5 +14,5 @@ public interface PlanningInterface {
 
     Optional<Delivery> planDelivery(Package item, LocalDateTime deliveryDate, List<Delivery> deliveries);
 
-    DailyPlanning getPlanning(List<Delivery> deliveries);
+    DailyPlanning getPlanning(List<Delivery> deliveries) throws IllegalAccessException;
 }

@@ -4,6 +4,7 @@ import entities.*;
 import entities.Package;
 import interfaces.Availability;
 import interfaces.PlanningInterface;
+import org.apache.openjpa.persistence.ArgumentException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -36,7 +37,9 @@ public class SchedulerBean implements PlanningInterface {
     }
 
     @Override
-    public DailyPlanning getPlanning(List<Delivery> deliveries) {
+    public DailyPlanning getPlanning(List<Delivery> deliveries) throws IllegalAccessException {
+        if(deliveries == null)
+            throw new IllegalAccessException("Delivery is null");
         return new DailyPlanning(deliveries);
     }
 }
