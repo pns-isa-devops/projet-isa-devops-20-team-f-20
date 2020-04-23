@@ -9,6 +9,7 @@
         <module>Logistic</module>
         <module>Scheduler</module>
         <module>Delivery</module>
+        <module>Biller</module>
     </modules>
 
     <modelVersion>4.0.0</modelVersion>
