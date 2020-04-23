@@ -27,6 +27,7 @@ namespace delivery {
             p1.address = "210 rue de roumanille";
             p2.address = "9 rue de la touche";
             p3.address = "310 promenade des anglais";
+            Console.WriteLine("\n[LOG] [" + DateTime.Now.ToString("HH:mm:ss") + "] New GetPackages request received\n");
             return new Package[] { p1, p2, p3 };
         }
     }
