@@ -48,7 +48,7 @@ describe('Init Test', () => {
       </Envelope>
       `
 
-      cy.request('POST', 'http://localhost:8080/delivery/webservices/LogisticWS?wsdl',
+      cy.request('POST', 'http://'+process.env.VUE_APP_BACKEND+'/delivery/webservices/LogisticWS?wsdl',
           env)
         .then((response) => {
           // response.body is automatically serialized into JSON
@@ -128,7 +128,7 @@ describe('Add delivery test', () => {
       .contains('ASSIGNED')
     })
 
-    it('Sould have a the delivery created in list', () => {
+    it('Sould have the delivery created in list', () => {
       cy.get('[data-cy=refresh_delivery]').click()
       cy.wait(500)
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-center > div > div > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody > tr")
