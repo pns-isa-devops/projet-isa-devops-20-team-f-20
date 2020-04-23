@@ -58,7 +58,7 @@ public class GetPlanningTest extends AbstractSchedulerTest  {
         try {
             Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning(deliveries));
             assert(planning.isPresent());
-            assert(planning.get().getAvailabilities().size() == 2);
+            assert(planning.get().getAvailabilities().size() == 2); // TODO + de slots
         } catch (IllegalAccessException e) {
             assert (false);
         }
@@ -70,7 +70,7 @@ public class GetPlanningTest extends AbstractSchedulerTest  {
         try {
             Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning(deliveries));
             assert(planning.isPresent());
-            assert(planning.get().getAvailabilities().size() == 4);
+            assert(planning.get().getAvailabilities().size() == 4);// TODO + de slots
         } catch (IllegalAccessException e) {
             assert (false);
         }
