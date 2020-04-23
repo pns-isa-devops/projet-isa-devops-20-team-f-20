@@ -48,7 +48,7 @@ describe('Init Test', () => {
       </Envelope>
       `
 
-      cy.request('POST', 'http://'+process.env.VUE_APP_BACKEND+'/delivery/webservices/LogisticWS?wsdl',
+      cy.request('POST', 'http://'+host+':8080/delivery/webservices/LogisticWS?wsdl',
           env)
         .then((response) => {
           // response.body is automatically serialized into JSON
