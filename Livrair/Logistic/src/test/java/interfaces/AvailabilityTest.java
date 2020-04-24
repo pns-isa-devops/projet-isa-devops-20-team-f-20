@@ -1,127 +1,158 @@
 package interfaces;
 
+import arquillian.AbstractLogisticTest;
 import entities.Drone;
 import entities.DroneStatus;
 import exceptions.DroneAlreadyExistsException;
 import exceptions.DroneDoesNotExistException;
+import org.jboss.arquillian.junit.Arquillian;
+import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
+import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import javax.ejb.EJB;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AvailabilityTest {
+@RunWith(Arquillian.class)
+@Transactional(TransactionMode.ROLLBACK)
+public class AvailabilityTest extends AbstractLogisticTest {
 
-/*
-    private LogisticBean logisticBean;
+
+    @EJB
+    private Availability availability;
+
+    @EJB
+    private DroneModifier modifier;
+
+    private Drone drone;
 
     @Before
     public void setUp() {
-        logisticBean = new LogisticBean();
+        drone = new Drone("1");
     }
 
     @Test
     public void getAvailabilitiesDrone() {
-        Drone d = new Drone("1");
         try {
-            logisticBean.addDrone(d);
+            modifier.addDrone(drone);
         } catch (DroneAlreadyExistsException droneAlreadyExists) {
             droneAlreadyExists.printStackTrace();
         }
-        assertFalse(logisticBean.getAvailableDrones().isEmpty());
+        assertFalse(availability.getAvailableDrones().isEmpty());
         try {
-            logisticBean.changeState(d, DroneStatus.DELIVERING);
+            modifier.changeState(drone, DroneStatus.DELIVERING);
         } catch (DroneDoesNotExistException e) {
             e.printStackTrace();
         }
-        assertTrue(logisticBean.getAvailableDrones().isEmpty());
+        assertTrue(availability.getAvailableDrones().isEmpty());
     }
 
     @Test
     public void changeStateByDrone() {
-        Drone d = new Drone("1");
         try {
-            logisticBean.addDrone(d);
+            modifier.addDrone(drone);
         } catch (DroneAlreadyExistsException droneAlreadyExists) {
             droneAlreadyExists.printStackTrace();
         }
-        assertEquals(DroneStatus.AVAILABLE, d.getStatus());
+        assertEquals(DroneStatus.AVAILABLE, drone.getStatus());
         try {
-            logisticBean.changeState(d, DroneStatus.DELIVERING);
+            modifier.changeState(drone, DroneStatus.DELIVERING);
         } catch (DroneDoesNotExistException e) {
             e.printStackTrace();
         }
-        assertNotEquals(DroneStatus.AVAILABLE, d.getStatus());
+        assertNotEquals(DroneStatus.AVAILABLE, drone.getStatus());
     }
 
     @Test
     public void changeStateById() {
-        Drone d = new Drone("1");
         try {
-            logisticBean.addDrone(d);
+            modifier.addDrone(drone);
         } catch (DroneAlreadyExistsException droneAlreadyExists) {
             droneAlreadyExists.printStackTrace();
         }
-        assertEquals(DroneStatus.AVAILABLE, d.getStatus());
+        assertEquals(DroneStatus.AVAILABLE, drone.getStatus());
         try {
-            logisticBean.changeState("1", DroneStatus.DELIVERING);
+            modifier.changeState("1", DroneStatus.DELIVERING);
         } catch (DroneDoesNotExistException e) {
             e.printStackTrace();
         }
-        assertNotEquals(DroneStatus.AVAILABLE, d.getStatus());
+        assertNotEquals(DroneStatus.AVAILABLE, drone.getStatus());
     }
 
     @Test
     public void changeStateDroneDoesNotExist() {
-        assertThrows(DroneDoesNotExistException.class, () -> logisticBean.changeState("1", DroneStatus.DELIVERING));
+        Throwable error = null;
+        try {
+            modifier.changeState("1", DroneStatus.DELIVERING);
+        } catch (DroneDoesNotExistException ignored) {
+
+        } catch (javax.ejb.EJBTransactionRolledbackException e2){
+            error = e2.getCause().getCause();
+        }
+        assertNotNull(error);
+        assertEquals(error.getClass(), DroneDoesNotExistException.class);
+//        assertThrows(DroneDoesNotExistException.class, () -> modifier.changeState("1", DroneStatus.DELIVERING));
     }
+
 
     @Test
     public void changeStateDroneDoesNotExist2() {
-        Drone d = new Drone("1");
-        assertThrows(DroneDoesNotExistException.class, () -> logisticBean.changeState(d, DroneStatus.DELIVERING));
+        Throwable error = null;
+        try {
+            modifier.changeState(drone, DroneStatus.DELIVERING);
+        } catch (DroneDoesNotExistException ignored) {
+
+        } catch (javax.ejb.EJBTransactionRolledbackException e2){
+            error = e2.getCause().getCause();
+        }
+        assertNotNull(error);
+        assertEquals(error.getClass(), DroneDoesNotExistException.class);
     }
 
     @Test
     public void addDroneId() {
         try {
-            logisticBean.addDrone("1");
+            modifier.addDrone("1");
         } catch (DroneAlreadyExistsException droneAlreadyExists) {
             droneAlreadyExists.printStackTrace();
         }
-        assertEquals(1, logisticBean.getDrones().size());
+        assertEquals(1, availability.getDrones().size());
     }
 
     @Test
     public void addDroneIdAndAttributes() {
         try {
-            logisticBean.addDrone("1", 100, 0);
+            modifier.addDrone("1", 100, 0);
         } catch (DroneAlreadyExistsException droneAlreadyExists) {
             droneAlreadyExists.printStackTrace();
         }
-        assertEquals(1, logisticBean.getDrones().size());
+        assertEquals(1, availability.getDrones().size());
     }
 
     @Test
     public void addDroneDrone() {
         try {
-            logisticBean.addDrone(new Drone("1"));
+            modifier.addDrone(new Drone("1"));
         } catch (DroneAlreadyExistsException droneAlreadyExists) {
             droneAlreadyExists.printStackTrace();
         }
-        assertEquals(1, logisticBean.getDrones().size());
+        assertEquals(1, availability.getDrones().size());
     }
 
     @Test
     public void addDroneNotPossible() {
         try {
-            logisticBean.addDrone("1");
+            modifier.addDrone("1");
         } catch (DroneAlreadyExistsException droneAlreadyExists) {
             droneAlreadyExists.printStackTrace();
         }
-        assertEquals(1, logisticBean.getDrones().size());
-        assertThrows(DroneAlreadyExistsException.class, () -> logisticBean.addDrone("1"));
-        assertEquals(1, logisticBean.getDrones().size());
+        assertEquals(1, availability.getDrones().size());
+        assertThrows(DroneAlreadyExistsException.class, () -> modifier.addDrone("1"));
+        assertEquals(1, availability.getDrones().size());
     }
-*/ //Todo : Transform into arquillian test
+//Todo : Transform into arquillian test
 
 }

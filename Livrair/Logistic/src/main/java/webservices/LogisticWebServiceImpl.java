@@ -1,5 +1,6 @@
 package webservices;
 
+import exceptions.DroneAlreadyExistsException;
 import interfaces.Availability;
 import interfaces.DroneModifier;
 
@@ -16,6 +17,11 @@ public class LogisticWebServiceImpl implements LogisticWebService {
 
     @Override
     public boolean addDrone(String id) {
-        return modifier.addDrone(id);
+        try {
+            return modifier.addDrone(id);
+        } catch (DroneAlreadyExistsException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
