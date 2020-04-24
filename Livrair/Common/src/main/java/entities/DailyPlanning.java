@@ -33,7 +33,7 @@ public class DailyPlanning implements Serializable {
         for (Delivery d : deliveries) {
             int hour = d.getDeliveryDate().getHour();
             for (Slot s : slots) {
-                if (s.isAvailable && s.matchThisHour(hour))
+                if (s.isAvailable() && s.matchThisHour(hour))
                     s.book(d);
             }
         }
@@ -57,7 +57,7 @@ public class DailyPlanning implements Serializable {
      * @return The list of all slots available
      */
     public List<Slot> getAvailabilities() {
-        return slots.stream().filter((slot) -> slot.isAvailable).collect(Collectors.toList());
+        return slots.stream().filter((slot) -> slot.isAvailable()).collect(Collectors.toList());
     }
 
     public boolean availableSlotForGivenDate(int deliveryDate) {

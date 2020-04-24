@@ -1,6 +1,9 @@
 #!/bin/bash
 
-echo "Build All.."
+echo "dos2unix All"
+dos2unix */*.sh *.sh
+
+echo "Build All start"
 ./build_all.sh
 
 echo "Run Dockerized version of dotnet & client CLI"
