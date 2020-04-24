@@ -25,6 +25,9 @@ describe('Init Test', () => {
 
     it('Should have 3 items in package list', () => {
       cy.get('[data-cy=refresh_package]').click()
+
+      cy.wait(1000)
+
       cy.get("#app > div > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(2) > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody")
         .as('packages')
       cy.get('@packages').find('tr').should('have.length', 3)
@@ -32,6 +35,9 @@ describe('Init Test', () => {
 
     it('Should have no items in delivery list', () => {
       cy.get('[data-cy=refresh_delivery]').click()
+      
+      cy.wait(1000)
+
       cy.get("#app > div > main > div > div > div.row.align-center.justify-center > div > div > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody > tr > td")
         .as('deliveries')
       cy.get('@deliveries').contains('No data available')
@@ -48,12 +54,12 @@ describe('Init Test', () => {
       </Envelope>
       `
 
-      cy.request('POST', 'http://'+host+':8080/delivery/webservices/LogisticWS?wsdl',
-          env)
-        .then((response) => {
-          // response.body is automatically serialized into JSON
-          expect(response.body).to.have.string('<add_drone>true</add_drone>') // true
-        })
+      cy.request('POST', 'http://'+host+':8080/delivery/webservices/LogisticWS?wsdl', env)
+      .then((response) => {
+        // response.body is automatically serialized into JSON
+        expect(response.body).to.have.string('<add_drone>true</add_drone>') // true
+      })
+      
     })
   })
 })
@@ -69,7 +75,7 @@ describe('Add delivery test', () => {
       cy.get('[data-cy=time_field]').scrollIntoView().clear({force: true}).type('12:00', {force: true})
       cy.get('[data-cy=validate_btn]').scrollIntoView().click()
 
-      cy.wait(500)
+      cy.wait(1000)
 
       cy.get('[data-cy=failed_alert]').should('be.visible').click()
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(1) > div > div.v-alert.v-sheet.theme--light.v-alert--dense.v-alert--outlined.error--text > div > button > span > i")
@@ -83,7 +89,7 @@ describe('Add delivery test', () => {
       cy.get('[data-cy=time_field]').scrollIntoView().clear({force: true}).type('00:00', {force: true})
       cy.get('[data-cy=validate_btn]').scrollIntoView().click()
 
-      cy.wait(500)
+      cy.wait(1000)
 
       cy.get('[data-cy=failed_alert]').should('be.visible')
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(1) > div > div.v-alert.v-sheet.theme--light.v-alert--dense.v-alert--outlined.error--text > div > button > span > i")
@@ -96,7 +102,7 @@ describe('Add delivery test', () => {
       cy.get('[data-cy=time_field]').scrollIntoView().clear({force: true}).type('12:00', {force: true})
       cy.get('[data-cy=validate_btn]').scrollIntoView().click()
 
-      cy.wait(500)
+      cy.wait(1000)
 
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(1) > div > div.v-alert.v-sheet.theme--dark.v-alert--dense.v-alert--text.success--text")
       .should('be.visible')
@@ -112,7 +118,7 @@ describe('Add delivery test', () => {
       cy.get('[data-cy=time_field]').scrollIntoView().clear({force: true}).type('18:00', {force: true})
       cy.get('[data-cy=validate_btn]').scrollIntoView().click()
 
-      cy.wait(500)
+      cy.wait(1000)
 
       cy.get('[data-cy=failed_alert]').should('be.visible')
     })
@@ -123,14 +129,18 @@ describe('Add delivery test', () => {
 
     it('The package sould switch to assigned', () => {
       cy.get('[data-cy=refresh_package]').click()
-      cy.wait(500)
+
+      cy.wait(1000)
+
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(2) > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody > tr:nth-child(1)")
       .contains('ASSIGNED')
     })
 
     it('Sould have the delivery created in list', () => {
       cy.get('[data-cy=refresh_delivery]').click()
-      cy.wait(500)
+
+      cy.wait(1000)
+
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-center > div > div > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody > tr")
         .as('deliveries')
       cy.get('@deliveries').contains('READY')

@@ -25,37 +25,64 @@
   export default {
     name: 'DeliveryList',
     props: {
-      msg: String
+      msg: String,
+      mode: String,
     },
     data() {
       return {
         xmlhttp: new XMLHttpRequest(),
-        headers: [{
-            text: 'ID',
+        headersFull: [{
+            text: 'Delivery ID',
             align: 'start',
             sortable: true,
-            value: 'id',
+            value: 'delivery_id',
           },
           {
             text: 'Package ID',
-            value: 'package_id'
+            value: 'package_id',
+            align: 'center',
           },
           {
             text: 'Status',
+            value: 'status',
             align: 'center',
-            value: 'status'
           },
           {
             text: 'Delivery Date',
-            value: 'delivery_date'
+            value: 'delivery_date',
+            align: 'center',
           },
           {
             text: 'Delivery Time',
-            value: 'delivery_time'
+            value: 'delivery_time',
+            align: 'center',
           },
           {
-            text: 'Drone',
-            value: 'drone'
+            text: 'Drone ID',
+            value: 'drone_id',
+            align: 'center',
+          },
+        ],
+        headersLight: [{
+            text: 'Delivery ID',
+            align: 'start',
+            sortable: true,
+            value: 'delivery_id',
+          },
+          {
+            text: 'Package ID',
+            value: 'package_id',
+            align: 'center',
+          },
+          {
+            text: 'Drone ID',
+            value: 'drone_id',
+            align: 'center',
+          },
+          {
+            text: 'Time',
+            value: 'delivery_time',
+            align: 'center',
           },
         ],
         deliveries: [
@@ -78,6 +105,17 @@
 
       }
     },
+    computed: {
+      headers() {
+        if (this.mode == 'full') {
+          return this.headersFull
+        }
+        if (this.mode == 'light') {
+          return this.headersLight
+        }
+        return this.headersFull
+      },
+    },
     methods: {
       getColor(status) {
         if (status == 'FAILED') return 'red'
@@ -91,7 +129,8 @@
       getAllDeliveries() {
         (async () => {
           await this.delay(500);
-          this.xmlhttp.open('POST', 'http://'+process.env.VUE_APP_BACKEND+':8080/delivery/webservices/DeliveryWS?wsdl', true);
+          this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND +
+            ':8080/delivery/webservices/DeliveryWS?wsdl', true);
 
           // build SOAP request
           var sr =
@@ -115,21 +154,25 @@
                 // });
                 console.log(respXML)
 
-                let deliveries = respXML.getElementsByTagName('planned_packages')
+                let deliveries = respXML.getElementsByTagName('delivery')
+                console.log('deliveries')
                 console.log(deliveries)
 
                 context.deliveries = []
                 for (let deli of deliveries) {
+                console.log('deli')
+                console.log(deli)
                   let respDeli = {
-                    id: deli.getElementsByTagName('id')[1].innerHTML,
-                    status: deli.getElementsByTagName('status')[1].innerHTML,
-                    package_id: deli.getElementsByTagName('aPackage')[0].getElementsByTagName('id')[0]
+                    delivery_id: deli.getElementsByTagName('idDelivery')[0].innerHTML,
+                    status: deli.getElementsByTagName('statusDelivery')[0].innerHTML,
+                    package_id: deli.getElementsByTagName('aPackage')[0].getElementsByTagName('idPackage')[0]
                       .innerHTML,
-                    drone: deli.getElementsByTagName('drone')[0].getElementsByTagName('id')[0].innerHTML,
+                    drone_id: deli.getElementsByTagName('drone')[0].getElementsByTagName('idDrone')[0]
+                      .innerHTML,
                     delivery_date: new Date(parseInt(deli.getElementsByTagName('deliveryDate')[0].innerHTML) *
                       1000).toLocaleDateString(),
                     delivery_time: new Date(parseInt(deli.getElementsByTagName('deliveryDate')[0].innerHTML) *
-                      1000).toLocaleTimeString(),
+                      1000).toLocaleTimeString().slice(0, -3),
                     //delivery_date: deli.getElementsByTagName('deliveryDate')[0].innerHTML,
                   }
                   context.deliveries.push(respDeli);

@@ -19,7 +19,7 @@ public interface DeliveryWebService {
     Package getPackageById(@WebParam(name = "id") String id);
 
     @WebMethod
-    @WebResult(name = "planned_packages")
+    @WebResult(name = "delivery")
     List<Delivery> getPlannedDeliveries();
 
     @WebMethod

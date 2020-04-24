@@ -90,6 +90,9 @@
 
 <script>
   export default {
+    props : {
+      mode : String,
+    },
     data: () => ({
       xmlhttp: new XMLHttpRequest(),
       focus: '',
@@ -160,7 +163,8 @@
       },
     },
     mounted() {
-      this.$refs.calendar.checkChange()
+      this.$refs.calendar.checkChange();
+      this.type = this.mode;
     },
     methods: {
       viewDay({

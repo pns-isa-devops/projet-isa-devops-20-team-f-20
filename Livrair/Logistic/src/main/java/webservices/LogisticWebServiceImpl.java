@@ -16,7 +16,14 @@ public class LogisticWebServiceImpl implements LogisticWebService {
     @EJB private DroneModifier modifier;
 
     @Override
-    public void addDrone(String id) throws DroneAlreadyExistsException {
-        modifier.addDrone(id);
+    public boolean addDrone(String id) throws DroneAlreadyExistsException {
+        try {
+            modifier.addDrone(id);
+            return true;
+        }
+        catch (DroneAlreadyExistsException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }

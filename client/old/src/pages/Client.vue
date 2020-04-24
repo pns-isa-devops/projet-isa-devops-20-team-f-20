@@ -22,17 +22,17 @@
 
     <v-row align="center" justify="space-around">
       <v-col cols="6" align-self="center">
-        <CalendarDelivery />
+        <CalendarDelivery mode='week'/>
       </v-col>
       <v-col cols="4" align-self="center">
         <AddDelivery/>
-        <PackageList ref="packageList" />
+        <PackageList ref="packageList" mode="client"/>
       </v-col>
     </v-row>
 
     <v-row align="center" justify="center">
       <v-col md12>
-        <DeliveryList ref="deliveryList" />
+        <DeliveryList ref="deliveryList" mode="full"/>
       </v-col>
     </v-row>
 

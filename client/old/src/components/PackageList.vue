@@ -25,7 +25,7 @@
   export default {
     name: 'PackageList',
     props: {
-      msg: String
+      mode: String
     },
     data() {
       return {
@@ -68,8 +68,8 @@
     },
     methods: {
       getColor(status) {
-        if (status == 'WAITING') return 'red'
-        else if (status == 'REGISTERED') return 'orange'
+        if (status == 'REGISTERED') return 'red'
+        else if (status == 'WAITING') return 'orange'
         else if (status == 'ASSIGNED') return 'green'
         else return 'grey'
       },
@@ -107,12 +107,23 @@
               context.packages = []
               for (let pack of packages) {
                 //console.log(pack)
+                
                 let respPackage = {
-                  id: pack.getElementsByTagName('id')[0].innerHTML,
-                  status: pack.getElementsByTagName('packageStatus')[0].innerHTML,
+                  id: pack.getElementsByTagName('idPackage')[0].innerHTML,
+                  status: pack.getElementsByTagName('statusPackage')[0].innerHTML,
                   address: pack.getElementsByTagName('address')[0].innerHTML,
                 }
-                context.packages.push(respPackage);
+
+                if (context.mode == 'client'){
+                  //if (respPackage.status !== 'REGISTERED'){ //ie WAITING or ASSIGNED
+                    context.packages.push(respPackage);
+                  //}
+                }
+                if (context.mode == 'manu'){
+                  //if (respPackage.status == 'REGISTERED'){ //only assigned
+                    context.packages.push(respPackage); 
+                  //}
+                }
               }
             }
           }
