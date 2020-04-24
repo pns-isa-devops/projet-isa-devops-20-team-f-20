@@ -125,7 +125,7 @@
         console.log(valid)
       },
       gotoHome(){
-        this.$router.push('/')
+        this.$router.push('/home')
       }
     }
   }

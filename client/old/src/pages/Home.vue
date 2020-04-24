@@ -122,13 +122,13 @@
     },
     methods: {
       goToClient() {
-        this.$router.push('/client')
+        this.$router.push('/')
       },
       goToManu() {
         this.$router.push('/manu')
       },
       goToHome() {
-        this.$router.push('/')
+        this.$router.push('/home')
       }
     }
   }

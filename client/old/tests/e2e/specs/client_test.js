@@ -9,13 +9,13 @@ describe('Init Test', () => {
 
   context('Load the page', () => {
 
-    it('Visits the app root url', () => {
-      cy.visit('http://' + host + ':8844/')
-    })
+    // it('Visits the app root url', () => {
+    //   cy.visit('http://' + host + ':8844/')
+    // })
 
     it('Go to Client Page', () => {
-      //cy.visit('http://' + host + ':8844/#/client')
-      cy.get('[data-cy=client]').click()
+      cy.visit('http://' + host + ':8844/')
+      //cy.get('[data-cy=client]').click()
       cy.get('[data-cy=client_title]').contains('SERVICE CLIENT')
     })
 
