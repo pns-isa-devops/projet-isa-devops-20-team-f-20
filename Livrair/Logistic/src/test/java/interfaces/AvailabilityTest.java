@@ -153,6 +153,5 @@ public class AvailabilityTest extends AbstractLogisticTest {
         assertThrows(DroneAlreadyExistsException.class, () -> modifier.addDrone("1"));
         assertEquals(1, availability.getDrones().size());
     }
-//Todo : Transform into arquillian test
 
 }
