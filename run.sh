@@ -1,10 +1,33 @@
 #!/bin/bash
 
-echo "dos2unix All"
-dos2unix *.sh dotnet/*.sh Livrair/*/*.sh
 
-echo "Build All start"
-./build_all.sh
+if [[ "$1" != "" ]]; then
+    if [[ "$1" == "true" ]]; then
+        shift
 
-echo "Run Dockerized version of dotnet & client CLI"
-docker-compose up -d && docker attach client
+        echo "dos2unix All"
+        dos2unix *.sh dotnet/*.sh Livrair/*/*.sh &
+
+        echo "./build_all.sh "$@""
+        ./build_all.sh "$@"
+
+        echo "docker-compose up --build -d "$@""
+        docker-compose up --build -d "$@"
+     else
+
+        shift
+        echo "docker-compose up -d "$@""
+        docker-compose up -d "$@"
+     fi
+
+else
+
+    echo "dos2unix All"
+    dos2unix *.sh dotnet/*.sh Livrair/*/*.sh &
+
+    echo "./build_all.sh"
+    ./build_all.sh
+
+    echo "docker-compose up -d"
+    docker-compose up -d
+fi
