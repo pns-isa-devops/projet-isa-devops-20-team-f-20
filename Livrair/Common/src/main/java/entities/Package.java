@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,7 +16,7 @@ public class Package implements Serializable {
     private String address;
     private Supplier supplier;
 
-
+    @XmlElement(name="idPackage")
     @Id
     public String getId() {
         return id;
@@ -27,6 +28,7 @@ public class Package implements Serializable {
     }
 
     @NotNull
+    @XmlElement(name="statusPackage")
     @Enumerated(EnumType.STRING)
     public PackageStatus getPackageStatus() {
         return packageStatus;

@@ -33,6 +33,7 @@ public class Delivery implements Serializable {
 
     private DeliveryStatus status;
 
+    @XmlElement(name="idDelivery")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public String getId() {
@@ -98,7 +99,7 @@ public class Delivery implements Serializable {
         this.previsionalReturnDate = previsionalReturnDate;
     }
 
-
+    @XmlElement(name="statusDelivery")
     @Enumerated(EnumType.STRING)
     public DeliveryStatus getStatus() {
         return status;
