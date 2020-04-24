@@ -19,7 +19,7 @@ if [[ "$1" != "" ]]; then
         if [[ "$1" == "backend" ]]; then
              # Backend
             cd Livrair
-            mvn -q -DskipTests clean package
+            mvn -DskipTests clean install
             cd Delivery
             mvn -q -DskipTests package
             cd ../..
@@ -51,10 +51,12 @@ else
     cd old/ #TODO modifier quand path changé
     npm i
 
-    # Backend
+	# Backend
+    echo "Livrair clean install"
     cd ../../Livrair
-    mvn -q -DskipTests clean package
+    mvn -DskipTests clean install
     cd Delivery
+    "Delivery pacakge"
     mvn -q -DskipTests package
 
 fi
