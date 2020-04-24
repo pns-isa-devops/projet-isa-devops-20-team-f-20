@@ -12,5 +12,5 @@ public interface LogisticWebService {
 
     @WebMethod
     @WebResult(name = "add_drone")
-    void addDrone(@WebParam(name = "id") String id) throws DroneAlreadyExistsException;
+    boolean addDrone(@WebParam(name = "id") String id) throws DroneAlreadyExistsException;
 }
