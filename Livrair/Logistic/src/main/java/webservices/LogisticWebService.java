@@ -1,5 +1,7 @@
 package webservices;
 
+import exceptions.DroneAlreadyExistsException;
+
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
@@ -10,5 +12,5 @@ public interface LogisticWebService {
 
     @WebMethod
     @WebResult(name = "add_drone")
-    boolean addDrone(@WebParam(name = "id") String id);
+    void addDrone(@WebParam(name = "id") String id) throws DroneAlreadyExistsException;
 }

@@ -38,10 +38,7 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public Optional<Package> findById(String id) {
-        if(!retrieved){
-            retrieveIncomingPackages();
-            retrieved = true;
-        }
+        getAllPackages();
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
         Root<Package> root =  criteria.from(Package.class);
@@ -57,10 +54,7 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public Optional<Package> findByCustomer(String customerName) {
-        if(!retrieved){
-            retrieveIncomingPackages();
-            retrieved = true;
-        }
+        getAllPackages();
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
         Root<Package> root =  criteria.from(Package.class);
@@ -80,15 +74,19 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public Optional<List<Package>> getAllPackages() {
-        if(!retrieved){
-            retrieveIncomingPackages();
-            retrieved = true;
-        }
+
         CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Long> cq = builder.createQuery(Long.class);
+        cq.select(builder.count(cq.from(Package.class)));
+
+        if(manager.createQuery(cq).getSingleResult() <1){
+            retrieveIncomingPackages();
+        }
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
         Root<Package> root =  criteria.from(Package.class);
         criteria.select(root);
         TypedQuery<Package> query = manager.createQuery(criteria);
+
         try {
             return Optional.of(query.getResultList());
         } catch (NoResultException nre){
@@ -98,30 +96,36 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public void retrieveIncomingPackages() {
-        if(!retrieved) {
-            try {
-                Properties prop = new Properties();
-                prop.load(DeliveryBean.class.getResourceAsStream("/supplier.properties"));
-                packageSupplyAPI = new PackageSupplyAPI(prop.getProperty("supplierHostName"),
-                        prop.getProperty("supplierPortNumber"), "123", new Supplier("UPS", "Biot"));
-            } catch (IOException e) {
+        try {
+            Properties prop = new Properties();
+            prop.load(DeliveryBean.class.getResourceAsStream("/supplier.properties"));
+            packageSupplyAPI = new PackageSupplyAPI(prop.getProperty("supplierHostName"),
+                    prop.getProperty("supplierPortNumber"), "123", new Supplier("UPS", "Biot"));
+        } catch (IOException e) {
 //            log.log(Level.INFO, "Cannot read supplier.properties file", e);
-                throw new UncheckedException(e);
-            }
-            try {
-                packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
-                    manager.persist(incomingPackage);
-                });
-            } catch (ExternalPartnerException e) {
-                e.printStackTrace();
-            }
-            retrieved = true;
+            throw new UncheckedException(e);
         }
+        try {
+            packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
+                manager.persist(incomingPackage);
+            });
+        } catch (ExternalPartnerException e) {
+            e.printStackTrace();
+        }
+
     }
 
 
     public DailyPlanning getPlanning() {
-        return schedulder.getPlanning(retrievePlannedDeliveries().orElse(new ArrayList<>()));
+        try {
+            return schedulder.getPlanning(retrievePlannedDeliveries().orElse(new ArrayList<>()));
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -145,7 +149,13 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         Optional<List<Delivery>> myDeliveries = this.retrievePlannedDeliveries();
         Optional<Package> pack = this.findById(id);
         if (pack.isPresent()) {
-            Optional<Delivery> tmp = schedulder.planDelivery(pack.get(), desiredTime, myDeliveries.get());
+            Optional<Delivery> tmp = null;
+            try {
+                tmp = schedulder.planDelivery(pack.get(), desiredTime, myDeliveries.get());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
 
             if (tmp.isPresent()) {
                 pack.get().setPackageStatus(PackageStatus.ASSIGNED);

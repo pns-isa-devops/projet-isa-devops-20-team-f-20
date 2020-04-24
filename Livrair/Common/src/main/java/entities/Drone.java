@@ -1,6 +1,7 @@
 package entities;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,7 @@ public class Drone {
 
     private DroneStatus status;
 
+    @XmlElement(name="idDrone")
     @Id
     public String getId() {
         return id;
@@ -40,6 +42,7 @@ public class Drone {
         this.flyingTime = flyingTime;
     }
 
+    @XmlElement(name="statusDrone")
     @Enumerated(EnumType.STRING)
     public DroneStatus getStatus() {
         return status;

@@ -13,7 +13,7 @@ public interface DroneModifier {
 
     void changeState(String droneId, DroneStatus droneStatus) throws DroneDoesNotExistException;
 
-    boolean addDrone(String id) throws DroneAlreadyExistsException;
+    void addDrone(String id) throws DroneAlreadyExistsException;
 
     void addDrone(String id, double chargeLevel, double flyingTime) throws DroneAlreadyExistsException;
 

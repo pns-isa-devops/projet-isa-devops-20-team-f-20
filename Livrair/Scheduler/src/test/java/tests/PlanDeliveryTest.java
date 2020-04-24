@@ -1,10 +1,8 @@
 package tests;
 
-import arquillian.AbstractLivrairTest;
 import arquillian.AbstractSchedulerTest;
-import beans.SchedulerBean;
-import entities.*;
 import entities.Package;
+import entities.*;
 import interfaces.PlanningInterface;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
@@ -23,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @RunWith(Arquillian.class)
 @Transactional(TransactionMode.ROLLBACK)
@@ -36,11 +35,11 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
 
     @PersistenceContext
     private EntityManager entityManager;
-
+    Supplier supplier;
 
     @Before
     public void setUp() {
-        Supplier supplier = new Supplier("UPS", "Cannes");
+        supplier = new Supplier("UPS", "Cannes");
         Package pack = new Package("1", "testuser", PackageStatus.REGISTERED, "210 avenue roumanille", supplier);
         Delivery existingDelivery = new Delivery(pack, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)));
         deliveries.add(existingDelivery);
@@ -51,9 +50,15 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
 
     @Test
     public void planDeliveryAvailable() {
-        Optional<Delivery> d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
-                        "210 avenue roumanille", new Supplier("UPS", "Cannes")),
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries);
+        Optional<Delivery> d = null;
+
+        try {
+            d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
+                            "210 avenue roumanille", supplier),
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries);
+        } catch (Exception e) {
+            assert (false);
+        }
         System.out.println(d);
         assertTrue(d.isPresent());
         deliveries.add(d.get());
@@ -61,10 +66,16 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
     }
 
     @Test
-    public void planDeliveryNotAvailable(){
-        Optional<Delivery> d = scheduler.planDelivery(new Package("3", "testuser", PackageStatus.REGISTERED,
-                        "210 avenue roumanille", new Supplier("UPS", "Cannes")),
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries);
+    public void planDeliveryNotAvailable() {
+        Optional<Delivery> d = null;
+        try {
+            d = scheduler.planDelivery(new Package("3", "testuser", PackageStatus.REGISTERED,
+
+                            "210 avenue roumanille", supplier),
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries);
+        } catch (Exception e) {
+            assert (false);
+        }
         System.out.println(d);
         assertFalse(d.isPresent());
     }

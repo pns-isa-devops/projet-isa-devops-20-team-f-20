@@ -18,7 +18,8 @@ public class LogisticWebServiceImpl implements LogisticWebService {
     @Override
     public boolean addDrone(String id) {
         try {
-            return modifier.addDrone(id);
+            modifier.addDrone(id);
+            return true;
         } catch (DroneAlreadyExistsException e) {
             e.printStackTrace();
             return false;

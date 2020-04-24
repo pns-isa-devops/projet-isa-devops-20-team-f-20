@@ -12,7 +12,7 @@ import java.util.Optional;
 @Local
 public interface PlanningInterface {
 
-    Optional<Delivery> planDelivery(Package item, LocalDateTime deliveryDate, List<Delivery> deliveries);
+    Optional<Delivery> planDelivery(Package item, LocalDateTime deliveryDate, List<Delivery> deliveries) throws Exception;
 
-    DailyPlanning getPlanning(List<Delivery> deliveries);
+    DailyPlanning getPlanning(List<Delivery> deliveries) throws Exception;
 }

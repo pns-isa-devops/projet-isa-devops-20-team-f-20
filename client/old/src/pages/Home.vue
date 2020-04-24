@@ -21,7 +21,7 @@
     <v-row>
       <v-col cols="12">
         <v-row align="center" justify="center">
-          <v-card id="client" class="pa-1 mx-auto" outlined tile max-width="250" @click="goToClient()">
+          <v-card data-cy="client" class="pa-1 mx-auto" outlined tile max-width="250" @click="goToClient()">
 
             <v-img class="white--text align-end" height="250px" transition="scale-transition"
               src="../assets/drone_cam.png" />
@@ -39,7 +39,7 @@
             </v-card-actions>
             
           </v-card>
-          <v-card class="pa-1 mx-auto" outlined tile max-width="250" @click="goToManu()">
+          <v-card data-cy="manu" class="pa-1 mx-auto" outlined tile max-width="250" @click="goToManu()">
 
             <v-img class="white--text align-end" height="250px" transition="scale-transition"
               src="../assets/drone_package.png" />

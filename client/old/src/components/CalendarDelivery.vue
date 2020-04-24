@@ -9,31 +9,27 @@
             Today
           </v-btn>
 
-                    <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
           <v-btn fab text small color="grey darken-2" @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
 
-                    <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
           <v-toolbar-title>{{ title }}</v-toolbar-title>
 
-                    <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
           <v-btn fab text small color="grey darken-2" @click="next">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
 
-                    <v-spacer></v-spacer>
+          <v-spacer></v-spacer>
 
           <v-menu bottom right>
             <template v-slot:activator="{ on }">
-              <v-btn
-                outlined
-                color="grey darken-2"
-                v-on="on"
-              >
+              <v-btn outlined color="grey darken-2" v-on="on">
                 <span>{{ typeToLabel[type] }}</span>
                 <v-icon right>mdi-menu-down</v-icon>
               </v-btn>
@@ -57,35 +53,13 @@
         </v-toolbar>
       </v-sheet>
       <v-sheet height="500">
-        <v-calendar
-          ref="calendar"
-          v-model="focus"
-          color="primary"
-          :events="events"
-          :event-color="getEventColor"
-          :now="today"
-          :type="type"
-          @click:event="showEvent"
-          @click:more="viewDay"
-          @click:date="viewDay"
-          @change="updateRange"
-        >
+        <v-calendar ref="calendar" v-model="focus" color="primary" :events="events" :event-color="getEventColor"
+          :now="today" :type="type" @click:event="showEvent" @click:more="viewDay" @click:date="viewDay"
+          @change="updateRange">
         </v-calendar>
-        <v-menu
-          v-model="selectedOpen"
-          :close-on-content-click="false"
-          :activator="selectedElement"
-          offset-x
-        >
-          <v-card
-            color="grey lighten-4"
-            min-width="350px"
-            flat
-          >
-            <v-toolbar
-              :color="selectedEvent.color"
-              dark
-            >
+        <v-menu v-model="selectedOpen" :close-on-content-click="false" :activator="selectedElement" offset-x>
+          <v-card color="grey lighten-4" min-width="350px" flat>
+            <v-toolbar :color="selectedEvent.color" dark>
               <v-btn icon>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
@@ -102,11 +76,7 @@
               <span v-html="selectedEvent.details"></span>
             </v-card-text>
             <v-card-actions>
-              <v-btn
-                text
-                color="secondary"
-                @click="selectedOpen = false"
-              >
+              <v-btn text color="secondary" @click="selectedOpen = false">
                 Cancel
               </v-btn>
             </v-card-actions>
@@ -115,12 +85,13 @@
       </v-sheet>
     </v-col>
   </v-row>
-  
+
 </template>
 
 <script>
   export default {
     data: () => ({
+      xmlhttp: new XMLHttpRequest(),
       focus: '',
       type: 'month',
       typeToLabel: {
@@ -139,19 +110,22 @@
       names: ['Meeting', 'Holiday', 'PTO', 'Travel', 'Event', 'Birthday', 'Conference', 'Party'],
     }),
     computed: {
-        today() {
-            var currentDate = new Date();
+      today() {
+        var currentDate = new Date();
 
-            var date = currentDate.getDate();
-            date = (date < 10) ? '0' + date : date
-            var month = currentDate.getMonth()+1; //Be careful! January is 0 not 1
-            month = (month < 10) ? '0' + month : month
-            var year = currentDate.getFullYear();
+        var date = currentDate.getDate();
+        date = (date < 10) ? '0' + date : date
+        var month = currentDate.getMonth() + 1; //Be careful! January is 0 not 1
+        month = (month < 10) ? '0' + month : month
+        var year = currentDate.getFullYear();
 
-            return year + "-" + month + "-" + date;
-        },
-      title () {
-        const { start, end } = this
+        return year + "-" + month + "-" + date;
+      },
+      title() {
+        const {
+          start,
+          end
+        } = this
         if (!start || !end) {
           return ''
         }
@@ -178,33 +152,39 @@
         }
         return ''
       },
-      monthFormatter () {
+      monthFormatter() {
         return this.$refs.calendar.getFormatter({
-          timeZone: 'UTC', month: 'long',
+          timeZone: 'UTC',
+          month: 'long',
         })
       },
     },
-    mounted () {
+    mounted() {
       this.$refs.calendar.checkChange()
     },
     methods: {
-      viewDay ({ date }) {
+      viewDay({
+        date
+      }) {
         this.focus = date
         this.type = 'day'
       },
-      getEventColor (event) {
+      getEventColor(event) {
         return event.color
       },
-      setToday () {
+      setToday() {
         this.focus = this.today
       },
-      prev () {
+      prev() {
         this.$refs.calendar.prev()
       },
-      next () {
+      next() {
         this.$refs.calendar.next()
       },
-      showEvent ({ nativeEvent, event }) {
+      showEvent({
+        nativeEvent,
+        event
+      }) {
         const open = () => {
           this.selectedEvent = event
           this.selectedElement = nativeEvent.target
@@ -220,54 +200,79 @@
 
         nativeEvent.stopPropagation()
       },
-      updateRange ({ start, end }) {
-        const events = []
+      delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+      },
+      updateRange({
+        start,
+        end
+      }) {
 
-        // const min = new Date(`${start.date}T00:00:00`)
-        // const max = new Date(`${end.date}T23:59:59`)
-        // const days = (max.getTime() - min.getTime()) / 86400000
-        // const eventCount = this.rnd(days, days + 20)
+        (async () => {
+          await this.delay(1000);
+        this.xmlhttp.open('POST', 'http://'+process.env.VUE_APP_BACKEND+':8080/delivery/webservices/DeliveryWS?wsdl', true);
 
-        // for (let i = 0; i < eventCount; i++) {
-        //   const allDay = this.rnd(0, 3) === 0
-        //   const firstTimestamp = this.rnd(min.getTime(), max.getTime())
-        //   const first = new Date(firstTimestamp - (firstTimestamp % 900000))
-        //   const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000
-        //   const second = new Date(first.getTime() + secondTimestamp)
+        // build SOAP request
+        var sr =
+          `<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+              <Body>
+                  <getPlanning xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery"/>
+              </Body>
+          </Envelope>`
 
-        //   events.push({
-        //     name: this.names[this.rnd(0, this.names.length - 1)],
-        //     start: this.formatDate(first, !allDay),
-        //     end: this.formatDate(second, !allDay),
-        //     color: this.colors[this.rnd(0, this.colors.length - 1)],
-        //   })
-        // }
+        let context = this
 
-        events.push({
+        this.xmlhttp.onreadystatechange = function () {
+          if (context.xmlhttp.readyState == 4) {
+            if (context.xmlhttp.status == 200) {
+
+              let respXML = context.xmlhttp.responseXML;
+              // let respJSON = require('xml-js').xml2json(context.xmlhttp.response, {
+              //   compact: true,
+              //   spaces: 4
+              // });
+              //console.log(respXML)
+
+              let slots = respXML.getElementsByTagName('slots')
+
+              context.events = []
+              for (let slot of slots) {
+                console.log('slot')
+                console.log(slot)
+                let isAvailable = respXML.getElementsByTagName('isAvailable')[0]
+                if (isAvailable == 'false') {
+                  context.events.push({
                     name: 'Premier test',
-                    start: this.formatDate(new Date(2020, 3, 1, 12, 0), true),
-                    end: this.formatDate(new Date(2020, 3, 1, 15, 0), true),
-                    color: this.colors[this.rnd(0, this.colors.length - 1)],
-                })
+                    start: context.formatDate(new Date(2020, 3, 1, 12, 0), true),
+                    end: context.formatDate(new Date(2020, 3, 1, 15, 0), true),
+                    color: context.colors[context.rnd(0, context.colors.length - 1)],
+                  })
+                }
+              }
 
-                this.events = events
+              context.start = start
+              context.end = end
 
-        this.start = start
-        this.end = end
-        this.events = events
+            }
+          }
+        }
+        // Send the POST request
+        this.xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+        console.log(sr)
+        //this.xmlhttp.send(sr);
+        })();
       },
-      nth (d) {
-        return d > 3 && d < 21
-          ? 'th'
-          : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10]
+      nth(d) {
+        return d > 3 && d < 21 ?
+          'th' : ['th', 'st', 'nd', 'rd', 'th', 'th', 'th', 'th', 'th', 'th'][d % 10]
       },
-      rnd (a, b) {
+      rnd(a, b) {
         return Math.floor((b - a + 1) * Math.random()) + a
       },
-      formatDate (a, withTime) {
-        return withTime
-          ? `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}`
-          : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`
+      formatDate(a, withTime) {
+        return withTime ?
+          `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()} ${a.getHours()}:${a.getMinutes()}` :
+          `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`
       },
     },
   }

@@ -5,7 +5,6 @@ import entities.DroneStatus;
 import exceptions.DroneAlreadyExistsException;
 import exceptions.DroneDoesNotExistException;
 
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -15,9 +14,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Stateless
 public class LogisticBean implements DroneModifier, Availability {
@@ -43,7 +40,6 @@ public class LogisticBean implements DroneModifier, Availability {
 
     @Override
     public Set<Drone> getAvailableDrones() {
-        //return drones.stream().filter(drone -> drone.getStatus().equals(DroneStatus.AVAILABLE)).collect(Collectors.toSet());
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
         Root<Drone> root = criteria.from(Drone.class);
@@ -83,12 +79,11 @@ public class LogisticBean implements DroneModifier, Availability {
     }
 
     @Override
-    public boolean addDrone(String id) throws DroneAlreadyExistsException {
+    public void addDrone(String id) throws DroneAlreadyExistsException {
         if (checkIfDroneIdAlreadyExist(id)) {
             throw new DroneAlreadyExistsException();
         }
         this.manager.persist(new Drone(id));
-        return true;
     }
 
     @Override
