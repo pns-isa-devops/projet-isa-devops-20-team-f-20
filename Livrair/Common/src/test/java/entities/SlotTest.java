@@ -25,7 +25,7 @@ public class SlotTest {
         } catch (Exception e) {
             assert(false);
         }
-        assertFalse(slot.isAvailable);
+        assertFalse(slot.isAvailable());
     }
 
     @Test
@@ -36,8 +36,8 @@ public class SlotTest {
         } catch (Exception e) {
             assert(false);
         }
-        assertTrue(slot.isAvailable);
-        assertNull(slot.delivery);
+        assertTrue(slot.isAvailable());
+        assertNull(slot.getDelivery());
     }
 
     @Test
