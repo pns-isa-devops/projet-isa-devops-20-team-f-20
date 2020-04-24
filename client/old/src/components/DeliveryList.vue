@@ -6,7 +6,7 @@
           <span style="margin-right: 5px;">DELIVERY</span>
           <span class="font-weight-light">LIST</span>
         </span>
-        <v-btn color="purple darken-2" icon @click="this.getAllDeliveries">
+        <v-btn data-cy="refresh_delivery" color="purple darken-2" icon @click="this.getAllDeliveries">
           <v-icon>mdi-cached</v-icon>
         </v-btn>
       </v-row>
@@ -91,7 +91,7 @@
       getAllDeliveries() {
         (async () => {
           await this.delay(500);
-          this.xmlhttp.open('POST', 'http://localhost:8080/delivery/webservices/DeliveryWS?wsdl', true);
+          this.xmlhttp.open('POST', 'http://'+process.env.VUE_APP_BACKEND+':8080/delivery/webservices/DeliveryWS?wsdl', true);
 
           // build SOAP request
           var sr =

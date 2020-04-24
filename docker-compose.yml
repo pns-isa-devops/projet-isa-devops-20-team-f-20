@@ -21,7 +21,6 @@ services:
     volumes:
         - ./client/old/:/vuejs_client
     environment:
-      - BACKEND=backend
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
     tty: true
@@ -55,8 +54,8 @@ services:
       - supplier_port=9090
     expose:
       - "8080"
-#    ports:
-#      - "8080:8080"
+    ports:
+      - "8080:8080"
     depends_on:
       - ext
     networks:

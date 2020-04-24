@@ -2,65 +2,74 @@
     <v-row md12>
         <v-col>
 
-        <v-snackbar v-if="created" v-model="snackbar" :timeout="timeout" style="green">
+            <!-- <v-snackbar data-cy="success_snackbar" v-show="created" v-model="snackbar" :timeout="timeout" style="green">
             Delivery succesfully created...!
             <v-btn color="blue" text @click="snackbar = false">
                 Close
             </v-btn>
         </v-snackbar>
 
-        <v-snackbar v-else v-model="snackbar" :timeout="timeout" style="red">
+        <v-snackbar data-cy="failed_snackbar" v-show="!created" v-model="snackbar" :timeout="timeout" style="red">
             Delivery not created...!
             <v-btn color="blue" text @click="snackbar = false">
                 Close
             </v-btn>
-        </v-snackbar>
-        <v-card>
+        </v-snackbar> -->
 
-            <v-card-text>
-                <p class="headline text--primary">Add New Delivery</p>
-                <v-form ref="form" v-model="valid" lazy-validation>
-                    <v-text-field v-model="id" :counter="10" label="Package Id"
-                        prepend-icon="mdi-package-variant-closed" :rules="idRules" required></v-text-field>
+            <v-alert data-cy="success_alert" dismissible dense text type="success" v-model="this.displaySuccess">
+                Delivery <strong>succesfully</strong> created ! {{ this.displaySuccess }}
+            </v-alert>
 
-                    <v-menu v-model="menuDate" :close-on-content-click="false" :nudge-right="40"
-                        transition="scale-transition" offset-y min-width="290px">
-                        <template v-slot:activator="{ on }">
-                            <v-text-field v-model="date" label="Picker without buttons" prepend-icon="event" readonly
-                                v-on="on">
-                            </v-text-field>
-                        </template>
-                        <v-date-picker v-model="date" @input="menuDate = false"></v-date-picker>
-                    </v-menu>
+            <v-alert data-cy="failed_alert" dismissible dense outlined type="error" v-model="this.displayFailed">
+                Creation of the delivery <strong>failed</strong> ! {{ this.displayFailed }}
+            </v-alert>
 
-                    <v-menu ref="menu" v-model="menuTime" :close-on-content-click="false" :nudge-right="40"
-                        :return-value.sync="time" transition="scale-transition" offset-y max-width="290px"
-                        min-width="290px">
-                        <template v-slot:activator="{ on }">
-                            <v-text-field v-model="time" label="Picker in menu" color="primary"
-                                prepend-icon="access_time" readonly v-on="on">
-                            </v-text-field>
-                        </template>
-                        <v-time-picker v-if="menuTime" v-model="time" format="24hr" full-width
-                            @click:minute="$refs.menu.save(time)">
-                        </v-time-picker>
-                    </v-menu>
-                </v-form>
-            </v-card-text>
+            <v-card>
 
+                <v-card-text>
+                    <p class="headline text--primary">Add New Delivery</p>
+                    <v-form ref="form" v-model="valid" lazy-validation>
+                        <v-text-field data-cy="id_field" v-model="id" :counter="10" label="Package Id"
+                            prepend-icon="mdi-package-variant-closed" :rules="idRules" required></v-text-field>
 
-            <v-card-actions>
-                <v-btn :disabled="!valid" color="success" @click="validate">
-                    Validate
-                </v-btn>
-                <v-btn color="error" @click="reset">
-                    Reset Form
-                </v-btn>
+                        <v-menu v-model="menuDate" :close-on-content-click="false" :nudge-right="40"
+                            transition="scale-transition" offset-y min-width="290px">
+                            <template v-slot:activator="{ on }">
+                                <v-text-field data-cy="date_field" v-model="date" label="Pick a Date"
+                                    prepend-icon="event" readonly v-on="on">
+                                </v-text-field>
+                            </template>
+                            <v-date-picker v-model="date" @input="menuDate = false"></v-date-picker>
+                        </v-menu>
 
-            </v-card-actions>
+                        <v-menu ref="menu" v-model="menuTime" :close-on-content-click="false" :nudge-right="40"
+                            :return-value.sync="time" transition="scale-transition" offset-y max-width="290px"
+                            min-width="290px">
+                            <template v-slot:activator="{ on }">
+                                <v-text-field data-cy="time_field" v-model="time" label="Select a Time" color="primary"
+                                    prepend-icon="access_time" readonly v-on="on">
+                                </v-text-field>
+                            </template>
+                            <v-time-picker v-if="menuTime" v-model="time" format="24hr" full-width
+                                @click:minute="$refs.menu.save(time)">
+                            </v-time-picker>
+                        </v-menu>
+                    </v-form>
+                </v-card-text>
 
 
-        </v-card>            
+                <v-card-actions>
+                    <v-btn data-cy="validate_btn" :disabled="!valid" color="success" @click="validate">
+                        Validate
+                    </v-btn>
+                    <v-btn color="warning" @click="reset">
+                        Reset Form
+                    </v-btn>
+
+                </v-card-actions>
+
+
+            </v-card>
         </v-col>
     </v-row>
     <!-- <div class="text-center">
@@ -78,7 +87,9 @@
         data() {
             return {
                 xmlhttp: new XMLHttpRequest(),
-                snackbar: false,
+                displaySuccess: false,
+                displayFailed: false,
+                displayed: false,
                 created: false,
                 timeout: 2000,
                 valid: true,
@@ -93,9 +104,18 @@
                 menuTime: false
             }
         },
+        computed: {
+            displayedAlertSuccess() {
+                return (this.displayed && this.created)
+            },
+            displayedAlertFailed() {
+                return (this.displayed && !this.created)
+            },
+        },
         methods: {
             addDelivery() {
-                this.xmlhttp.open('POST', 'http://localhost:8080/delivery/webservices/DeliveryWS?wsdl', true);
+                this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND +
+                    ':8080/delivery/webservices/DeliveryWS?wsdl', true);
 
                 // build SOAP request
                 var sr = `
@@ -131,13 +151,16 @@
                             console.log(created)
 
                             if (created == 'true') {
-                                context.snackbar = true;
-                                context.created = true;
                                 context.reset()
+                                context.created = true;
+                                context.displaySuccess = true;
+                                context.displayFailed = false;
                             } else {
-                                context.snackbar = true;
                                 context.created = false;
+                                context.displaySuccess = false;
+                                context.displayFailed = true;
                             }
+                                context.displayed = true;
 
                             // for (let pack of packages) {
                             //     console.log(pack)
@@ -156,6 +179,8 @@
                 this.xmlhttp.send(sr);
             },
             validate() {
+                this.displayFailed = false;
+                this.displaySuccess = false;
                 let valid = this.$refs.form.validate()
                 console.log(valid)
                 console.log(this.id)
