@@ -1,5 +1,6 @@
 package webservices;
 
+import exceptions.DroneAlreadyExistsException;
 import interfaces.Availability;
 import interfaces.DroneModifier;
 
@@ -15,7 +16,7 @@ public class LogisticWebServiceImpl implements LogisticWebService {
     @EJB private DroneModifier modifier;
 
     @Override
-    public boolean addDrone(String id) {
-        return modifier.addDrone(id);
+    public void addDrone(String id) throws DroneAlreadyExistsException {
+        modifier.addDrone(id);
     }
 }

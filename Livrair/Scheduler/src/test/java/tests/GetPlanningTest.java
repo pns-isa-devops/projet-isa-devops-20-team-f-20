@@ -1,10 +1,8 @@
 package tests;
 
-import arquillian.AbstractLivrairTest;
 import arquillian.AbstractSchedulerTest;
-import beans.SchedulerBean;
-import entities.*;
 import entities.Package;
+import entities.*;
 import interfaces.PlanningInterface;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
@@ -23,14 +21,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import static org.junit.Assert.*;
-
 
 @RunWith(Arquillian.class)
 @Transactional(TransactionMode.ROLLBACK)
-public class GetPlanningTest extends AbstractSchedulerTest  {
+public class GetPlanningTest extends AbstractSchedulerTest {
 
     @EJB
     private PlanningInterface scheduler;
@@ -48,18 +42,27 @@ public class GetPlanningTest extends AbstractSchedulerTest  {
 
     @Test
     public void getPlanning() {
-        deliveries.add(scheduler.planDelivery(new Package("3", "testuser", PackageStatus.REGISTERED,
-                        "210 avenue roumanille", new Supplier("UPS", "Cannes")),
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries).get());
-        deliveries.add(scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
-                        "210 avenue roumanille", new Supplier("UPS", "Cannes")),
-                LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries).get());
+        Delivery d1 = null, d2 = null;
+        try {
+            d1 = scheduler.planDelivery(new Package("3", "testuser", PackageStatus.REGISTERED,
+                            "210 avenue roumanille", new Supplier("UPS", "Cannes")),
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries).get();
+            d2 = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
+                            "210 avenue roumanille", new Supplier("UPS", "Cannes")),
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries).get();
+        } catch (Exception e) {
+            assert (false);
+        }
+        deliveries.add(d1);
+        deliveries.add(d2);
 
         try {
             Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning(deliveries));
-            assert(planning.isPresent());
-            assert(planning.get().getAvailabilities().size() == 2); // TODO + de slots
+            assert (planning.isPresent());
+            assert (planning.get().getAvailabilities().size() == 2); // TODO + de slots
         } catch (IllegalAccessException e) {
+            assert (false);
+        } catch (Exception e) {
             assert (false);
         }
     }
@@ -69,9 +72,11 @@ public class GetPlanningTest extends AbstractSchedulerTest  {
         deliveries = new ArrayList<>();
         try {
             Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning(deliveries));
-            assert(planning.isPresent());
-            assert(planning.get().getAvailabilities().size() == 4);// TODO + de slots
+            assert (planning.isPresent());
+            assert (planning.get().getAvailabilities().size() == 4);// TODO + de slots
         } catch (IllegalAccessException e) {
+            assert (false);
+        } catch (Exception e) {
             assert (false);
         }
     }
@@ -80,9 +85,11 @@ public class GetPlanningTest extends AbstractSchedulerTest  {
     public void getPlanningNull() {
         try {
             scheduler.getPlanning(null);
-            assert(false);
+            assert (false);
         } catch (IllegalAccessException e) {
-            assert(true);
+            assert (true);
+        } catch (Exception e) {
+            assert (false);
         }
     }
 }

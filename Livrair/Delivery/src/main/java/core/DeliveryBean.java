@@ -122,6 +122,9 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         } catch (IllegalAccessException e) {
             e.printStackTrace();
             return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 
@@ -146,7 +149,13 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         Optional<List<Delivery>> myDeliveries = this.retrievePlannedDeliveries();
         Optional<Package> pack = this.findById(id);
         if (pack.isPresent()) {
-            Optional<Delivery> tmp = schedulder.planDelivery(pack.get(), desiredTime, myDeliveries.get());
+            Optional<Delivery> tmp = null;
+            try {
+                tmp = schedulder.planDelivery(pack.get(), desiredTime, myDeliveries.get());
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
 
             if (tmp.isPresent()) {
                 pack.get().setPackageStatus(PackageStatus.ASSIGNED);

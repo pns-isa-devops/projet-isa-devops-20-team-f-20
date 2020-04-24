@@ -20,13 +20,22 @@ public class SlotTest {
     public void book() {
         Delivery d = new Delivery(new Package("5", "Baptiste",
                 PackageStatus.REGISTERED, "1 rue de la paix", new Supplier("UPS", "2 rue de la paix")),null, LocalDateTime.now());
-        slot.book(d);
+        try {
+            slot.book(d);
+        } catch (Exception e) {
+            assert(false);
+        }
         assertFalse(slot.isAvailable);
     }
 
     @Test
     public void unbook() {
-        slot.unbook();
+        book();
+        try {
+            slot.unbook();
+        } catch (Exception e) {
+            assert(false);
+        }
         assertTrue(slot.isAvailable);
         assertNull(slot.delivery);
     }

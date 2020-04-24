@@ -18,7 +18,11 @@ public class DailyPlanningTest {
 
     @Before
     public void setUp(){
-        dailyPlanning = new DailyPlanning(new ArrayList<>());
+        try {
+            dailyPlanning = new DailyPlanning(new ArrayList<>());
+        } catch (Exception e) {
+            assert(false);
+        }
     }
 
     @Test
@@ -29,7 +33,12 @@ public class DailyPlanningTest {
                 new Supplier("UPS", "2 rue de la paix")),null, LocalDateTime.of(LocalDate.now(), LocalTime.of(9,0)));
         List<Delivery> deliveries = new ArrayList<>();
         deliveries.add(d);
-        DailyPlanning next = new DailyPlanning(deliveries);
+        DailyPlanning next = null;
+        try {
+            next = new DailyPlanning(deliveries);
+        } catch (Exception e) {
+            assert(false);
+        }
         assertFalse(next.availableSlotForGivenDate(9));
 
     }
