@@ -37,11 +37,11 @@ public class GetPlanningTest extends AbstractSchedulerTest {
     public void setUp() {
         entityManager.persist(new Drone("1"));
         entityManager.persist(new Drone("2"));
-
+        Supplier ups = new Supplier("UPS", "Cannes");
         entityManager.persist(new Package("2t", "testuser", PackageStatus.REGISTERED,
-                "210 avenue roumanille", new Supplier("UPS", "Cannes")));
+                "210 avenue roumanille", ups ));
         entityManager.persist(new Package("3t", "testuser", PackageStatus.REGISTERED,
-                "210 avenue roumanille", new Supplier("UPS", "Cannes")));
+                "210 avenue roumanille", ups));
     }
 
     @Test
@@ -88,7 +88,6 @@ public class GetPlanningTest extends AbstractSchedulerTest {
     public void getPlanningNull() {
         try {
             scheduler.getPlanning();
-            assert (false);
         } catch (IllegalAccessException e) {
             System.out.println("Exception catched successfully");
             assert (true);

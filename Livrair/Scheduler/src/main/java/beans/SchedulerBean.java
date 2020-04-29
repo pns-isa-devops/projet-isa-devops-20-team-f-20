@@ -9,6 +9,8 @@ import interfaces.PlanningInterface;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -23,6 +25,9 @@ public class SchedulerBean implements PlanningInterface {
 
     @EJB
     private PackageFinder packageFinder;
+
+    @PersistenceContext  private EntityManager manager;
+
 
     @Override
     public Optional<Delivery> planDelivery(String id, LocalDateTime deliveryDate) throws Exception {
@@ -51,7 +56,9 @@ public class SchedulerBean implements PlanningInterface {
             } else {
                 Drone drone = drones.iterator().next();
                 drone.setStatus(DroneStatus.DELIVERING);
-                return Optional.of(new Delivery(item, drone, deliveryDate));
+                Delivery delivery = new Delivery(item, drone, deliveryDate);
+                manager.persist(delivery);
+                return Optional.of(delivery);
             }
         }
         return Optional.empty(); // TODO exception specifique ?

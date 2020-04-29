@@ -46,9 +46,9 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
         entityManager.persist(existingDelivery);
 
         entityManager.persist(new Package("2t", "testuser", PackageStatus.REGISTERED,
-                "210 avenue roumanille", new Supplier("UPS", "Cannes")));
+                "210 avenue roumanille", supplier));
         entityManager.persist(new Package("3t", "testuser", PackageStatus.REGISTERED,
-                "210 avenue roumanille", new Supplier("UPS", "Cannes")));
+                "210 avenue roumanille", supplier));
     }
 
     @Test
