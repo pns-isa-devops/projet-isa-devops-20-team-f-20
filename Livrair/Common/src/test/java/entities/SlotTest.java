@@ -37,7 +37,7 @@ public class SlotTest {
             assert(false);
         }
         assertTrue(slot.isAvailable());
-        assertNull(slot.getDelivery());
+        assertNull(slot.get());
     }
 
     @Test

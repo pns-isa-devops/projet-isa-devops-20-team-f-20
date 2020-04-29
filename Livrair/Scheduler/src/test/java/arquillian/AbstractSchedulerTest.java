@@ -1,6 +1,7 @@
 package arquillian;
 
 import beans.SchedulerBean;
+import core.DeliveryBean;
 import exceptions.DroneAlreadyExistsException;
 import exceptions.DroneDoesNotExistException;
 import interfaces.Availability;
@@ -17,6 +18,7 @@ public abstract class AbstractSchedulerTest {
     public static WebArchive createDeployment(){
         WebArchive res = AbstractLivrairTest.createDeployment();
         return res.addPackage(PlanningInterface.class.getPackage())
-                .addPackage(SchedulerBean.class.getPackage());
+                .addPackage(SchedulerBean.class.getPackage())
+                .addPackage(DeliveryBean.class.getPackage());
     }
 }

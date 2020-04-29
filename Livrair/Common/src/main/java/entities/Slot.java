@@ -2,11 +2,11 @@ package entities;
 
 import java.io.Serializable;
 
-public class Slot implements Serializable {
+public class Slot<T> implements Serializable {
     private int start;
     private int finish;
 
-    private Delivery delivery;
+    private T t;
     private boolean isAvailable;
 
     public Slot() {
@@ -19,20 +19,27 @@ public class Slot implements Serializable {
         this.isAvailable = true;
     }
 
-    public void book(Delivery delivery) throws Exception {
+
+    public void book() throws Exception {
         if( isAvailable == false)
             throw new Exception("Cannot book, already booked");
-        this.delivery = delivery;
         this.isAvailable = false;
     }
 
-    public Delivery unbook() throws Exception {
+    public void book(T t) throws Exception {
+        if( isAvailable == false)
+            throw new Exception("Cannot book, already booked");
+        this.t = t;
+        this.isAvailable = false;
+    }
+
+    public T unbook() throws Exception {
         if( isAvailable == true)
             throw new Exception("Cannot unbook, not booked");
-        Delivery d = delivery;
-        this.delivery = null;
+        T t = this.t;
+        this.t = null;
         this.isAvailable = true;
-        return d;
+        return t;
     }
 
     public boolean matchThisHour(int hour) {
@@ -55,19 +62,18 @@ public class Slot implements Serializable {
         this.finish = finish;
     }
 
-    public Delivery getDelivery() {
-        return delivery;
+    public T get() {
+        return t;
     }
 
-    public void setDelivery(Delivery delivery) {
-        this.delivery = delivery;
+    public void set(T t) {
+        this.t = t;
     }
+
+    public boolean hasBookingT() { return t != null; }
 
     public boolean isAvailable() {
         return isAvailable;
     }
 
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
 }
