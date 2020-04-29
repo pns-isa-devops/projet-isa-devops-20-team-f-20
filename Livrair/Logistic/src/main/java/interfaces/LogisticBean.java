@@ -19,7 +19,6 @@ import java.util.Set;
 @Stateless
 public class LogisticBean implements DroneModifier, Availability {
 
-    private Set<Drone> drones = new HashSet<>();
 
     @PersistenceContext
     private EntityManager manager;
@@ -29,13 +28,13 @@ public class LogisticBean implements DroneModifier, Availability {
     public Set<Drone> getDrones() {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
-        Root<Drone> root =  criteria.from(Drone.class);
+        Root<Drone> root = criteria.from(Drone.class);
         criteria.select(root);
         TypedQuery<Drone> query = manager.createQuery(criteria);
         try {
             return new HashSet<>(query.getResultList());
-        } catch (NoResultException nre){
-            return drones;
+        } catch (NoResultException nre) {
+            return new HashSet<>();
         }
     }
 
@@ -43,13 +42,13 @@ public class LogisticBean implements DroneModifier, Availability {
     public Set<Drone> getAvailableDrones() {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
-        Root<Drone> root =  criteria.from(Drone.class);
+        Root<Drone> root = criteria.from(Drone.class);
         criteria.select(root).where(builder.equal(root.get("status"), DroneStatus.AVAILABLE));
         TypedQuery<Drone> query = manager.createQuery(criteria);
         try {
             return new HashSet<>(query.getResultList());
-        } catch (NoResultException nre){
-            return drones;
+        } catch (NoResultException nre) {
+            return new HashSet<>();
         }
     }
 
@@ -67,7 +66,16 @@ public class LogisticBean implements DroneModifier, Availability {
         if (!checkIfDroneIdAlreadyExist(droneId)) {
             throw new DroneDoesNotExistException();
         }
-        drones.stream().filter(drone -> drone.getId().equalsIgnoreCase(droneId)).findFirst().ifPresent(drone -> drone.setStatus(droneStatus));
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
+        Root<Drone> root = criteria.from(Drone.class);
+        criteria.select(root).where(builder.equal(root.get("id"), droneId));
+        TypedQuery<Drone> query = manager.createQuery(criteria);
+        try {
+            query.getSingleResult().setStatus(droneStatus);
+        } catch (NoResultException nre) {
+            throw new DroneDoesNotExistException();
+        }
     }
 
     @Override
@@ -95,6 +103,17 @@ public class LogisticBean implements DroneModifier, Availability {
     }
 
     private boolean checkIfDroneIdAlreadyExist(String id) {
-        return drones.stream().anyMatch(drone -> drone.getId().equalsIgnoreCase(id));
+        Set<Drone> toCheck;
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
+        Root<Drone> root = criteria.from(Drone.class);
+        criteria.select(root).where(builder.equal(root.get("status"), DroneStatus.AVAILABLE));
+        TypedQuery<Drone> query = manager.createQuery(criteria);
+        try {
+            toCheck = new HashSet<>(query.getResultList());
+        } catch (NoResultException nre) {
+            return false;
+        }
+        return toCheck.stream().anyMatch(drone -> drone.getId().equalsIgnoreCase(id));
     }
 }
