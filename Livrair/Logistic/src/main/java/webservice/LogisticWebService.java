@@ -1,7 +1,6 @@
 package webservice;
 
 
-import entities.DailyPlanning;
 import entities.Delivery;
 import entities.Package;
 

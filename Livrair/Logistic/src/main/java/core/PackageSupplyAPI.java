@@ -5,28 +5,27 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import entities.Package;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import entities.PackageStatus;
 import entities.Supplier;
 import exceptions.ExternalPartnerException;
 import org.apache.cxf.jaxrs.client.WebClient;
 
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class PackageSupplyAPI {
-    private String APIkey;
-    private String url;
-    private Supplier supplier;
+    private final String APIkey;
+    private final String url;
+    private final Supplier supplier;
+
     public PackageSupplyAPI(String host, String port, String APIkey, Supplier supplier) {
         this.url = "http://" + host + ":" + port;
         this.APIkey = APIkey;
         this.supplier = supplier;
     }
 
-    public List<Package> retrievePackages() throws ExternalPartnerException{
+    public List<Package> retrievePackages() throws ExternalPartnerException {
         // Retrieving the packages from transporters
 
         List<Package> packagesReceived = new ArrayList<>();

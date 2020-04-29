@@ -1,20 +1,20 @@
 <template>
-  <v-app>
-    <v-content>
-      <router-view></router-view>
-    </v-content>
-  </v-app>
+    <v-app>
+        <v-content>
+            <router-view></router-view>
+        </v-content>
+    </v-app>
 </template>
 
 <script>
-  export default {
-    name: 'App',
+    export default {
+        name: 'App',
 
-    data: () => ({
-      //
-    }),
-    methods : {
-      //
-    }
-  };
+        data: () => ({
+            //
+        }),
+        methods: {
+            //
+        }
+    };
 </script>

@@ -24,9 +24,8 @@ import java.util.Properties;
 @Stateless
 public class LogisticBean implements PackageFinder, PackageInventory, DeliveryManager {
 
+    private final boolean retrieved = false;
     private PackageSupplyAPI packageSupplyAPI;
-    private boolean retrieved = false;
-
     @PersistenceContext
     private EntityManager manager;
 

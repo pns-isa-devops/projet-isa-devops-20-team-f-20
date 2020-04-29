@@ -89,7 +89,7 @@ public class AvailabilityTest extends AbstractTransportTest {
             modifier.changeState("1", DroneStatus.DELIVERING);
         } catch (DroneDoesNotExistException ignored) {
 
-        } catch (javax.ejb.EJBTransactionRolledbackException e2){
+        } catch (javax.ejb.EJBTransactionRolledbackException e2) {
             error = e2.getCause().getCause();
         }
         assertNotNull(error);
@@ -105,7 +105,7 @@ public class AvailabilityTest extends AbstractTransportTest {
             modifier.changeState(drone, DroneStatus.DELIVERING);
         } catch (DroneDoesNotExistException ignored) {
 
-        } catch (javax.ejb.EJBTransactionRolledbackException e2){
+        } catch (javax.ejb.EJBTransactionRolledbackException e2) {
             error = e2.getCause().getCause();
         }
         assertNotNull(error);

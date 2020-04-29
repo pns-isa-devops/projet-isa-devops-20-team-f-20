@@ -2,8 +2,8 @@ package beans;
 
 import core.DeliveryManager;
 import core.PackageFinder;
-import entities.*;
 import entities.Package;
+import entities.*;
 import interfaces.Availability;
 import interfaces.PlanningInterface;
 
