@@ -12,8 +12,10 @@ import javax.jws.WebService;
 @Stateless(name = "TransportWS")
 public class TransportWebServiceImpl implements TransportWebService {
 
-    @EJB(name="stateless-transport") private Availability availability;
-    @EJB private DroneModifier modifier;
+    @EJB(name = "stateless-transport")
+    private Availability availability;
+    @EJB
+    private DroneModifier modifier;
 
     @Override
     public boolean addDrone(String id) {

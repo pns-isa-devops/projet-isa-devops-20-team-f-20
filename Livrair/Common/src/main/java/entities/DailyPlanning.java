@@ -3,7 +3,6 @@ package entities;
 import javax.persistence.Entity;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
-import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,7 +35,7 @@ public class DailyPlanning<T> {
     public static HashMap<Delivery, Integer> fromDeliveries(List<Delivery> deliveries) {
         HashMap<Delivery, Integer> hashMap = new HashMap<>();
 
-        for(Delivery d : deliveries)
+        for (Delivery d : deliveries)
             hashMap.put(d, d.getDeliveryDate().getHour());
 
         return hashMap;
@@ -82,7 +81,7 @@ public class DailyPlanning<T> {
      * @param deliveries Deliveries of the day
      */
     private void build(HashMap<T, Integer> hashT) throws Exception {
-        if(getSlots() == null || getSlots().isEmpty())
+        if (getSlots() == null || getSlots().isEmpty())
             throw new Exception("Slots null or empty");
 
         int booked = 0;
@@ -96,8 +95,8 @@ public class DailyPlanning<T> {
             }
         }
 
-        if(booked < hashT.size())
-            throw new Exception("Error : "+ (hashT.size()-booked) + "/" +hashT.size()+" object(s) not booked");
+        if (booked < hashT.size())
+            throw new Exception("Error : " + (hashT.size() - booked) + "/" + hashT.size() + " object(s) not booked");
     }
 
     /**

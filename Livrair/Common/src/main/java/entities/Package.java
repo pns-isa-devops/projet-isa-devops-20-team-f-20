@@ -7,7 +7,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name="packages")
+@Table(name = "packages")
 public class Package implements Serializable {
 
     private String id;
@@ -15,36 +15,6 @@ public class Package implements Serializable {
     private PackageStatus packageStatus;
     private String address;
     private Supplier supplier;
-
-    @XmlElement(name="idPackage")
-    @Id
-    public String getId() {
-        return id;
-    }
-
-    @NotNull
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    @NotNull
-    @XmlElement(name="statusPackage")
-    @Enumerated(EnumType.STRING)
-    public PackageStatus getPackageStatus() {
-        return packageStatus;
-    }
-
-    @NotNull
-    public String getAddress() {
-        return address;
-    }
-
-    //@NotNull
-    @ManyToOne(cascade = {CascadeType.PERSIST})
-    public Supplier getSupplier() {
-        return supplier;
-    }
-
 
     public Package() {
         // Necessary for JPA instantiation process
@@ -58,21 +28,49 @@ public class Package implements Serializable {
         this.supplier = supplier;
     }
 
+    @XmlElement(name = "idPackage")
+    @Id
+    public String getId() {
+        return id;
+    }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @NotNull
+    public String getCustomerName() {
+        return customerName;
     }
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
 
+    @NotNull
+    @XmlElement(name = "statusPackage")
+    @Enumerated(EnumType.STRING)
+    public PackageStatus getPackageStatus() {
+        return packageStatus;
+    }
+
     public void setPackageStatus(PackageStatus packageStatus) {
         this.packageStatus = packageStatus;
     }
 
+    @NotNull
+    public String getAddress() {
+        return address;
+    }
+
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    //@NotNull
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    public Supplier getSupplier() {
+        return supplier;
     }
 
     public void setSupplier(Supplier supplier) {

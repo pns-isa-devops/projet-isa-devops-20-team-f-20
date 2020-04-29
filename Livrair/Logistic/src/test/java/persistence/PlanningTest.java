@@ -10,12 +10,13 @@ import org.junit.runner.RunWith;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(Arquillian.class)
 @Transactional(TransactionMode.ROLLBACK)
 public class PlanningTest extends AbstractLivrairTest {
-    @PersistenceContext private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Test
     public void getPlanningTest() throws Exception {

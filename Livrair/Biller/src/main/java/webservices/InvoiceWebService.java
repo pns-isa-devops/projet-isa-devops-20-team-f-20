@@ -1,6 +1,5 @@
 package webservices;
 
-import entities.Delivery;
 import entities.Invoice;
 import entities.InvoiceStatus;
 import exceptions.InvoiceDoesNotExistException;
@@ -13,12 +12,12 @@ import javax.jws.WebService;
 public interface InvoiceWebService {
 
     @WebMethod
-    @WebResult( name = "change_invoice_state")
-    public void changeState(Invoice invoice, InvoiceStatus invoiceStatus) throws InvoiceDoesNotExistException;
+    @WebResult(name = "change_invoice_state")
+    void changeState(Invoice invoice, InvoiceStatus invoiceStatus) throws InvoiceDoesNotExistException;
 
     @WebMethod
-    @WebResult( name = "add_item")
-    public boolean addItem(String id);
+    @WebResult(name = "add_item")
+    boolean addItem(String id);
 
 
 }

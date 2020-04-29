@@ -24,6 +24,13 @@ public class Invoice {
 
     private InvoiceStatus status;
 
+    public Invoice(Supplier supplier, LocalDateTime date) {
+        this.supplier = supplier;
+        this.date = date;
+        this.deliveries = new ArrayList<>();
+        this.status = InvoiceStatus.DRAFT;
+    }
+
     public String getId() {
         return id;
     }
@@ -48,14 +55,7 @@ public class Invoice {
         this.deliveries = deliveries;
     }
 
-    public Invoice(Supplier supplier, LocalDateTime date) {
-        this.supplier = supplier;
-        this.date = date;
-        this.deliveries = new ArrayList<>();
-        this.status = InvoiceStatus.DRAFT;
-    }
-
-    public void addDeliveries(Delivery delivery){
+    public void addDeliveries(Delivery delivery) {
         this.deliveries.add(delivery);
     }
 

@@ -28,14 +28,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Transactional(TransactionMode.ROLLBACK)
 public class PlanDeliveryTest extends AbstractSchedulerTest {
 
+    private final List<Delivery> deliveries = new ArrayList<>();
+    Supplier supplier;
     @EJB
     private PlanningInterface scheduler;
-
-    private List<Delivery> deliveries = new ArrayList<>();
-
     @PersistenceContext
     private EntityManager entityManager;
-    Supplier supplier;
 
     @Before
     public void setUp() {

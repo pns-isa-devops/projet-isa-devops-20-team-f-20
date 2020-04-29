@@ -7,12 +7,21 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Table(name="suppliers")
+@Table(name = "suppliers")
 public class Supplier implements Serializable {
 
     private String name;
     private String address;
     private Set<Package> packages;
+
+    public Supplier() {
+    }
+
+
+    public Supplier(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
 
     @Id
     @NotNull
@@ -20,34 +29,23 @@ public class Supplier implements Serializable {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     @NotNull
     public String getAddress() {
         return address;
     }
 
-
-    //@NotNull
-    @OneToMany(cascade = {CascadeType.REMOVE},mappedBy="supplier")
-    public Set<Package> getPackages() {
-        return packages;
-    }
-
-
-    public Supplier(){}
-
-    public Supplier(String name, String address){
-        this.name = name;
-        this.address = address;
-    }
-
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    //@NotNull
+    @OneToMany(cascade = {CascadeType.REMOVE}, mappedBy = "supplier")
+    public Set<Package> getPackages() {
+        return packages;
     }
 
     public void setPackages(Set<Package> packages) {
@@ -56,7 +54,7 @@ public class Supplier implements Serializable {
 
     @Override
     public String toString() {
-        return getName()+" "+getAddress();
+        return getName() + " " + getAddress();
     }
 
     @Override

@@ -21,20 +21,20 @@ public class Slot<T> implements Serializable {
 
 
     public void book() throws Exception {
-        if( isAvailable == false)
+        if (isAvailable == false)
             throw new Exception("Cannot book, already booked");
         this.isAvailable = false;
     }
 
     public void book(T t) throws Exception {
-        if( isAvailable == false)
+        if (isAvailable == false)
             throw new Exception("Cannot book, already booked");
         this.t = t;
         this.isAvailable = false;
     }
 
     public T unbook() throws Exception {
-        if( isAvailable == true)
+        if (isAvailable == true)
             throw new Exception("Cannot unbook, not booked");
         T t = this.t;
         this.t = null;
@@ -70,7 +70,9 @@ public class Slot<T> implements Serializable {
         this.t = t;
     }
 
-    public boolean hasBookingT() { return t != null; }
+    public boolean hasBookingT() {
+        return t != null;
+    }
 
     public boolean isAvailable() {
         return isAvailable;

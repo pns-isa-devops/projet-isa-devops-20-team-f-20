@@ -1,23 +1,19 @@
 package webservice;
 
-import core.DeliveryManager;
-import core.PackageFinder;
 import entities.DailyPlanning;
-import entities.Delivery;
-import entities.Package;
 import interfaces.PlanningInterface;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @WebService(targetNamespace = "http://www.polytech.unice.fr/si/4a/isa/drone-delivery/scheduler")
-@Stateless(name="SchedulerWS")
+@Stateless(name = "SchedulerWS")
 public class SchedulerWebServiceImpl implements SchedulerWebService {
 
-    @EJB(name="stateless-scheduler") private PlanningInterface planning;
+    @EJB(name = "stateless-scheduler")
+    private PlanningInterface planning;
 
     @Override
     public boolean planDelivery(String id, int jour, int mois, int annee, int heure, int minute) {
