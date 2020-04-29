@@ -48,7 +48,7 @@ describe('Init Test', () => {
       </Envelope>
       `
 
-      cy.request('POST', 'http://'+host+':8080/delivery/webservices/TransportWS?wsdl',
+      cy.request('POST', 'http://'+host+':8080/logistic/webservices/TransportWS?wsdl',
           env)
         .then((response) => {
           // response.body is automatically serialized into JSON

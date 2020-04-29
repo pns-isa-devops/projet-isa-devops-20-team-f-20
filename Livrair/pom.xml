@@ -8,7 +8,7 @@
         <module>Common</module>
         <module>Transport</module>
         <module>Scheduler</module>
-        <module>Delivery</module>
+        <module>Logistic</module>
         <module>Biller</module>
     </modules>
 

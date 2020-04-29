@@ -22,7 +22,7 @@ import java.util.Properties;
 
 
 @Stateless
-public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryManager {
+public class LogisticBean implements PackageFinder, PackageInventory, DeliveryManager {
 
     private PackageSupplyAPI packageSupplyAPI;
     private boolean retrieved = false;
@@ -92,7 +92,7 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
     public void retrieveIncomingPackages() {
         try {
             Properties prop = new Properties();
-            prop.load(DeliveryBean.class.getResourceAsStream("/supplier.properties"));
+            prop.load(LogisticBean.class.getResourceAsStream("/supplier.properties"));
             packageSupplyAPI = new PackageSupplyAPI(prop.getProperty("supplierHostName"),
                     prop.getProperty("supplierPortNumber"), "123", new Supplier("UPS", "Biot"));
         } catch (IOException e) {

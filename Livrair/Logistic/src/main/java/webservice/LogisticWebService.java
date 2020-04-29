@@ -11,8 +11,8 @@ import javax.jws.WebResult;
 import javax.jws.WebService;
 import java.util.List;
 
-@WebService(targetNamespace = "http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery")
-public interface DeliveryWebService {
+@WebService(targetNamespace = "http://www.polytech.unice.fr/si/4a/isa/drone-delivery/logistic")
+public interface LogisticWebService {
 
     @WebMethod
     @WebResult(name = "matching_package")

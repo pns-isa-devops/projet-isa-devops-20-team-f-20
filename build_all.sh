@@ -14,8 +14,8 @@ if [[ "$1" != "" ]]; then
             cd Livrair
             echo "Livrair clean install"
             mvn -q -DskipTests clean package
-            cd Delivery
-            echo "Delivery pacakge"
+            cd Logistic
+            echo "Logistic pacakge"
             mvn -q -DskipTests package
             cd ../..
         fi
@@ -45,8 +45,8 @@ else
     echo "Livrair clean install"
     cd ../../Livrair
     mvn -q -DskipTests clean install
-    cd Delivery
-    echo "Delivery pacakge"
+    cd Logistic
+    echo "Logistic pacakge"
     mvn -q -DskipTests package
 
 fi

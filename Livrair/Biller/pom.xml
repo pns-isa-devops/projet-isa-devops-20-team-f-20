@@ -15,7 +15,7 @@
         </dependency>
         <dependency>
             <groupId>fr.unice.polytech.isa</groupId>
-            <artifactId>Delivery</artifactId>
+            <artifactId>Logistic</artifactId>
             <version>1.0-SNAPSHOT</version>
             <classifier>classes</classifier>
             <scope>compile</scope>
@@ -32,7 +32,7 @@
     <artifactId>Biller</artifactId>
     <version>1.0-SNAPSHOT</version>
     <build>
-        <finalName>delivery</finalName>
+        <finalName>logistic</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -45,5 +45,5 @@
             </plugin>
         </plugins>
     </build>
-    
+
 </project>

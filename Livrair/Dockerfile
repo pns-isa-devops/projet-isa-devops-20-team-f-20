@@ -1,6 +1,6 @@
 #FROM tomcat:8.0
-#COPY ./Delivery/target/delivery.war /usr/local/tomcat/webapps/
-#COPY ./Delivery/target/delivery-classes.jar /usr/local/tomcat/webapps/
+#COPY ./Logistic/target/logistic.war /usr/local/tomcat/webapps/
+#COPY ./Logistic/target/logistic-classes.jar /usr/local/tomcat/webapps/
 #COPY ./Transport/target/transport.war /usr/local/tomcat/webapps/
 #COPY ./Transport/target/transport-classes.jar /usr/local/tomcat/webapps/
 #
@@ -17,7 +17,7 @@
 #
 #COPY . .
 #
-#RUN cd Delivery
+#RUN cd Logistic
 #
 ## Running the client using the starting shell script
 #ENTRYPOINT ["mvn", "package", "tomee:run"]
@@ -28,7 +28,7 @@ FROM tomee:8-jdk-7.0.1-plus
 WORKDIR /usr/local/tomee/
 
 # Loading the executable server inside the image
-COPY ./Delivery/target/delivery.war ./webapps/.
+COPY ./Logistic/target/logistic.war ./webapps/.
 #COPY ./Scheduler/target/s.war ./webapps/.
 
 # Creating the tomee/eemot user to access to the web admin console

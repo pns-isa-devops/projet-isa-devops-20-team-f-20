@@ -62,7 +62,7 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>Delivery</artifactId>
+    <artifactId>Logistic</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <parent>
@@ -73,7 +73,7 @@
 
 
     <build>
-        <finalName>delivery</finalName>
+        <finalName>logistic</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
