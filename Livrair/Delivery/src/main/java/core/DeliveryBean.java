@@ -1,14 +1,13 @@
 package core;
 
-import entities.*;
+import entities.Delivery;
 import entities.Package;
+import entities.PackageStatus;
+import entities.Supplier;
 import exceptions.ExternalPartnerException;
-import interfaces.PlanningInterface;
 import org.apache.cxf.common.i18n.UncheckedException;
 
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
-import java.io.IOException;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
@@ -16,9 +15,7 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
@@ -30,9 +27,6 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
     private PackageSupplyAPI packageSupplyAPI;
     private boolean retrieved = false;
 
-    @EJB
-    private PlanningInterface schedulder;
-
     @PersistenceContext
     private EntityManager manager;
 
@@ -41,12 +35,12 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         getAllPackages();
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
-        Root<Package> root =  criteria.from(Package.class);
+        Root<Package> root = criteria.from(Package.class);
         criteria.select(root).where(builder.equal(root.get("id"), id));
         TypedQuery<Package> query = manager.createQuery(criteria);
         try {
             return Optional.of(query.getSingleResult());
-        } catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return Optional.empty();
         }
 
@@ -57,12 +51,12 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         getAllPackages();
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
-        Root<Package> root =  criteria.from(Package.class);
+        Root<Package> root = criteria.from(Package.class);
         criteria.select(root).where(builder.equal(root.get("customerName"), customerName));
         TypedQuery<Package> query = manager.createQuery(criteria);
         try {
             return Optional.of(query.getSingleResult());
-        } catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return Optional.empty();
         }
     }
@@ -79,17 +73,17 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
         CriteriaQuery<Long> cq = builder.createQuery(Long.class);
         cq.select(builder.count(cq.from(Package.class)));
 
-        if(manager.createQuery(cq).getSingleResult() <1){
+        if (manager.createQuery(cq).getSingleResult() < 1) {
             retrieveIncomingPackages();
         }
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
-        Root<Package> root =  criteria.from(Package.class);
+        Root<Package> root = criteria.from(Package.class);
         criteria.select(root);
         TypedQuery<Package> query = manager.createQuery(criteria);
 
         try {
             return Optional.of(query.getResultList());
-        } catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return Optional.empty();
         }
     }
@@ -116,53 +110,18 @@ public class DeliveryBean implements PackageFinder, PackageInventory, DeliveryMa
     }
 
 
-    public DailyPlanning getPlanning() {
-        try {
-            return schedulder.getPlanning(retrievePlannedDeliveries().orElse(new ArrayList<>()));
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            return null;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
-
-
     @Override
     public Optional<List<Delivery>> retrievePlannedDeliveries() {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Delivery> criteria = builder.createQuery(Delivery.class);
-        Root<Delivery> root =  criteria.from(Delivery.class);
+        Root<Delivery> root = criteria.from(Delivery.class);
         criteria.select(root);
         TypedQuery<Delivery> query = manager.createQuery(criteria);
         try {
             return Optional.of(query.getResultList());
-        } catch (NoResultException nre){
+        } catch (NoResultException nre) {
             return Optional.empty();
         }
     }
 
-    @Override
-    public boolean createDelivery(String id, LocalDateTime desiredTime) {
-
-        Optional<List<Delivery>> myDeliveries = this.retrievePlannedDeliveries();
-        Optional<Package> pack = this.findById(id);
-        if (pack.isPresent()) {
-            Optional<Delivery> tmp = null;
-            try {
-                tmp = schedulder.planDelivery(pack.get(), desiredTime, myDeliveries.get());
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-
-            if (tmp.isPresent()) {
-                pack.get().setPackageStatus(PackageStatus.ASSIGNED);
-                manager.persist(tmp.get());
-                return true;
-            }
-        }
-        return false;
-    }
 }

@@ -25,7 +25,6 @@ import java.util.Optional;
 @RunWith(Arquillian.class)
 @Transactional(TransactionMode.ROLLBACK)
 public class GetPlanningTest extends AbstractSchedulerTest {
-
     @EJB
     private PlanningInterface scheduler;
 
@@ -38,26 +37,30 @@ public class GetPlanningTest extends AbstractSchedulerTest {
     public void setUp() {
         entityManager.persist(new Drone("1"));
         entityManager.persist(new Drone("2"));
+
+        entityManager.persist(new Package("2t", "testuser", PackageStatus.REGISTERED,
+                "210 avenue roumanille", new Supplier("UPS", "Cannes")));
+        entityManager.persist(new Package("3t", "testuser", PackageStatus.REGISTERED,
+                "210 avenue roumanille", new Supplier("UPS", "Cannes")));
     }
 
     @Test
     public void getPlanning() {
         Delivery d1 = null, d2 = null;
         try {
-            d1 = scheduler.planDelivery(new Package("3", "testuser", PackageStatus.REGISTERED,
-                            "210 avenue roumanille", new Supplier("UPS", "Cannes")),
-                    LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries).get();
-            d2 = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
-                            "210 avenue roumanille", new Supplier("UPS", "Cannes")),
-                    LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries).get();
+            d1 = scheduler.planDelivery("3t",
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0))).get();
+            d2 = scheduler.planDelivery("2t",
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0))).get();
         } catch (Exception e) {
+            e.printStackTrace();
             assert (false);
         }
         deliveries.add(d1);
         deliveries.add(d2);
 
         try {
-            Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning(deliveries));
+            Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning());
             assert (planning.isPresent());
             assert (planning.get().getAvailabilities().size() == 2); // TODO + de slots
         } catch (IllegalAccessException e) {
@@ -71,7 +74,7 @@ public class GetPlanningTest extends AbstractSchedulerTest {
     public void getPlanningEmpty() {
         deliveries = new ArrayList<>();
         try {
-            Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning(deliveries));
+            Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning());
             assert (planning.isPresent());
             assert (planning.get().getAvailabilities().size() == 4);// TODO + de slots
         } catch (IllegalAccessException e) {
@@ -84,9 +87,10 @@ public class GetPlanningTest extends AbstractSchedulerTest {
     @Test
     public void getPlanningNull() {
         try {
-            scheduler.getPlanning(null);
+            scheduler.getPlanning();
             assert (false);
         } catch (IllegalAccessException e) {
+            System.out.println("Exception catched successfully");
             assert (true);
         } catch (Exception e) {
             assert (false);

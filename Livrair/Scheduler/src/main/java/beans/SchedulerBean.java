@@ -1,27 +1,48 @@
 package beans;
 
+import core.DeliveryManager;
+import core.PackageFinder;
 import entities.*;
 import entities.Package;
 import interfaces.Availability;
 import interfaces.PlanningInterface;
-import org.apache.openjpa.persistence.ArgumentException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Stateless
 public class SchedulerBean implements PlanningInterface {
 
-    @EJB private Availability availability;
+    @EJB
+    private Availability availability;
+
+    @EJB
+    private DeliveryManager deliveryManager;
+
+    @EJB
+    private PackageFinder packageFinder;
 
     @Override
-    public Optional<Delivery> planDelivery(Package item, LocalDateTime deliveryDate, List<Delivery> deliveries) throws Exception {
-        DailyPlanning dailyPlanning = new DailyPlanning(deliveries);;
+    public Optional<Delivery> planDelivery(String id, LocalDateTime deliveryDate) throws Exception {
+
+        List<Delivery> deliveries;
+        Package item;
+
+        try {
+            deliveries = deliveryManager.retrievePlannedDeliveries().get();
+        } catch (NoSuchElementException e) {
+            deliveries = new ArrayList<>();
+        }
+
+        try {
+            item = packageFinder.findById(id).get();
+        } catch (NoSuchElementException e) {
+            return Optional.empty();
+        }
+
+        DailyPlanning dailyPlanning = new DailyPlanning(DailyPlanning.fromDeliveries(deliveries));
 
         if (dailyPlanning.availableSlotForGivenDate(deliveryDate.getHour())) {
             Set<Drone> drones = availability.getAvailableDrones();
@@ -33,13 +54,20 @@ public class SchedulerBean implements PlanningInterface {
                 return Optional.of(new Delivery(item, drone, deliveryDate));
             }
         }
-        return Optional.empty();
+        return Optional.empty(); // TODO exception specifique ?
     }
 
     @Override
-    public DailyPlanning getPlanning(List<Delivery> deliveries) throws Exception {
-        if(deliveries == null)
-            throw new IllegalAccessException("Delivery is null");
-        return new DailyPlanning(deliveries);
+    public DailyPlanning getPlanning() throws Exception {
+        List<Delivery> deliveries = null;
+
+        try {
+            deliveries = deliveryManager.retrievePlannedDeliveries().get();
+            return new DailyPlanning(DailyPlanning.fromDeliveries(deliveries));
+        } catch (NoSuchElementException e) {
+            deliveries = new ArrayList<>();
+            return new DailyPlanning(DailyPlanning.fromDeliveries(deliveries));
+
+        }
     }
 }

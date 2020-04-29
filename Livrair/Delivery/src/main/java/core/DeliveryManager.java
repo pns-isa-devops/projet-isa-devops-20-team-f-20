@@ -10,9 +10,8 @@ import java.util.Optional;
 
 @Local
 public interface DeliveryManager {
-    boolean createDelivery(String id, LocalDateTime desiredTime);
 
     Optional<List<Delivery>> retrievePlannedDeliveries();
 
-    DailyPlanning getPlanning();
+    // TODO suivi des deliveries
 }

@@ -24,14 +24,6 @@ public interface DeliveryWebService {
 
     @WebMethod
     @WebResult(name = "package")
-    public List<Package> getAllPackages();
-
-    @WebMethod
-    @WebResult(name = "is_planned")
-    boolean createDelivery(@WebParam(name = "id") String id, @WebParam(name = "jour") int jour, @WebParam(name = "mois") int mois, @WebParam(name = "annee") int annee, @WebParam(name = "heure") int heure, @WebParam(name = "minute") int minute);
-
-    @WebMethod
-    @WebResult(name = "planning")
-    DailyPlanning getPlanning();
+    List<Package> getAllPackages();
 
 }

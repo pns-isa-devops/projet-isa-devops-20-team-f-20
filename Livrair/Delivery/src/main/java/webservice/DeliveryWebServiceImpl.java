@@ -35,14 +35,5 @@ public class DeliveryWebServiceImpl implements DeliveryWebService {
         return finder.getAllPackages().get();
     }
 
-    @Override
-    public boolean createDelivery(String id, int jour, int mois, int annee, int heure, int minute) {
-        return delivery.createDelivery(id, LocalDateTime.of(annee, mois, jour, heure, minute));
-    }
-
-    @Override
-    public DailyPlanning getPlanning() {
-        return delivery.getPlanning();
-    }
 
 }

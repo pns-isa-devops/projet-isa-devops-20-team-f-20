@@ -46,6 +46,11 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
         entityManager.persist(new Drone("1"));
 
         entityManager.persist(existingDelivery);
+
+        entityManager.persist(new Package("2t", "testuser", PackageStatus.REGISTERED,
+                "210 avenue roumanille", new Supplier("UPS", "Cannes")));
+        entityManager.persist(new Package("3t", "testuser", PackageStatus.REGISTERED,
+                "210 avenue roumanille", new Supplier("UPS", "Cannes")));
     }
 
     @Test
@@ -53,9 +58,8 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
         Optional<Delivery> d = null;
 
         try {
-            d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
-                            "210 avenue roumanille", supplier),
-                    LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries);
+            d = scheduler.planDelivery("2t",
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)));
         } catch (Exception e) {
             assert (false);
         }
@@ -69,10 +73,8 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
     public void planDeliveryNotAvailable() {
         Optional<Delivery> d = null;
         try {
-            d = scheduler.planDelivery(new Package("3", "testuser", PackageStatus.REGISTERED,
-
-                            "210 avenue roumanille", supplier),
-                    LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries);
+            d = scheduler.planDelivery("3t",
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)));
         } catch (Exception e) {
             assert (false);
         }
