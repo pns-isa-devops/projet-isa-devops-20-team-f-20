@@ -19,8 +19,10 @@ if [[ "$1" != "" ]]; then
         if [[ "$1" == "backend" ]]; then
              # Backend
             cd Livrair
+            echo "Livrair clean install"
             mvn -q -DskipTests clean package
             cd Delivery
+            echo "Delivery pacakge"
             mvn -q -DskipTests package
             cd ../..
         fi
@@ -52,9 +54,11 @@ else
     npm i
 
     # Backend
+    echo "Livrair clean install"
     cd ../../Livrair
-    mvn -q -DskipTests clean package
+    mvn -q -DskipTests clean install
     cd Delivery
+    echo "Delivery pacakge"
     mvn -q -DskipTests package
 
 fi
