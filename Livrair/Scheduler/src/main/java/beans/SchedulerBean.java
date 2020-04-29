@@ -66,15 +66,8 @@ public class SchedulerBean implements PlanningInterface {
 
     @Override
     public DailyPlanning getPlanning() throws Exception {
-        List<Delivery> deliveries = null;
 
-        try {
-            deliveries = deliveryManager.retrievePlannedDeliveries().get();
-            return new DailyPlanning(DailyPlanning.fromDeliveries(deliveries));
-        } catch (NoSuchElementException e) {
-            deliveries = new ArrayList<>();
-            return new DailyPlanning(DailyPlanning.fromDeliveries(deliveries));
+        return new DailyPlanning(DailyPlanning.fromDeliveries(deliveryManager.retrievePlannedDeliveries().orElse(new ArrayList<>())));
 
-        }
     }
 }

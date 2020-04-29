@@ -14,11 +14,10 @@ import java.util.stream.Collectors;
 @Entity
 public class DailyPlanning<T> {
 
-    @XmlElementWrapper(name = "slots")
-    @XmlElement(name = "slot")
-    public List<Slot> slots;
 
-    public LocalDate date;
+    private List<Slot> slots;
+
+    private LocalDate date;
 
     public DailyPlanning(HashMap<T, Integer> hashT) throws Exception {
         this.date = LocalDate.now();
@@ -111,6 +110,9 @@ public class DailyPlanning<T> {
         slots.add(new Slot(17, 20));
     }
 
+
+    @XmlElementWrapper(name = "slots")
+    @XmlElement(name = "slot")
     public List<Slot> getSlots() {
         return slots;
     }
@@ -119,6 +121,7 @@ public class DailyPlanning<T> {
         this.slots = slots;
     }
 
+    @XmlElement(name = "planningDate")
     public LocalDate getDate() {
         return date;
     }

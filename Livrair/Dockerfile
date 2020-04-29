@@ -28,8 +28,8 @@ FROM tomee:8-jdk-7.0.1-plus
 WORKDIR /usr/local/tomee/
 
 # Loading the executable server inside the image
-COPY ./Logistic/target/logistic.war ./webapps/.
-#COPY ./Scheduler/target/s.war ./webapps/.
+#COPY ./Logistic/target/logistic.war ./webapps/.
+COPY ./Scheduler/target/scheduler.war ./webapps/.
 
 # Creating the tomee/eemot user to access to the web admin console
 COPY ./resources/tomcat-user.xml ./conf/tomcat-users.xml
