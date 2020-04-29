@@ -22,9 +22,9 @@ if [[ "$1" != "" ]]; then
         if [[ "$1" == "vue" ]]; then
              # Client Vue
             echo "Build client VueJS.."
-            cd client/old/ #TODO modifier quand path changé
+            cd client/ #TODO modifier quand path changé
             npm i
-            cd ../..
+            cd ..
         fi
         shift
     done
@@ -35,15 +35,17 @@ else
     echo "Build Dotnet.."
     cd dotnet/
     ./compile.sh
+    cd ..
 
      # Client Vue
     echo "Build client VueJS.."
-    cd old/ #TODO modifier quand path changé
+    cd client
     npm i
+    cd ..
 
     # Backend
     echo "Livrair clean install"
-    cd ../../Livrair
+    cd Livrair
     mvn -q -DskipTests clean install
     cd Logistic
     echo "Logistic pacakge"

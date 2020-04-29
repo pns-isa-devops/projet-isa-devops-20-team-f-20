@@ -12,14 +12,14 @@ services:
       - backend
 
   vue:
-    build: ./client/old
+    build: ./client
     container_name: vue
     ports:
           - "8844:8844"
     expose:
           - "8844"
     volumes:
-        - ./client/old/:/vuejs_client
+        - ./client/:/vuejs_client
     environment:
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
