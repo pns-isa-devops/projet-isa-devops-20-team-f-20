@@ -6,7 +6,7 @@ import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;
 
 
-public abstract class AbstractLogisticTest {
+public abstract class AbstractTransportTest {
 
     @Deployment
     public static WebArchive createDeployment(){

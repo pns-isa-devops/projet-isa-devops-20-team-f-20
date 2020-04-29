@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<wsdl:definitions name="LogisticWebServiceImplService" targetNamespace="http://www.delivrair.fr/backend/logistic" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.delivrair.fr/backend/logistic" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+<wsdl:definitions name="TransportWebServiceImplService" targetNamespace="http://www.delivrair.fr/backend/transport" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.delivrair.fr/backend/transport" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
   <wsdl:types>
-<xs:schema xmlns:tns="http://www.delivrair.fr/backend/logistic" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://www.delivrair.fr/backend/logistic" version="1.0">
+<xs:schema xmlns:tns="http://www.delivrair.fr/backend/transport" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified" targetNamespace="http://www.delivrair.fr/backend/transport" version="1.0">
 
   <xs:element name="hello" type="tns:hello"/>
 
@@ -29,7 +29,7 @@
     <wsdl:part name="parameters" element="tns:hello">
     </wsdl:part>
   </wsdl:message>
-  <wsdl:portType name="LogisticWebService">
+  <wsdl:portType name="TransportWebService">
     <wsdl:operation name="hello">
       <wsdl:input name="hello" message="tns:hello">
     </wsdl:input>
@@ -37,7 +37,7 @@
     </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
-  <wsdl:binding name="LogisticWebServiceImplServiceSoapBinding" type="tns:LogisticWebService">
+  <wsdl:binding name="TransportWebServiceImplServiceSoapBinding" type="tns:TransportWebService">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="hello">
       <soap:operation soapAction="" style="document"/>
@@ -49,9 +49,9 @@
       </wsdl:output>
     </wsdl:operation>
   </wsdl:binding>
-  <wsdl:service name="LogisticWebServiceImplService">
-    <wsdl:port name="LogisticWebServiceImplPort" binding="tns:LogisticWebServiceImplServiceSoapBinding">
-      <soap:address location="http://localhost:9090/LogisticWebServiceImplPort"/>
+  <wsdl:service name="TransportWebServiceImplService">
+    <wsdl:port name="TransportWebServiceImplPort" binding="tns:TransportWebServiceImplServiceSoapBinding">
+      <soap:address location="http://localhost:9090/TransportWebServiceImplPort"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

@@ -1,8 +1,8 @@
 #FROM tomcat:8.0
 #COPY ./Delivery/target/delivery.war /usr/local/tomcat/webapps/
 #COPY ./Delivery/target/delivery-classes.jar /usr/local/tomcat/webapps/
-#COPY ./Logistic/target/logistic.war /usr/local/tomcat/webapps/
-#COPY ./Logistic/target/logistic-classes.jar /usr/local/tomcat/webapps/
+#COPY ./Transport/target/transport.war /usr/local/tomcat/webapps/
+#COPY ./Transport/target/transport-classes.jar /usr/local/tomcat/webapps/
 #
 #EXPOSE 8080
 #

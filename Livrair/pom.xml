@@ -6,7 +6,7 @@
 
     <modules>
         <module>Common</module>
-        <module>Logistic</module>
+        <module>Transport</module>
         <module>Scheduler</module>
         <module>Delivery</module>
         <module>Biller</module>

@@ -8,11 +8,11 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 
-@WebService(targetNamespace = "http://www.delivrair.fr/backend/logistic")
-@Stateless(name = "LogisticWS")
-public class LogisticWebServiceImpl implements LogisticWebService {
+@WebService(targetNamespace = "http://www.delivrair.fr/backend/transport")
+@Stateless(name = "TransportWS")
+public class TransportWebServiceImpl implements TransportWebService {
 
-    @EJB(name="stateless-logistic") private Availability availability;
+    @EJB(name="stateless-transport") private Availability availability;
     @EJB private DroneModifier modifier;
 
     @Override

@@ -1,6 +1,6 @@
 package interfaces;
 
-import arquillian.AbstractLogisticTest;
+import arquillian.AbstractTransportTest;
 import entities.Drone;
 import entities.DroneStatus;
 import exceptions.DroneAlreadyExistsException;
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(Arquillian.class)
 @Transactional(TransactionMode.ROLLBACK)
-public class AvailabilityTest extends AbstractLogisticTest {
+public class AvailabilityTest extends AbstractTransportTest {
 
 
     @EJB

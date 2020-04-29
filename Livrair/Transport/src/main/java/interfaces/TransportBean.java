@@ -17,7 +17,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Stateless
-public class LogisticBean implements DroneModifier, Availability {
+public class TransportBean implements DroneModifier, Availability {
 
 
     @PersistenceContext

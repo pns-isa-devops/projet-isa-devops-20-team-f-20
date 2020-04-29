@@ -6,7 +6,7 @@ import exceptions.DroneAlreadyExistsException;
 import exceptions.DroneDoesNotExistException;
 import interfaces.Availability;
 import interfaces.DroneModifier;
-import interfaces.LogisticBean;
+import interfaces.TransportBean;
 import interfaces.PlanningInterface;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.shrinkwrap.api.spec.WebArchive;

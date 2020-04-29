@@ -41,14 +41,14 @@ describe('Init Test', () => {
       var env = `
       <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
           <Body>
-              <addDrone xmlns="http://www.delivrair.fr/backend/logistic">
+              <addDrone xmlns="http://www.delivrair.fr/backend/transport">
                   <id xmlns="">0</id>
               </addDrone>
           </Body>
       </Envelope>
       `
 
-      cy.request('POST', 'http://'+host+':8080/delivery/webservices/LogisticWS?wsdl',
+      cy.request('POST', 'http://'+host+':8080/delivery/webservices/TransportWS?wsdl',
           env)
         .then((response) => {
           // response.body is automatically serialized into JSON
@@ -63,7 +63,7 @@ describe('Add delivery test', () => {
   context('Create new delivery', () => {
 
     it('Cannot create a delivery from a package that does not exist', () => {
-      
+
       cy.get('[data-cy=id_field]').scrollIntoView().clear({force: true}).type('-1', {force: true})
       cy.get('[data-cy=date_field]').scrollIntoView().clear({force: true}).type('2020-04-18', {force: true})
       cy.get('[data-cy=time_field]').scrollIntoView().clear({force: true}).type('12:00', {force: true})
