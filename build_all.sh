@@ -9,13 +9,6 @@ if [[ "$1" != "" ]]; then
             ./compile.sh
             cd ..
         fi
-        if [[ "$1" == "client" ]]; then
-            # Client CLI
-            echo "Build client CLI.."
-            cd ../client
-            mvn -q -DskipTests clean package assembly:single
-            cd ..
-        fi
         if [[ "$1" == "backend" ]]; then
              # Backend
             cd Livrair
@@ -42,11 +35,6 @@ else
     echo "Build Dotnet.."
     cd dotnet/
     ./compile.sh
-
-    # Client CLI
-    echo "Build client CLI.."
-    cd ../client
-    mvn -q -DskipTests clean package assembly:single
 
      # Client Vue
     echo "Build client VueJS.."

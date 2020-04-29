@@ -28,24 +28,6 @@ services:
       - frontend
       - default
 
-
-  # Clien Java CLI
-  client:
-    build: ./client
-    container_name: client
-#    depends_on:
-#      - backend
-#    ports:
-#      - "8080:8080"
-#    command: "host.docker.internal 8080"
-    command: "backend 8080"
-#    volumes:
-#      - .:/host
-    stdin_open: true
-    tty: true
-    networks:
-      - frontend
-
   backend:
     build: ./Livrair
     container_name: backend
