@@ -115,13 +115,13 @@
         methods: {
             addDelivery() {
                 this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND +
-                    ':8080/delivery/webservices/DeliveryWS?wsdl', true);
+                    ':8080/scheduler/webservices/SchedulerWS?wsdl', true);
 
                 // build SOAP request
                 var sr = `
                     <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
                         <Body>
-                            <createDelivery xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery">
+                            <createDelivery xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/scheduler">
                                 <id xmlns="">` + this.id + `</id>
                                 <jour xmlns="">` + this.date.split('-', 3)[2] + `</jour>
                                 <mois xmlns="">` + this.date.split('-', 3)[1] + `</mois>

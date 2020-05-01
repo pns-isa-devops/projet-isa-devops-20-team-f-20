@@ -130,14 +130,14 @@
         (async () => {
           await this.delay(500);
           this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND +
-            ':8080/delivery/webservices/DeliveryWS?wsdl', true);
+            ':8080/scheduler/webservices/LogisticWS?wsdl', true);
 
           // build SOAP request
           var sr =
             `<?xml version="1.0" encoding="utf-8"?>
           <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
               <Body>
-                  <getPlannedDeliveries xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery"/>
+                  <getPlannedDeliveries xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/logistic"/>
               </Body>
           </Envelope>`
 
