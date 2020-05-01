@@ -37,23 +37,23 @@ describe('Init Test', () => {
     //   var env = `<?xml version="1.0" encoding="utf-8"?>
     //       <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
     //           <Body>
-    //               <getAllPackages xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery"/>
+    //               <getAllPackages xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/scheduler"/>
     //           </Body>
     //       </Envelope>`
 
-    //   cy.request('POST', 'http://'+host+':8080/delivery/webservices/DeliveryWS?wsdl', env)
+    //   cy.request('POST', 'http://'+host+':8080/scheduler/webservices/LogisticWS?wsdl', env)
     //   .then((response) => {
     //     expect(response.body).to.have.string('getAllPackagesResponse') // true
     //     cy.get("#app > div > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(2) > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody")
     //     .as('packages')
     //     cy.get('@packages').find('tr').should('have.length', 3)
     //   })
-      
+
     // })
 
     it('Should have no items in delivery list', () => {
       cy.get('[data-cy=refresh_delivery]').click()
-      
+
       cy.wait(5000)
 
       cy.get("#app > div > main > div > div > div.row.align-center.justify-center > div > div > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody > tr > td")
@@ -65,11 +65,11 @@ describe('Init Test', () => {
     //   var env = `<?xml version="1.0" encoding="utf-8"?>
     //   <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
     //       <Body>
-    //           <getPlannedDeliveries xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery"/>
+    //           <getPlannedDeliveries xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/scheduler"/>
     //       </Body>
     //   </Envelope>`
 
-    //   cy.request('POST', 'http://'+host+':8080/delivery/webservices/DeliveryWS?wsdl', env)
+    //   cy.request('POST', 'http://'+host+':8080/scheduler/webservices/LogisticWS?wsdl', env)
     //   .then((response) => {
     //     expect(response.body).to.have.string('getPlannedDeliveriesResponse') // true
     //     cy.get("#app > div > main > div > div > div.row.align-center.justify-center > div > div > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody > tr > td")
@@ -89,12 +89,12 @@ describe('Init Test', () => {
       </Envelope>
       `
 
-      cy.request('POST', 'http://'+host+':8080/delivery/webservices/LogisticWS?wsdl', env)
+      cy.request('POST', 'http://'+host+':8080/scheduler/webservices/LogisticWS?wsdl', env)
       .then((response) => {
         // response.body is automatically serialized into JSON
         expect(response.body).to.have.string('<add_drone>true</add_drone>') // true
       })
-      
+
     })
   })
 })
@@ -104,7 +104,7 @@ describe('Add delivery test', () => {
   context('Create new delivery', () => {
 
     it('Cannot create a delivery from a package that does not exist', () => {
-      
+
       cy.get('[data-cy=id_field]').scrollIntoView().clear({force: true}).type('-1', {force: true})
       cy.get('[data-cy=date_field]').scrollIntoView().clear({force: true}).type('2020-04-18', {force: true})
       cy.get('[data-cy=time_field]').scrollIntoView().clear({force: true}).type('12:00', {force: true})
@@ -175,11 +175,11 @@ describe('Add delivery test', () => {
     //   var env = `<?xml version="1.0" encoding="utf-8"?>
     //       <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
     //           <Body>
-    //               <getAllPackages xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery"/>
+    //               <getAllPackages xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/scheduler"/>
     //           </Body>
     //       </Envelope>`
 
-    //   cy.request('POST', 'http://'+host+':8080/delivery/webservices/DeliveryWS?wsdl', env)
+    //   cy.request('POST', 'http://'+host+':8080/scheduler/webservices/LogisticWS?wsdl', env)
     //   .then((response) => {
     //     expect(response.body).to.have.string('getAllPackagesResponse') // true
     //     cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(2) > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody > tr:nth-child(1)")
@@ -201,11 +201,11 @@ describe('Add delivery test', () => {
     // var env = `<?xml version="1.0" encoding="utf-8"?>
     //   <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
     //       <Body>
-    //           <getPlannedDeliveries xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery"/>
+    //           <getPlannedDeliveries xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/scheduler"/>
     //       </Body>
     //   </Envelope>`
 
-    //   cy.request('POST', 'http://'+host+':8080/delivery/webservices/DeliveryWS?wsdl', env)
+    //   cy.request('POST', 'http://'+host+':8080/scheduler/webservices/LogisticWS?wsdl', env)
     //   .then((response) => {
     //     expect(response.body).to.have.string('getPlannedDeliveriesResponse') // true
     //     cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-center > div > div > div > div:nth-child(2) > div > div.v-data-table__wrapper > table > tbody > tr")

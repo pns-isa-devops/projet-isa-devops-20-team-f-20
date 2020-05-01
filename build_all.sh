@@ -2,7 +2,7 @@
 
 if [[ "$1" != "" ]]; then
     while [ "$1" != "" ]; do
-        if [[ "$1" == "ext" ]]; then
+        if [[ "$1" == "ext" || "$1" == "backend" ]]; then
              # Dotnet
             echo "Build Dotnet.."
             cd dotnet/
