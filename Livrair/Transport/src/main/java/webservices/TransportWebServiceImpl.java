@@ -18,20 +18,12 @@ public class TransportWebServiceImpl implements TransportWebService {
     private DroneModifier modifier;
 
     @Override
-<<<<<<< HEAD:Livrair/Logistic/src/main/java/webservices/LogisticWebServiceImpl.java
-    public boolean addDrone(String id) throws DroneAlreadyExistsException {
-        try {
-            modifier.addDrone(id);
-            return true;
-        }
-        catch (DroneAlreadyExistsException e) {
-=======
+
     public boolean addDrone(String id) {
         try {
             modifier.addDrone(id);
             return true;
         } catch (DroneAlreadyExistsException e) {
->>>>>>> backend:Livrair/Transport/src/main/java/webservices/TransportWebServiceImpl.java
             e.printStackTrace();
             return false;
         }
