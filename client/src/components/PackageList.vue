@@ -1,131 +1,142 @@
 <template>
-    <v-row>
-        <v-col>
-            <v-row align="center" justify="center">
+  <v-row>
+    <v-col>
+      <v-row align="center" justify="center">
         <span class="title text-upper" color="" dark>
-          <span style="margin-right: 5px;">PACKAGE</span>
+          <span style="margin-right: 5px;" >PACKAGE</span>
           <span class="font-weight-light">LIST</span>
         </span>
-                <v-btn @click="this.getAllPackages" color="purple darken-2" data-cy="refresh_package" icon>
-                    <v-icon>mdi-cached</v-icon>
-                </v-btn>
-            </v-row>
-            <v-row align="center" justify="center">
-                <v-data-table :headers="headers" :items="packages" class="elevation-4">
-                    <template v-slot:item.status="{ item }">
-                        <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
-                    </template>
-                </v-data-table>
-            </v-row>
-        </v-col>
-    </v-row>
+        <v-btn data-cy="refresh_package" color="purple darken-2" icon @click="this.getAllPackages">
+          <v-icon>mdi-cached</v-icon>
+        </v-btn>
+      </v-row>
+      <v-row align="center" justify="center">
+        <v-data-table :headers="headers" :items="packages" class="elevation-4">
+          <template v-slot:item.status="{ item }">
+            <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
+          </template>
+        </v-data-table>
+      </v-row>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
-    export default {
-        name: 'PackageList',
-        props: {
-            msg: String
-        },
-        data() {
-            return {
-                xmlhttp: new XMLHttpRequest(),
-                headers: [{
-                    text: 'ID',
-                    align: 'start',
-                    sortable: true,
-                    value: 'id',
-                },
-                    {
-                        text: 'Status',
-                        align: 'center',
-                        value: 'status'
-                    },
-                    {
-                        text: 'Address',
-                        value: 'address'
-                    },
-                ],
-                packages: [
-                    // {
-                    //   id: '874512',
-                    //   status: 'ASSIGNED',
-                    //   address: '53 rue de la porte',
-                    // },
-                    // {
-                    //   id: '654465',
-                    //   status: 'ASSIGNED',
-                    //   address: '18 avenue de chalaise',
-                    // },
-                    // {
-                    //   id: '515845',
-                    //   status: 'WAITING',
-                    //   address: '74 boulerd garnier',
-                    // }
-                ],
+  export default {
+    name: 'PackageList',
+    props: {
+      mode: String
+    },
+    data() {
+      return {
+        xmlhttp: new XMLHttpRequest(),
+        headers: [{
+            text: 'ID',
+            align: 'start',
+            sortable: true,
+            value: 'id',
+          },
+          {
+            text: 'Status',
+            align: 'center',
+            value: 'status'
+          },
+          {
+            text: 'Address',
+            value: 'address'
+          },
+        ],
+        packages: [
+          // {
+          //   id: '874512',
+          //   status: 'ASSIGNED',
+          //   address: '53 rue de la porte',
+          // },
+          // {
+          //   id: '654465',
+          //   status: 'ASSIGNED',
+          //   address: '18 avenue de chalaise',
+          // },
+          // {
+          //   id: '515845',
+          //   status: 'WAITING',
+          //   address: '74 boulerd garnier',
+          // }
+        ],
 
-            }
-        },
-        methods: {
-            getColor(status) {
-                if (status == 'WAITING') return 'red'
-                else if (status == 'REGISTERED') return 'orange'
-                else if (status == 'ASSIGNED') return 'green'
-                else return 'grey'
-            },
-            getAllPackages() {
-                console.log(process.env)
+      }
+    },
+    methods: {
+      getColor(status) {
+        if (status == 'REGISTERED') return 'red'
+        else if (status == 'WAITING') return 'orange'
+        else if (status == 'ASSIGNED') return 'green'
+        else return 'grey'
+      },
+      getAllPackages() {
+        console.log(process.env)
 
 
-                this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND + ':8080/logistic/webservices/LogisticWS?wsdl', true);
+        this.xmlhttp.open('POST', 'http://'+process.env.VUE_APP_BACKEND+':8080/delivery/webservices/DeliveryWS?wsdl', true);
 
-                // build SOAP request
-                var sr =
-                    `<?xml version="1.0" encoding="utf-8"?>
+        // build SOAP request
+        var sr =
+          `<?xml version="1.0" encoding="utf-8"?>
           <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
               <Body>
                   <getAllPackages xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/delivery"/>
               </Body>
           </Envelope>`
 
-                let context = this
+        let context = this
 
-                this.xmlhttp.onreadystatechange = function () {
-                    if (context.xmlhttp.readyState == 4) {
-                        if (context.xmlhttp.status == 200) {
+        this.xmlhttp.onreadystatechange = function () {
+          if (context.xmlhttp.readyState == 4) {
+            if (context.xmlhttp.status == 200) {
 
-                            let respXML = context.xmlhttp.responseXML;
-                            // let respJSON = require('xml-js').xml2json(context.xmlhttp.response, {
-                            //   compact: true,
-                            //   spaces: 4
-                            // });
-                            //console.log(respXML)
+              let respXML = context.xmlhttp.responseXML;
+              // let respJSON = require('xml-js').xml2json(context.xmlhttp.response, {
+              //   compact: true,
+              //   spaces: 4
+              // });
+              //console.log(respXML)
 
-                            let packages = respXML.getElementsByTagName('package')
-                            //console.log(packages)
+              let packages = respXML.getElementsByTagName('package')
+              //console.log(packages)
 
-                            context.packages = []
-                            for (let pack of packages) {
-                                //console.log(pack)
-                                let respPackage = {
-                                    id: pack.getElementsByTagName('id')[0].innerHTML,
-                                    status: pack.getElementsByTagName('packageStatus')[0].innerHTML,
-                                    address: pack.getElementsByTagName('address')[0].innerHTML,
-                                }
-                                context.packages.push(respPackage);
-                            }
-                        }
-                    }
+              context.packages = []
+              for (let pack of packages) {
+                //console.log(pack)
+                
+                let respPackage = {
+                  id: pack.getElementsByTagName('idPackage')[0].innerHTML,
+                  status: pack.getElementsByTagName('statusPackage')[0].innerHTML,
+                  address: pack.getElementsByTagName('address')[0].innerHTML,
                 }
-                // Send the POST request
-                this.xmlhttp.setRequestHeader('Content-Type', 'text/xml');
-                this.xmlhttp.send(sr);
+
+                if (context.mode == 'client'){
+                  //if (respPackage.status !== 'REGISTERED'){ //ie WAITING or ASSIGNED
+                    context.packages.push(respPackage);
+                  //}
+                }
+                if (context.mode == 'manu'){
+                  //if (respPackage.status == 'REGISTERED'){ //only assigned
+                    context.packages.push(respPackage); 
+                  //}
+                }
+              }
             }
-        },
-        mounted() {
-            this.getAllPackages()
+          }
         }
+        // Send the POST request
+        this.xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+        this.xmlhttp.send(sr);
+      }
+    },
+    mounted() {
+      this.getAllPackages()
     }
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
