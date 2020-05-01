@@ -1,20 +1,16 @@
 package entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Entity
-@Table(name="deliveries")
+@Table(name = "deliveries")
 public class Delivery implements Serializable {
 
     private String id;
@@ -33,7 +29,19 @@ public class Delivery implements Serializable {
 
     private DeliveryStatus status;
 
-    @XmlElement(name="idDelivery")
+    public Delivery(Package aPackage, Drone drone, LocalDateTime deliveryDate) {
+        this.aPackage = aPackage;
+        this.drone = drone;
+        setdeliveryDate(deliveryDate);
+        this.status = DeliveryStatus.READY;
+
+    }
+
+    public Delivery() {
+
+    }
+
+    @XmlElement(name = "idDelivery")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public String getId() {
@@ -70,8 +78,7 @@ public class Delivery implements Serializable {
         this.liftOffDate = liftOffDate;
     }
 
-
-    @XmlElement(name="deliveryDate")
+    @XmlElement(name = "deliveryDate")
     public String getDeliveryDateTS() {
         return deliveryDateTS;
     }
@@ -99,7 +106,7 @@ public class Delivery implements Serializable {
         this.previsionalReturnDate = previsionalReturnDate;
     }
 
-    @XmlElement(name="statusDelivery")
+    @XmlElement(name = "statusDelivery")
     @Enumerated(EnumType.STRING)
     public DeliveryStatus getStatus() {
         return status;
@@ -109,25 +116,13 @@ public class Delivery implements Serializable {
         this.status = status;
     }
 
-    public Delivery(Package aPackage, Drone drone, LocalDateTime deliveryDate) {
-        this.aPackage = aPackage;
-        this.drone = drone;
-        setdeliveryDate(deliveryDate);
-        this.status = DeliveryStatus.READY;
-
-    }
-
-    public Delivery(){
-
-    }
-
     @Override
     public String toString() {
         String s = "Delivery n°" + getId() + " :\n";
         s += "\tSchedule for : " + getDeliveryDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) + "\n";
         s += "\tAssign to drone : " + getDrone() + "\n";
         s += "\tAssign to package : " + getaPackage().toString() + "\n";
-        s += "\t\tSTATUS : " + getStatus().toString()+ "\n\n";
+        s += "\t\tSTATUS : " + getStatus().toString() + "\n\n";
         return s;
     }
 

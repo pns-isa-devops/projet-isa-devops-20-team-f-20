@@ -16,7 +16,24 @@ public class Drone {
 
     private DroneStatus status;
 
-    @XmlElement(name="idDrone")
+    public Drone() {
+    }
+
+    public Drone(String id) {
+        this.id = id;
+        this.chargelevel = 100;
+        this.flyingTime = 0;
+        this.status = DroneStatus.AVAILABLE;
+    }
+
+    public Drone(String id, double chargelevel, double flyingTime) {
+        this.id = id;
+        this.chargelevel = chargelevel;
+        this.flyingTime = flyingTime;
+        this.status = DroneStatus.AVAILABLE;
+    }
+
+    @XmlElement(name = "idDrone")
     @Id
     public String getId() {
         return id;
@@ -42,7 +59,7 @@ public class Drone {
         this.flyingTime = flyingTime;
     }
 
-    @XmlElement(name="statusDrone")
+    @XmlElement(name = "statusDrone")
     @Enumerated(EnumType.STRING)
     public DroneStatus getStatus() {
         return status;
@@ -51,24 +68,6 @@ public class Drone {
     public void setStatus(DroneStatus status) {
         this.status = status;
     }
-
-    public Drone() {
-    }
-
-    public Drone(String id) {
-        this.id = id;
-        this.chargelevel=100;
-        this.flyingTime = 0;
-        this.status = DroneStatus.AVAILABLE;
-    }
-
-    public Drone(String id, double chargelevel, double flyingTime) {
-        this.id = id;
-        this.chargelevel = chargelevel;
-        this.flyingTime = flyingTime;
-        this.status = DroneStatus.AVAILABLE;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -83,6 +82,6 @@ public class Drone {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(),getChargelevel(), getFlyingTime(), getStatus());
+        return Objects.hash(getId(), getChargelevel(), getFlyingTime(), getStatus());
     }
 }

@@ -28,14 +28,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Transactional(TransactionMode.ROLLBACK)
 public class PlanDeliveryTest extends AbstractSchedulerTest {
 
+    private final List<Delivery> deliveries = new ArrayList<>();
+    Supplier supplier;
     @EJB
     private PlanningInterface scheduler;
-
-    private List<Delivery> deliveries = new ArrayList<>();
-
     @PersistenceContext
     private EntityManager entityManager;
-    Supplier supplier;
 
     @Before
     public void setUp() {
@@ -46,6 +44,11 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
         entityManager.persist(new Drone("1"));
 
         entityManager.persist(existingDelivery);
+
+        entityManager.persist(new Package("2t", "testuser", PackageStatus.REGISTERED,
+                "210 avenue roumanille", supplier));
+        entityManager.persist(new Package("3t", "testuser", PackageStatus.REGISTERED,
+                "210 avenue roumanille", supplier));
     }
 
     @Test
@@ -53,9 +56,8 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
         Optional<Delivery> d = null;
 
         try {
-            d = scheduler.planDelivery(new Package("2", "testuser", PackageStatus.REGISTERED,
-                            "210 avenue roumanille", supplier),
-                    LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)), deliveries);
+            d = scheduler.planDelivery("2t",
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)));
         } catch (Exception e) {
             assert (false);
         }
@@ -69,10 +71,8 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
     public void planDeliveryNotAvailable() {
         Optional<Delivery> d = null;
         try {
-            d = scheduler.planDelivery(new Package("3", "testuser", PackageStatus.REGISTERED,
-
-                            "210 avenue roumanille", supplier),
-                    LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)), deliveries);
+            d = scheduler.planDelivery("3t",
+                    LocalDateTime.of(LocalDate.now(), LocalTime.of(10, 0)));
         } catch (Exception e) {
             assert (false);
         }

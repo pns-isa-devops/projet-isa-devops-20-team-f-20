@@ -1,7 +1,7 @@
 package core;
 
-import entities.*;
-import entities.Package;
+import entities.Invoice;
+import entities.InvoiceStatus;
 import exceptions.InvoiceDoesNotExistException;
 
 import javax.ejb.Local;

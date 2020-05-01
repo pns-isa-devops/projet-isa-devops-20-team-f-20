@@ -9,29 +9,23 @@ if [[ "$1" != "" ]]; then
             ./compile.sh
             cd ..
         fi
-        if [[ "$1" == "client" ]]; then
-            # Client CLI
-            echo "Build client CLI.."
-            cd ../client
-            mvn -q -DskipTests clean package assembly:single
-            cd ..
-        fi
         if [[ "$1" == "backend" ]]; then
              # Backend
             cd Livrair
-            echo "Livrair Clean & Install"
-            mvn -DskipTests clean install
-            cd Delivery
-            echo "Delivery Clean & Package"
+
+            echo "Livrair clean install"
+            mvn -q -DskipTests clean package
+            cd Scheduler
+            echo "Scheduler pacakge"
             mvn -q -DskipTests package
             cd ../..
         fi
         if [[ "$1" == "vue" ]]; then
              # Client Vue
             echo "Build client VueJS.."
-            cd client/old/ #TODO modifier quand path changé
+            cd client/
             npm i
-            cd ../..
+            cd ..
         fi
         shift
     done
@@ -42,23 +36,21 @@ else
     echo "Build Dotnet.."
     cd dotnet/
     ./compile.sh
-
-    # Client CLI
-    echo "Build client CLI.."
-    cd ../client
-    mvn -q -DskipTests clean package assembly:single
+    cd ..
 
      # Client Vue
     echo "Build client VueJS.."
-    cd old/ #TODO modifier quand path changé
+    cd client
     npm i
+    cd ..
 
-	# Backend
+    # Backend
     echo "Livrair clean install"
-    cd ../../Livrair
-    mvn -DskipTests clean install
-    cd Delivery
-    echo "Delivery package"
+    cd Livrair
+    mvn -q -DskipTests clean install
+    cd Scheduler
+    echo "Scheduler pacakge"
     mvn -q -DskipTests package
+    cd ../..
 
 fi

@@ -12,18 +12,18 @@ public class SlotTest {
     private Slot slot;
 
     @Before
-    public void setUp(){
-        this.slot = new Slot(10,13);
+    public void setUp() {
+        this.slot = new Slot(10, 13);
     }
 
     @Test
     public void book() {
         Delivery d = new Delivery(new Package("5", "Baptiste",
-                PackageStatus.REGISTERED, "1 rue de la paix", new Supplier("UPS", "2 rue de la paix")),null, LocalDateTime.now());
+                PackageStatus.REGISTERED, "1 rue de la paix", new Supplier("UPS", "2 rue de la paix")), null, LocalDateTime.now());
         try {
             slot.book(d);
         } catch (Exception e) {
-            assert(false);
+            assert (false);
         }
         assertFalse(slot.isAvailable());
     }
@@ -34,10 +34,10 @@ public class SlotTest {
         try {
             slot.unbook();
         } catch (Exception e) {
-            assert(false);
+            assert (false);
         }
         assertTrue(slot.isAvailable());
-        assertNull(slot.getDelivery());
+        assertNull(slot.get());
     }
 
     @Test

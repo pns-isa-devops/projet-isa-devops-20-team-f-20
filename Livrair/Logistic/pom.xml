@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <packaging>war</packaging>
+
     <dependencies>
         <dependency>
             <groupId>fr.unice.polytech.isa</groupId>
@@ -18,6 +19,11 @@
             <version>1.0-SNAPSHOT</version>
             <classifier>classes</classifier>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomee</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0-1</version>
         </dependency>
     </dependencies>
 
@@ -66,7 +72,6 @@
     </parent>
 
 
-
     <build>
         <finalName>logistic</finalName>
         <plugins>
@@ -83,12 +88,12 @@
     </build>
 
     <distributionManagement>
-    <snapshotRepository>
-        <id>snapshots</id>
-        <name>99c982f4432c-snapshots</name>
-        <url>http://dev.richard-peres.com:8082/artifactory/libs-snapshot-local</url>
-    </snapshotRepository>
-</distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>99c982f4432c-snapshots</name>
+            <url>http://dev.richard-peres.com:8082/artifactory/libs-snapshot-local</url>
+        </snapshotRepository>
+    </distributionManagement>
 
 
 </project>

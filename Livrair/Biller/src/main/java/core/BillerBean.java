@@ -1,6 +1,8 @@
 package core;
 
-import entities.*;
+import entities.Delivery;
+import entities.Invoice;
+import entities.InvoiceStatus;
 import exceptions.InvoiceDoesNotExistException;
 
 import javax.ejb.Stateless;
@@ -18,7 +20,7 @@ import java.util.Set;
 @Stateless
 public class BillerBean implements InvoiceModifier {
 
-    private Set<Invoice> invoices = new HashSet<>();
+    private final Set<Invoice> invoices = new HashSet<>();
 
     @PersistenceContext
     private EntityManager manager;
@@ -35,10 +37,10 @@ public class BillerBean implements InvoiceModifier {
     public boolean addItem(String id) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Delivery> criteria = builder.createQuery(Delivery.class);
-        Root<Delivery> root =  criteria.from(Delivery.class);
+        Root<Delivery> root = criteria.from(Delivery.class);
         criteria.select(root).where(builder.equal(root.get("id"), id));
         TypedQuery<Delivery> query = manager.createQuery(criteria);
-        Optional<Invoice>tmp = getInvoiceBydate(query.getSingleResult().getDeliveryDate().format(DateTimeFormatter.ISO_DATE));
+        Optional<Invoice> tmp = getInvoiceBydate(query.getSingleResult().getDeliveryDate().format(DateTimeFormatter.ISO_DATE));
         if (tmp.isPresent()) {
             tmp.get().addDeliveries(query.getSingleResult());
             return true;
@@ -52,7 +54,7 @@ public class BillerBean implements InvoiceModifier {
 
     private Optional<Invoice> getInvoiceBydate(String day) {
         for (Invoice invoice : invoices) {
-            if (invoice.getDate().format(DateTimeFormatter.ISO_DATE).equals(day)){
+            if (invoice.getDate().format(DateTimeFormatter.ISO_DATE).equals(day)) {
                 return Optional.of(invoice);
             }
         }

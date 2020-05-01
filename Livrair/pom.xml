@@ -1,14 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
 
 
     <modules>
         <module>Common</module>
-        <module>Logistic</module>
+        <module>Transport</module>
         <module>Scheduler</module>
-        <module>Delivery</module>
+        <module>Logistic</module>
         <module>Biller</module>
     </modules>
 

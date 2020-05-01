@@ -1,7 +1,6 @@
 package webservices;
 
 import core.InvoiceModifier;
-import entities.Delivery;
 import entities.Invoice;
 import entities.InvoiceStatus;
 import exceptions.InvoiceDoesNotExistException;
@@ -14,7 +13,8 @@ import javax.jws.WebService;
 @Stateless(name = "InvoiceWS")
 public class InvoiceWebServiceImpl implements InvoiceWebService {
 
-    @EJB(name="stateless-invoice") private InvoiceModifier invoiceModifier;
+    @EJB(name = "stateless-invoice")
+    private InvoiceModifier invoiceModifier;
 
     @Override
     public void changeState(Invoice invoice, InvoiceStatus invoiceStatus) throws InvoiceDoesNotExistException {
@@ -22,7 +22,7 @@ public class InvoiceWebServiceImpl implements InvoiceWebService {
     }
 
     @Override
-    public boolean addItem(String id){
+    public boolean addItem(String id) {
         return invoiceModifier.addItem(id);
     }
 }

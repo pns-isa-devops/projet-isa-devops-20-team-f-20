@@ -1,15 +1,17 @@
-FROM openjdk:8
+FROM node:lts-alpine
 
-# Create app directory
-RUN mkdir -p /usr/src/livrair_client
-WORKDIR /usr/src/livrair_client
+# définit le dossier 'app' comme dossier de travail
+#WORKDIR /vuejs_client
 
-COPY target/livrair-client-1.0-SNAPSHOT-jar-with-dependencies.jar livrair-client.jar
+# copie les fichiers et dossiers du projet dans le dossier de travail (par exemple : le dossier 'app')
+COPY . .
 
-VOLUME /host
+#RUN npm i
 
-# Running the client using the starting shell script
-ENTRYPOINT ["java", "-jar", "./livrair-client.jar"]
+EXPOSE 8844
 
-# Default arguments to be forwarded to the entry point
-#CMD ["localhost", "8080"]
+# construit l'app pour la production en la minifiant
+ENTRYPOINT ["npm", "run", "serve"]
+
+#HEALTHCHECK --interval=1m --timeout=30s --retries=5 \
+#  CMD curl -f http://localhost:8844/ || exit 1

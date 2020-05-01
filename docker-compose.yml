@@ -12,14 +12,14 @@ services:
       - backend
 
   vue:
-    build: ./client/old
+    build: ./client
     container_name: vue
     ports:
           - "8844:8844"
     expose:
           - "8844"
     volumes:
-        - ./client/old/:/vuejs_client
+        - ./client/:/vuejs_client
     environment:
       - CHOKIDAR_USEPOLLING=true
     stdin_open: true
@@ -27,24 +27,6 @@ services:
     networks:
       - frontend
       - default
-
-
-  # Clien Java CLI
-  client:
-    build: ./client
-    container_name: client
-#    depends_on:
-#      - backend
-#    ports:
-#      - "8080:8080"
-#    command: "host.docker.internal 8080"
-    command: "backend 8080"
-#    volumes:
-#      - .:/host
-    stdin_open: true
-    tty: true
-    networks:
-      - frontend
 
   backend:
     build: ./Livrair
