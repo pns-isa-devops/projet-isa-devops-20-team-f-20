@@ -1,12 +1,11 @@
 #!/bin/bash
 
+echo "dos2unix All"
+dos2unix *.sh dotnet/*.sh Livrair/*/*.sh
 
 if [[ "$1" != "" ]]; then
     if [[ "$1" == "true" ]]; then
         shift
-
-        echo "dos2unix All"
-        dos2unix *.sh dotnet/*.sh Livrair/*/*.sh &
 
         echo "./build_all.sh "$@""
         ./build_all.sh "$@"
@@ -21,9 +20,6 @@ if [[ "$1" != "" ]]; then
      fi
 
 else
-
-    echo "dos2unix All"
-    dos2unix *.sh dotnet/*.sh Livrair/*/*.sh &
 
     echo "./build_all.sh"
     ./build_all.sh

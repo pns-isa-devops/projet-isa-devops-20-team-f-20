@@ -14,15 +14,15 @@ if [[ "$1" != "" ]]; then
             cd Livrair
             echo "Livrair clean install"
             mvn -q -DskipTests clean package
-            cd Logistic
-            echo "Logistic pacakge"
+            cd Scheduler
+            echo "Scheduler pacakge"
             mvn -q -DskipTests package
             cd ../..
         fi
         if [[ "$1" == "vue" ]]; then
              # Client Vue
             echo "Build client VueJS.."
-            cd client/ #TODO modifier quand path changé
+            cd client/
             npm i
             cd ..
         fi
