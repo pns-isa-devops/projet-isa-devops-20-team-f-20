@@ -24,3 +24,6 @@ artifactory_docker.tar
 jenkins_docker.tar
 logs.txt
 package-lock.json
+client/.env
+client/tests/e2e/screenshots/*
+client/tests/e2e/videos/*
