@@ -5,7 +5,6 @@ import core.InvoiceModifier;
 import entities.*;
 import entities.Package;
 import exceptions.InvoiceDoesNotExistException;
-import interfaces.PlanningInterface;
 import org.apache.openejb.testing.PersistenceRootUrl;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;

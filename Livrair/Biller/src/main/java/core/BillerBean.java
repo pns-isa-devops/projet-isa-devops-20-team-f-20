@@ -3,6 +3,7 @@ package core;
 import entities.Delivery;
 import entities.Invoice;
 import entities.InvoiceStatus;
+import entities.Supplier;
 import exceptions.InvoiceDoesNotExistException;
 
 import javax.ejb.Stateless;
