@@ -82,14 +82,14 @@ describe('Init Test', () => {
       var env = `
       <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
           <Body>
-              <addDrone xmlns="http://www.delivrair.fr/backend/logistic">
+              <addDrone xmlns="http://www.delivrair.fr/backend/transport">
                   <id xmlns="">0</id>
               </addDrone>
           </Body>
       </Envelope>
       `
 
-      cy.request('POST', 'http://'+host+':8080/scheduler/webservices/LogisticWS?wsdl', env)
+      cy.request('POST', 'http://'+host+':8080/scheduler/webservices/TransportWS?wsdl', env)
       .then((response) => {
         // response.body is automatically serialized into JSON
         expect(response.body).to.have.string('<add_drone>true</add_drone>') // true
