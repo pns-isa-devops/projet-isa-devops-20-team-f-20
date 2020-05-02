@@ -12,6 +12,7 @@ import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import java.time.temporal.ChronoUnit;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -50,26 +51,30 @@ import java.util.List;
             Delivery firstDelivery = new Delivery(pack1, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
             deliveries.add(firstDelivery);
             entityManager.persist(firstDelivery);
-            supplier = new Supplier("UPS", "Cannes");
             entities.Package pack2 = new entities.Package("1", "testuser1", PackageStatus.REGISTERED, "9 rue de la touche", supplier);
             Delivery secondDelivery = new Delivery(pack2, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)));
             deliveries.add(secondDelivery);
             entityManager.persist(secondDelivery);
-            supplier = new Supplier("UPS", "Cannes");
             entities.Package pack3 = new Package("2", "testuser2", PackageStatus.REGISTERED, "310 promenade des anglais", supplier);
-            Delivery newDayDelivery = new Delivery(pack3, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)));
+            Delivery newDayDelivery = new Delivery(pack3, null, LocalDateTime.of(LocalDate.now().plus(1, ChronoUnit.DAYS), LocalTime.of(15, 0)));
             deliveries.add(newDayDelivery);
             entityManager.persist(newDayDelivery);
         }
 
         @Test
         public void AddItem(){
-            /*invoiceModifier.addItem("1");
-            invoiceModifier.addItem("2");
-            invoiceModifier.addItem("3");
-            assertTrue(invoiceModifier.getInvoices().size() == 1);
+            invoiceModifier.addItem("1");
             Invoice invoice = invoiceModifier.getInvoices().get(0);
-            assertTrue(invoice.getDeliveries().size() == 3);*/
+            assertTrue(invoiceModifier.getInvoices().size() == 1);
+            assertTrue(invoice.getDeliveries().size() == 1);
+            invoiceModifier.addItem("2");
+            assertTrue(invoiceModifier.getInvoices().size() == 1);
+            assertTrue(invoice.getDeliveries().size() == 2);
+            invoiceModifier.addItem("3");
+            Invoice invoice2 = invoiceModifier.getInvoices().get(1);
+            assertTrue(invoiceModifier.getInvoices().size() == 2);
+            assertTrue(invoice.getDeliveries().size() == 2);
+            assertTrue(invoice2.getDeliveries().size() == 1);
 
 
 
