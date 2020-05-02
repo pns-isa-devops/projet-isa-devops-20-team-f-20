@@ -24,7 +24,7 @@ A la fin de la journée, elle va finalement renseigner les dernières informatio
 
 ## Retour client, statistiques : 
 Un client peut appeler Clissandre pour donner un retour client. Ce dernier donne son numero de livraion, et une note/commentaire voulu. Le systeme stocke les 'Reviews'. 
-Le boss peut accder en temps reel à l'etat de sa flotte, et à l'integralité des retours clients.
+Le boss peut acceder en temps reel à l'etat de sa flotte, et à l'integralité des retours clients.
 
 
 
