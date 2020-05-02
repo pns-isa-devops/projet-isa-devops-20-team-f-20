@@ -12,18 +12,22 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Stateless
 public class BillerBean implements InvoiceModifier {
 
-    private final Set<Invoice> invoices = new HashSet<>();
+    private List<Invoice> invoices = new ArrayList<>();
 
     @PersistenceContext
     private EntityManager manager;
+
+    SimpleDateFormat yearMonthDayPattern = new SimpleDateFormat("yyyy/MM/dd");
 
     @Override
     public void changeState(Invoice invoice, InvoiceStatus invoiceStatus) throws InvoiceDoesNotExistException {
@@ -40,21 +44,35 @@ public class BillerBean implements InvoiceModifier {
         Root<Delivery> root = criteria.from(Delivery.class);
         criteria.select(root).where(builder.equal(root.get("id"), id));
         TypedQuery<Delivery> query = manager.createQuery(criteria);
-        Optional<Invoice> tmp = getInvoiceBydate(query.getSingleResult().getDeliveryDate().format(DateTimeFormatter.ISO_DATE));
+        LocalDateTime tmpDate = query.getSingleResult().getDeliveryDate();
+        Date now = Date.from( tmpDate.atZone(ZoneId.systemDefault()).toInstant());
+        Optional<Invoice>tmp = getInvoiceBydate(now);
         if (tmp.isPresent()) {
             tmp.get().addDeliveries(query.getSingleResult());
             return true;
         } else {
-            Invoice invoice = new Invoice(query.getSingleResult().getaPackage().getSupplier(), query.getSingleResult().getDeliveryDate());
+            Supplier tmpSupplier = query.getSingleResult().getaPackage().getSupplier();
+            Invoice invoice = new Invoice(tmpSupplier, now);
             invoices.add(invoice);
+            this.manager.persist(invoice);
             invoice.addDeliveries(query.getSingleResult());
             return true;
         }
     }
 
-    private Optional<Invoice> getInvoiceBydate(String day) {
+    @Override
+    public List<Invoice> getInvoices(){
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Invoice> criteria = builder.createQuery(Invoice.class);
+        Root<Invoice> root =  criteria.from(Invoice.class);
+        criteria.select(root);
+        TypedQuery<Invoice> query = manager.createQuery(criteria);
+        return query.getResultList();
+    }
+
+    private Optional<Invoice> getInvoiceBydate(Date day) {
         for (Invoice invoice : invoices) {
-            if (invoice.getDate().format(DateTimeFormatter.ISO_DATE).equals(day)) {
+            if (yearMonthDayPattern.format(invoice.getDate()).equals(yearMonthDayPattern.format(day))){
                 return Optional.of(invoice);
             }
         }
