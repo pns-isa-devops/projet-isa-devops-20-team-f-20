@@ -12,7 +12,7 @@ import java.util.List;
 
 @WebService(targetNamespace = "http://www.polytech.unice.fr/si/4a/isa/drone-delivery/logistic")
 @Stateless(name = "LogisticWS")
-public class DeliveryWebServiceImpl implements LogisticWebService {
+public class LogisticWebServiceImpl implements LogisticWebService {
 
     @EJB(name = "stateless-package")
     private PackageFinder finder;
