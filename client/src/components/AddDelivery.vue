@@ -121,14 +121,14 @@
                 var sr = `
                     <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
                         <Body>
-                            <createDelivery xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/scheduler">
+                            <planDelivery xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/scheduler">
                                 <id xmlns="">` + this.id + `</id>
                                 <jour xmlns="">` + this.date.split('-', 3)[2] + `</jour>
                                 <mois xmlns="">` + this.date.split('-', 3)[1] + `</mois>
                                 <annee xmlns="">` + this.date.split('-', 3)[0] + `</annee>
                                 <heure xmlns="">` + this.time.split(':', 2)[0] + `</heure>
                                 <minute xmlns="">` + this.time.split(':', 2)[1] + `</minute>
-                            </createDelivery>
+                            </planDelivery>
                         </Body>
                     </Envelope>
                     `
