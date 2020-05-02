@@ -35,7 +35,7 @@ public class SchedulerBean implements PlanningInterface {
         List<Delivery> deliveries;
         Package item;
 
-        deliveries = deliveryManager.retrievePlannedDeliveries().get().orElse(new ArrayList<>())));
+        deliveries = deliveryManager.retrievePlannedDeliveries().get().orElse(new ArrayList<>());
 
         try {
             item = packageFinder.findById(id).get();
