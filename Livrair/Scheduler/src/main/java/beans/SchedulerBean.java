@@ -35,17 +35,16 @@ public class SchedulerBean implements PlanningInterface {
         List<Delivery> deliveries;
         Package item;
 
-        try {
-            deliveries = deliveryManager.retrievePlannedDeliveries().get();
-        } catch (NoSuchElementException e) {
-            deliveries = new ArrayList<>();
-        }
+        deliveries = deliveryManager.retrievePlannedDeliveries().get().orElse(new ArrayList<>())));
 
         try {
             item = packageFinder.findById(id).get();
         } catch (NoSuchElementException e) {
-            return Optional.empty();
+            return Optional.empty(); // TODO exception specifique ?
         }
+
+        if(!item.getPackageStatus().equals(PackageStatus.REGISTERED))
+          return Optional.empty(); // TODO exception specifique ?
 
         DailyPlanning dailyPlanning = new DailyPlanning(DailyPlanning.fromDeliveries(deliveries));
 
@@ -57,6 +56,7 @@ public class SchedulerBean implements PlanningInterface {
                 Drone drone = drones.iterator().next();
                 drone.setStatus(DroneStatus.DELIVERING);
                 Delivery delivery = new Delivery(item, drone, deliveryDate);
+                item.setPackageStatus(PackageStatus.ASSIGNED);
                 manager.persist(delivery);
                 return Optional.of(delivery);
             }
