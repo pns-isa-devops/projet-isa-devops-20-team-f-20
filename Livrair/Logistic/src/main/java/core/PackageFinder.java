@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface PackageFinder {
     Optional<Package> findById(String id);
 
-    Optional<Package> findByCustomer(String customerName);
+    Optional<List<Package>> findByCustomer(String customerName);
 
     Optional<List<Package>> findByStatus(PackageStatus status);
 

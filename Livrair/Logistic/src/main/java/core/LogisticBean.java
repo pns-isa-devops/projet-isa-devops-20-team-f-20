@@ -46,7 +46,7 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
     }
 
     @Override
-    public Optional<Package> findByCustomer(String customerName) {
+    public Optional<List<Package>> findByCustomer(String customerName) {
         getAllPackages();
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
@@ -54,7 +54,7 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
         criteria.select(root).where(builder.equal(root.get("customerName"), customerName));
         TypedQuery<Package> query = manager.createQuery(criteria);
         try {
-            return Optional.of(query.getSingleResult());
+            return Optional.of(query.getResultList());
         } catch (NoResultException nre) {
             return Optional.empty();
         }
@@ -62,7 +62,17 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public Optional<List<Package>> findByStatus(PackageStatus status) {
-        return Optional.empty();
+        getAllPackages();
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
+        Root<Package> root = criteria.from(Package.class);
+        criteria.select(root).where(builder.equal(root.get("packageStatus"), status));
+        TypedQuery<Package> query = manager.createQuery(criteria);
+        try {
+            return Optional.of(query.getResultList());
+        } catch (NoResultException nre) {
+            return Optional.empty();
+        }
     }
 
     @Override
