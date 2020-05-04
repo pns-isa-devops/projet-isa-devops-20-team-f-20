@@ -7,6 +7,7 @@ import entities.Supplier;
 import exceptions.ExternalPartnerException;
 import org.apache.cxf.common.i18n.UncheckedException;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -28,6 +29,19 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
     private PackageSupplyAPI packageSupplyAPI;
     @PersistenceContext
     private EntityManager manager;
+
+
+    @PostConstruct private void setupExternalAPI(){
+        try {
+            Properties prop = new Properties();
+            prop.load(LogisticBean.class.getResourceAsStream("/supplier.properties"));
+            packageSupplyAPI = new PackageSupplyAPI(prop.getProperty("supplierHostName"),
+                    prop.getProperty("supplierPortNumber"), "123", new Supplier("UPS", "Biot"));
+        } catch (IOException e) {
+//            log.log(Level.INFO, "Cannot read supplier.properties file", e);
+            throw new UncheckedException(e);
+        }
+    }
 
     @Override
     public Optional<Package> findById(String id) {
@@ -90,22 +104,18 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
     @Override
     public void retrieveIncomingPackages() {
         try {
-            Properties prop = new Properties();
-            prop.load(LogisticBean.class.getResourceAsStream("/supplier.properties"));
-            packageSupplyAPI = new PackageSupplyAPI(prop.getProperty("supplierHostName"),
-                    prop.getProperty("supplierPortNumber"), "123", new Supplier("UPS", "Biot"));
-        } catch (IOException e) {
-//            log.log(Level.INFO, "Cannot read supplier.properties file", e);
-            throw new UncheckedException(e);
-        }
-        try {
             packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
-                manager.persist(incomingPackage);
+                    manager.persist(incomingPackage);
             });
         } catch (ExternalPartnerException e) {
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void useSupplierReference(PackageSupplyAPI p) {
+        this.packageSupplyAPI = p;
     }
 
 

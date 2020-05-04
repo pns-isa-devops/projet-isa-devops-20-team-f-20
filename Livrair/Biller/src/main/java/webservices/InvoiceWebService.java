@@ -1,5 +1,6 @@
 package webservices;
 
+import entities.Delivery;
 import entities.Invoice;
 import entities.InvoiceStatus;
 import exceptions.InvoiceDoesNotExistException;
@@ -18,7 +19,7 @@ public interface InvoiceWebService {
 
     @WebMethod
     @WebResult(name = "add_item")
-    boolean addItem(String id);
+    public boolean addItem(Delivery d);
 
     @WebMethod
     @WebResult( name = "get_invoices")

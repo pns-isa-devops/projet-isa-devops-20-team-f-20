@@ -1,12 +1,14 @@
 package webservices;
 
 import core.InvoiceModifier;
+import entities.Delivery;
 import entities.Invoice;
 import entities.InvoiceStatus;
 import exceptions.InvoiceDoesNotExistException;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.interceptor.Interceptors;
 import javax.jws.WebService;
 import java.util.List;
 
@@ -23,8 +25,8 @@ public class InvoiceWebServiceImpl implements InvoiceWebService {
     }
 
     @Override
-    public boolean addItem(String id) {
-        return invoiceModifier.addItem(id);
+    public boolean addItem(Delivery d) {
+        return invoiceModifier.addItem(d.getId());
     }
 
     @Override
