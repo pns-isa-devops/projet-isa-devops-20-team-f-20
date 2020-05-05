@@ -7,8 +7,8 @@
           transition="scale-transition" width="40" />
       </div>
       <v-toolbar-title class="headline text-upper" @click="goToHome()">
-        <span>LIVRAIR</span>
-        <span class="font-weight-light"> - MANUTENTIONNAIRE</span>
+        <span>LIVRAIR - </span>
+        <span data-cy="manu_title" class="font-weight-light">MANUTENTIONNAIRE</span>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -30,16 +30,16 @@
             <v-form ref="form" v-model="validPackage" lazy-validation>
               <v-row align="center" justify="space-around">
                 <v-col cols="4">
-                  <v-text-field name="packageID" v-model="packageId" label="Package ID" id="idPackage" :rules="idRules"
+                  <v-text-field  data-cy="manu_package_id" name="packageID" v-model="packageId" label="Package ID" id="idPackage" :rules="idRules"
                     required></v-text-field>
                 </v-col>
                 <v-col cols="7">
-                  <v-select :items="items" v-model="packageStatus" label="Package Satut" :rules="statusRules">
+                  <v-select  data-cy="manu_package_status" :items="items" v-model="packageStatus" label="Package Satut" :rules="statusRules">
                   </v-select>
                 </v-col>
               </v-row>
               <v-row align="center" justify="space-around">
-                <v-btn tile data-cy="validate_status_btn" :disabled="!validPackage" color="success" @click="validate">
+                <v-btn tile data-cy="manu_package_status_button" :disabled="!validPackage" color="success" @click="validate">
                   Change package status
                 </v-btn>
               </v-row>
@@ -56,7 +56,7 @@
       <v-col cols="6">
         <CalendarDelivery mode='day' />
       </v-col>
-      <v-col cols="3" align-self="center">
+      <v-col cols="3" align-self="start">
         <v-card>
           <v-card-text>
              <span class="title text-upper" color="" dark>
@@ -66,12 +66,12 @@
             <v-form ref="form" v-model="validDelivery" lazy-validation>
               <v-row align="center" justify="center">
                 <v-col cols="4">
-                  <v-text-field name="DroneID" v-model="packageId" label="Drone ID" id="idDrone" :rules="idRules"
+                  <v-text-field data-cy="manu_launch_delivery_drone_id" name="DroneID" v-model="packageId" label="Drone ID" id="idDrone" :rules="idRules"
                     required></v-text-field>
                 </v-col>
               </v-row>
               <v-row align="center" justify="space-around">
-                <v-btn tile data-cy="validate_btn" :disabled="!validDelivery" color="success" @click="validate">
+                <v-btn tile data-cy="manu_launch_delivery_button" :disabled="!validDelivery" color="success" @click="validate">
                   Launch Drone and Delivery
                 </v-btn>
               </v-row>
