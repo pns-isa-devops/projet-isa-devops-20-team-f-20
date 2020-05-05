@@ -25,8 +25,8 @@ import java.util.Properties;
 @Stateless
 public class LogisticBean implements PackageFinder, PackageInventory, DeliveryManager {
 
-    private final boolean retrieved = false;
     private PackageSupplyAPI packageSupplyAPI;
+
     @PersistenceContext
     private EntityManager manager;
 
@@ -45,7 +45,7 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public Optional<Package> findById(String id) {
-        getAllPackages();
+        //getAllPackages();
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
         Root<Package> root = criteria.from(Package.class);
@@ -61,7 +61,7 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public Optional<List<Package>> findByCustomer(String customerName) {
-        getAllPackages();
+        //getAllPackages();
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
         Root<Package> root = criteria.from(Package.class);
@@ -76,7 +76,7 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public Optional<List<Package>> findByStatus(PackageStatus status) {
-        getAllPackages();
+        //getAllPackages();
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
         Root<Package> root = criteria.from(Package.class);
@@ -93,12 +93,12 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
     public Optional<List<Package>> getAllPackages() {
 
         CriteriaBuilder builder = manager.getCriteriaBuilder();
-        CriteriaQuery<Long> cq = builder.createQuery(Long.class);
+        /*CriteriaQuery<Long> cq = builder.createQuery(Long.class);
         cq.select(builder.count(cq.from(Package.class)));
 
         if (manager.createQuery(cq).getSingleResult() < 1) {
             retrieveIncomingPackages();
-        }
+        }*/
         CriteriaQuery<Package> criteria = builder.createQuery(Package.class);
         Root<Package> root = criteria.from(Package.class);
         criteria.select(root);
@@ -115,7 +115,9 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
     public void retrieveIncomingPackages() {
         try {
             packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
+                if(!findById(incomingPackage.getId()).isPresent()){
                     manager.persist(incomingPackage);
+                }
             });
         } catch (ExternalPartnerException e) {
             e.printStackTrace();

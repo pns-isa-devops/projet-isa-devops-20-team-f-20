@@ -25,4 +25,7 @@ public interface LogisticWebService {
     @WebResult(name = "package")
     List<Package> getAllPackages();
 
+    @WebMethod
+    void retrieveIncomingPackages();
+
 }

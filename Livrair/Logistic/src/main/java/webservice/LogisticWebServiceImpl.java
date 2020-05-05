@@ -2,6 +2,7 @@ package webservice;
 
 import core.DeliveryManager;
 import core.PackageFinder;
+import core.PackageInventory;
 import entities.Delivery;
 import entities.Package;
 
@@ -19,6 +20,9 @@ public class LogisticWebServiceImpl implements LogisticWebService {
     @EJB(name = "stateless-deliveries")
     private DeliveryManager delivery;
 
+    @EJB
+    private PackageInventory inventory;
+
     @Override
     public Package getPackageById(String id) {
         return finder.findById(id).get();
@@ -32,6 +36,11 @@ public class LogisticWebServiceImpl implements LogisticWebService {
     @Override
     public List<Package> getAllPackages() {
         return finder.getAllPackages().get();
+    }
+
+    @Override
+    public void retrieveIncomingPackages() {
+        inventory.retrieveIncomingPackages();
     }
 
 

@@ -85,6 +85,9 @@
                     <forkMode>always</forkMode>
                     <!-- otherwise openejb embedded and tomee embedded shares the same context and EJBContainer is broken -->
                     <reuseForks>false</reuseForks>
+                    <excludes>
+                        <exclude>features/*</exclude>
+                    </excludes>
 
                 </configuration>
             </plugin>
