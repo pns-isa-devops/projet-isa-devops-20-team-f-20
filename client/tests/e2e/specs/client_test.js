@@ -14,7 +14,7 @@ describe('Init Test', () => {
     // })
 
     it('Go to Client Page', () => {
-      cy.visit('http://' + host + ':8844/')
+      cy.visit('http://' + host + ':8844/client')
       //cy.get('[data-cy=client]').click()
       cy.get('[data-cy=client_title]').contains('SERVICE CLIENT')
     })

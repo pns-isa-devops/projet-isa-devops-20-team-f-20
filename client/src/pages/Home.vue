@@ -122,7 +122,7 @@
     },
     methods: {
       goToClient() {
-        this.$router.push('/')
+        this.$router.push('/client')
       },
       goToManu() {
         this.$router.push('/manu')
@@ -130,7 +130,10 @@
       goToHome() {
         this.$router.push('/home')
       }
-    }
+    },
+    beforeRouteEnter(to, from, next) {
+      next({ path: '/' })
+    },
   }
 </script>
 

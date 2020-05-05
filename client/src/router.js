@@ -9,22 +9,23 @@ const routes = [
     {
         path: '/home',
         name: 'Home',
-        component: Home
+        component: Home,
+        alias : '/'
     },
     {
-        path: '/',
+        path: '/client',
         name: 'Client',
-        component: Client,
-        props: true
+        component: Client
     },
     {
         path: '/manu',
         name: 'Manu',
         component: Manu
-    }
+    },
 ]
 
 export const router = new VueRouter({
     mode : 'history',
+    base: process.env.BASE_URL,
     routes : routes,
 })
