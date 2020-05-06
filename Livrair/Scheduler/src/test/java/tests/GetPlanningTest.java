@@ -60,7 +60,7 @@ public class GetPlanningTest extends AbstractSchedulerTest {
         deliveries.add(d2);
 
         try {
-            Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning());
+            Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning(LocalDate.now()));
             assert (planning.isPresent());
             assert (planning.get().getAvailabilities().size() == 2); // TODO + de slots
         } catch (IllegalAccessException e) {
@@ -74,7 +74,7 @@ public class GetPlanningTest extends AbstractSchedulerTest {
     public void getPlanningEmpty() {
         deliveries = new ArrayList<>();
         try {
-            Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning());
+            Optional<DailyPlanning> planning = Optional.of(scheduler.getPlanning(LocalDate.now()));
             assert (planning.isPresent());
             assert (planning.get().getAvailabilities().size() == 4);// TODO + de slots
         } catch (IllegalAccessException e) {
@@ -87,7 +87,7 @@ public class GetPlanningTest extends AbstractSchedulerTest {
     @Test
     public void getPlanningNull() {
         try {
-            scheduler.getPlanning();
+            scheduler.getPlanning(LocalDate.now());
         } catch (IllegalAccessException e) {
             System.out.println("Exception catched successfully");
             assert (true);

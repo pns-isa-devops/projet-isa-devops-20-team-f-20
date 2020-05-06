@@ -11,6 +11,7 @@ import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -65,9 +66,14 @@ public class SchedulerBean implements PlanningInterface {
     }
 
     @Override
-    public DailyPlanning getPlanning() throws Exception {
+    public DailyPlanning getPlanning(LocalDate date) throws Exception {
 
         return new DailyPlanning(DailyPlanning.fromDeliveries(deliveryManager.retrievePlannedDeliveries().orElse(new ArrayList<>())));
 
+    }
+
+    @Override
+    public List<DailyPlanning> getPlanning(LocalDate from, LocalDate to) throws Exception {
+        return null;
     }
 }

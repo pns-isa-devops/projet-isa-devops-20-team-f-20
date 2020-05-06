@@ -17,6 +17,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -29,12 +31,15 @@ public class StorageTest extends AbstractLivrairTest {
     private Package pack;
     private Supplier supplier;
     private Drone drone;
+    private Delivery delivery;
 
     @Before
     public void setUp(){
         supplier = new Supplier("SupplierTest", "AddressSupplierTest");
         pack = new Package("66", "customerTest", PackageStatus.REGISTERED, "AddressTest", supplier);
         drone = new Drone("test");
+        delivery = new Delivery(pack, drone, LocalDateTime.now());
+
     }
 
     @Test
@@ -61,8 +66,7 @@ public class StorageTest extends AbstractLivrairTest {
 
     @Test
     public void storingDelivery() throws Exception {
-        Delivery d = new Delivery(pack, drone, LocalDateTime.now());
-        entityManager.persist(d);
+        entityManager.persist(delivery);
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Delivery> criteria = builder.createQuery(Delivery.class);
@@ -71,9 +75,22 @@ public class StorageTest extends AbstractLivrairTest {
 
         Delivery stored = entityManager.createQuery(criteria).getSingleResult();
 
-        assertEquals(stored, d);
+        assertEquals(stored, delivery);
         assertEquals(stored.getaPackage(), pack);
         assertEquals(stored.getDrone(), drone);
     }
+
+
+    @Test
+    public void storingDailyPlanning() throws Exception {
+        List<Delivery> tmp = new ArrayList<>();
+        tmp.add(delivery);
+        DailyPlanning dailyPlanning = new DailyPlanning(DailyPlanning.fromDeliveries(tmp));
+        entityManager.persist(dailyPlanning);
+        DailyPlanning stored = entityManager.find(DailyPlanning.class, dailyPlanning.getPlanningDateTS());
+        assertEquals(stored, dailyPlanning);
+        assertEquals(dailyPlanning.getSlots().size(), stored.getSlots().size());
+    }
+
 
 }

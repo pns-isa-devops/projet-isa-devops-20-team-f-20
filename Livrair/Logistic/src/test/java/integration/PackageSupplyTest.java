@@ -1,4 +1,4 @@
-package tests;
+package integration;
 
 import arquillian.AbstractLogisticTest;
 import core.PackageFinder;

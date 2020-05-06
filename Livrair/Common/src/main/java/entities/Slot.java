@@ -1,7 +1,11 @@
 package entities;
 
+import javax.persistence.Embeddable;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 
+
+@Embeddable
 public class Slot<T> implements Serializable {
     private int start;
     private int finish;
@@ -62,6 +66,7 @@ public class Slot<T> implements Serializable {
         this.finish = finish;
     }
 
+    @OneToOne
     public T get() {
         return t;
     }

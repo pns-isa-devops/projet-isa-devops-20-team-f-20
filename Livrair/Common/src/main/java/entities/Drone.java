@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,8 @@ public class Drone {
     private double flyingTime;
 
     private DroneStatus status;
+
+    private List<DailyPlanning> dailyPlannings;
 
     public Drone() {
     }
@@ -83,5 +86,15 @@ public class Drone {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getChargelevel(), getFlyingTime(), getStatus());
+    }
+
+
+    @OneToMany
+    public List<DailyPlanning> getDailyPlannings() {
+        return dailyPlannings;
+    }
+
+    public void setDailyPlannings(List<DailyPlanning> dailyPlannings) {
+        this.dailyPlannings = dailyPlannings;
     }
 }

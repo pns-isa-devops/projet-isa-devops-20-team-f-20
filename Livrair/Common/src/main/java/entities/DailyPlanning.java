@@ -1,32 +1,39 @@
 package entities;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.ZoneOffset;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Entity
-public class DailyPlanning<T> {
+@Table(name = "dailyplannings")
+public class DailyPlanning<T> implements Serializable {
 
 
     private List<Slot> slots;
 
-    private LocalDate date;
+    private String planningDateTS;
+
+    public DailyPlanning(){
+
+    }
+
 
     public DailyPlanning(HashMap<T, Integer> hashT) throws Exception {
-        this.date = LocalDate.now();
+        setDate(LocalDate.now());
         initSlots();
         build(hashT);
     }
 
     public DailyPlanning(HashMap<T, Integer> hashT, LocalDate date) throws Exception {
-        this.date = date;
+        setDate(date);
         initSlots();
         build(hashT);
     }
@@ -121,12 +128,35 @@ public class DailyPlanning<T> {
         this.slots = slots;
     }
 
-    @XmlElement(name = "planningDate")
     public LocalDate getDate() {
-        return date;
+        return LocalDate.ofEpochDay(Long.valueOf(planningDateTS));
     }
 
     public void setDate(LocalDate date) {
-        this.date = date;
+        this.planningDateTS = String.valueOf(date.toEpochDay());
+    }
+
+    @Id
+    @XmlElement(name = "planningDate")
+    public String getPlanningDateTS() {
+        return planningDateTS;
+    }
+
+    public void setPlanningDateTS(String planningDateTS) {
+        this.planningDateTS = planningDateTS;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DailyPlanning)) return false;
+        DailyPlanning<?> that = (DailyPlanning<?>) o;
+        return Objects.equals(getSlots(), that.getSlots()) &&
+                Objects.equals(getPlanningDateTS(), that.getPlanningDateTS());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSlots().hashCode(), getPlanningDateTS());
     }
 }
