@@ -1,5 +1,6 @@
 package interfaces;
 
+import entities.DailyPlanning;
 import entities.Drone;
 import entities.DroneStatus;
 import exceptions.DroneAlreadyExistsException;
@@ -13,8 +14,11 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Stateless
 public class TransportBean implements DroneModifier, Availability {
@@ -50,6 +54,25 @@ public class TransportBean implements DroneModifier, Availability {
         } catch (NoResultException nre) {
             return new HashSet<>();
         }
+    }
+
+    @Override
+    public Set<Drone> getAvailableDrones(LocalDateTime date) {
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
+        Root<Drone> root = criteria.from(Drone.class);
+        criteria.select(root);
+        TypedQuery<Drone> query = manager.createQuery(criteria);
+        Set<Drone> result = new HashSet<>(query.getResultList());
+        Set<Drone> tmp = new HashSet<>();
+        for( Drone d : tmp){
+            for(DailyPlanning dP : d.getDailyPlannings()){ //Todo If the daily of the date doesn't exist, then drone is available
+                if(dP.availableSlotForGivenDate(date.getHour())){
+                    tmp.add(d);
+                }
+            }
+        }
+        return tmp;
     }
 
 

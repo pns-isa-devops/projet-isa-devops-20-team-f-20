@@ -16,6 +16,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ public class StorageTest extends AbstractLivrairTest {
         supplier = new Supplier("SupplierTest", "AddressSupplierTest");
         pack = new Package("66", "customerTest", PackageStatus.REGISTERED, "AddressTest", supplier);
         drone = new Drone("test");
-        delivery = new Delivery(pack, drone, LocalDateTime.now());
+        delivery = new Delivery(pack, drone, LocalDateTime.of(2020, 05 , 02 , 8, 10));
 
     }
 
@@ -85,9 +86,15 @@ public class StorageTest extends AbstractLivrairTest {
     public void storingDailyPlanning() throws Exception {
         List<Delivery> tmp = new ArrayList<>();
         tmp.add(delivery);
-        DailyPlanning dailyPlanning = new DailyPlanning(DailyPlanning.fromDeliveries(tmp));
+        DailyPlanning dailyPlanning = new DailyPlanning(DailyPlanning.fromDeliveries(tmp), LocalDate.of(delivery.getDeliveryDate().getYear(), delivery.getDeliveryDate().getMonth(), delivery.getDeliveryDate().getDayOfMonth()));
         entityManager.persist(dailyPlanning);
-        DailyPlanning stored = entityManager.find(DailyPlanning.class, dailyPlanning.getPlanningDateTS());
+
+        CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<DailyPlanning> criteria = builder.createQuery(DailyPlanning.class);
+        Root<DailyPlanning> root = criteria.from(DailyPlanning.class);
+        criteria.select(root);
+
+        DailyPlanning stored = entityManager.createQuery(criteria).getSingleResult();
         assertEquals(stored, dailyPlanning);
         assertEquals(dailyPlanning.getSlots().size(), stored.getSlots().size());
     }

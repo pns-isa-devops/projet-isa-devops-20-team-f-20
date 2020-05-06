@@ -1,8 +1,6 @@
 package entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;
@@ -16,6 +14,7 @@ import java.util.stream.Collectors;
 @Table(name = "dailyplannings")
 public class DailyPlanning<T> implements Serializable {
 
+    private String id;
 
     private List<Slot> slots;
 
@@ -78,8 +77,9 @@ public class DailyPlanning<T> implements Serializable {
      * @return The closest slot available given the date
      */
     public Slot getBestMatchingSlotOf(int date) {
-        return null;
-    } // TODO bonus?
+
+        return getAvailabilities().get(0);
+    } // TODO Improve Matching : bonus?
 
     /**
      * Build the planning slots with the given deliveries
@@ -136,7 +136,6 @@ public class DailyPlanning<T> implements Serializable {
         this.planningDateTS = String.valueOf(date.toEpochDay());
     }
 
-    @Id
     @XmlElement(name = "planningDate")
     public String getPlanningDateTS() {
         return planningDateTS;
@@ -158,5 +157,15 @@ public class DailyPlanning<T> implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getSlots().hashCode(), getPlanningDateTS());
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }
