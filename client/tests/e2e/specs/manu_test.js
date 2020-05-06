@@ -55,7 +55,7 @@ import {
       })
   
       it('Can change status for right a package', () => {
-        cy.get('[data-cy=manu_package_id]').scrollIntoView().clear({force: true}).type('-1', {force: true})
+        cy.get('[data-cy=manu_package_id]').scrollIntoView().clear({force: true}).type('0', {force: true})
         // cy.get('[data-cy=manu_package_status]').scrollIntoView().clear({force: true}).select('WAITING', {force: true})
         // cy.get('#inputs-16').scrollIntoView().clear({force: true}).select('WAITING', {force: true})
         cy.get("#app > div.v-application--wrap > main > div > div > div > div.col.col-3.align-self-center > div > div > form > div:nth-child(1) > div.col.col-7 > div > div > div.v-input__slot > div.v-select__slot > div.v-input__append-inner")

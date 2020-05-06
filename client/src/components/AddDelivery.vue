@@ -59,12 +59,18 @@
 
 
                 <v-card-actions>
-                    <v-btn data-cy="validate_btn" :disabled="!valid" color="success" @click="validate">
-                        Validate
-                    </v-btn>
-                    <v-btn color="warning" @click="reset">
-                        Reset Form
-                    </v-btn>
+                    <v-row align="center" justify="space-around">
+                        <v-col cols="4">
+                            <v-btn data-cy="validate_btn" :disabled="!valid" color="purple darken-2 white--text" @click="validate">
+                                Validate
+                            </v-btn>
+                        </v-col>
+                        <v-col cols="4">
+                            <v-btn color="purple lighten-2 white--text" @click="reset">
+                                Reset Form
+                            </v-btn>
+                        </v-col>
+                    </v-row>
 
                 </v-card-actions>
 
@@ -160,7 +166,7 @@
                                 context.displaySuccess = false;
                                 context.displayFailed = true;
                             }
-                                context.displayed = true;
+                            context.displayed = true;
 
                             // for (let pack of packages) {
                             //     console.log(pack)

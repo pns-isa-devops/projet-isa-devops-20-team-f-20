@@ -3,7 +3,7 @@
     <v-col>
       <v-row align="center" justify="center">
         <span class="title text-upper" color="" dark>
-          <span style="margin-right: 5px;" >PACKAGE</span>
+          <span style="margin-right: 5px;">PACKAGE</span>
           <span class="font-weight-light">LIST</span>
         </span>
         <v-btn data-cy="refresh_package" color="purple darken-2" icon @click="this.getAllPackages">
@@ -11,11 +11,17 @@
         </v-btn>
       </v-row>
       <v-row align="center" justify="center">
-        <v-data-table :headers="headers" :items="packages" class="elevation-4">
-          <template v-slot:item.status="{ item }">
-            <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
-          </template>
-        </v-data-table>
+        <v-card>
+          <v-card-title>
+            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details>
+            </v-text-field>
+          </v-card-title>
+          <v-data-table :headers="headers" :items="packages" :search="search" class="elevation-4">
+            <template v-slot:item.status="{ item }">
+              <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
+            </template>
+          </v-data-table>
+        </v-card>
       </v-row>
     </v-col>
   </v-row>
@@ -30,6 +36,7 @@
     data() {
       return {
         xmlhttp: new XMLHttpRequest(),
+        search: '',
         headers: [{
             text: 'ID',
             align: 'start',
@@ -77,7 +84,8 @@
         console.log(process.env)
 
 
-        this.xmlhttp.open('POST', 'http://'+process.env.VUE_APP_BACKEND+':8080/scheduler/webservices/LogisticWS?wsdl', true);
+        this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND +
+          ':8080/scheduler/webservices/LogisticWS?wsdl', true);
 
         // build SOAP request
         var sr =
@@ -107,21 +115,21 @@
               context.packages = []
               for (let pack of packages) {
                 //console.log(pack)
-                
+
                 let respPackage = {
                   id: pack.getElementsByTagName('idPackage')[0].innerHTML,
                   status: pack.getElementsByTagName('statusPackage')[0].innerHTML,
                   address: pack.getElementsByTagName('address')[0].innerHTML,
                 }
 
-                if (context.mode == 'client'){
+                if (context.mode == 'client') {
                   //if (respPackage.status !== 'REGISTERED'){ //ie WAITING or ASSIGNED
-                    context.packages.push(respPackage);
+                  context.packages.push(respPackage);
                   //}
                 }
-                if (context.mode == 'manu'){
+                if (context.mode == 'manu') {
                   //if (respPackage.status == 'REGISTERED'){ //only assigned
-                    context.packages.push(respPackage); 
+                  context.packages.push(respPackage);
                   //}
                 }
               }

@@ -74,7 +74,7 @@
               </v-btn>
             </v-card-actions>
           </v-card>
-          <v-card class="pa-1 mx-auto" outlined tile max-width="250">
+          <v-card class="pa-1 mx-auto" outlined tile max-width="250" @click="goToGarage()">
 
             <v-img class="white--text align-end" height="250px" transition="scale-transition"
               src="../assets/drone_wireless.png" />
@@ -129,6 +129,9 @@
       },
       goToHome() {
         this.$router.push('/home')
+      },
+      goToGarage() {
+        this.$router.push('/garage')
       }
     },
     beforeRouteEnter(to, from, next) {

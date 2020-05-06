@@ -46,7 +46,7 @@
             </v-form>
             <v-divider style="margin-top: 25px"></v-divider>
             <v-row align="center" justify="center">
-              <v-col cols="8" align-self="center">
+              <v-col cols="11" align-self="center">
                 <PackageList ref="packageList" mode="manu" />
               </v-col>
             </v-row>
