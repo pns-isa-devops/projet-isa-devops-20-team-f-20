@@ -33,15 +33,6 @@ public class TransportWebServiceImpl implements TransportWebService {
 
 
     @Override
-    public void changeState(String droneId, DroneStatus droneStatus) {
-        try {
-            modifier.changeState(droneId, droneStatus);
-        } catch (DroneDoesNotExistException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
     public Set<Drone> getDrones(){
         return availability.getDrones();
     }

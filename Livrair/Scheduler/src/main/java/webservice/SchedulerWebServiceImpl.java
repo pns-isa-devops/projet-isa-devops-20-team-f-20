@@ -40,7 +40,7 @@ public class SchedulerWebServiceImpl implements SchedulerWebService {
     }
 
     @Override
-    public List<DailyPlanning> getPlanning(String from, String to) {
+    public List<DailyPlanning> getPlanningRange(String from, String to) {
         try {
             return planning.getPlanning(LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
         } catch (Exception e) {

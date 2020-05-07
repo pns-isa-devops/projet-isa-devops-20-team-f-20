@@ -19,10 +19,10 @@ public interface SchedulerWebService {
 
     @WebMethod
     @WebResult(name = "planning")
-    DailyPlanning getPlanning(String date);
+    DailyPlanning getPlanning(@WebParam(name="date") String date);
 
     @WebMethod
     @WebResult(name="planning")
-    List<DailyPlanning> getPlanning(String from, String to);
+    List<DailyPlanning> getPlanningRange(@WebParam(name="from")String from,@WebParam(name="to") String to);
 
 }
