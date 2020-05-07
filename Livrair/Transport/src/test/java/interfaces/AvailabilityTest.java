@@ -3,7 +3,6 @@ package interfaces;
 import arquillian.AbstractTransportTest;
 import entities.Drone;
 import entities.DroneStatus;
-import exceptions.DroneAlreadyExistsException;
 import exceptions.DroneDoesNotExistException;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
@@ -42,11 +41,8 @@ public class AvailabilityTest extends AbstractTransportTest {
 
     @Test
     public void getAvailabilitiesDrone() {
-        try {
-            modifier.addDrone("3");
-        } catch (DroneAlreadyExistsException droneAlreadyExists) {
-            droneAlreadyExists.printStackTrace();
-        }
+        modifier.addDrone("3");
+
         assertFalse(availability.getAvailableDrones().isEmpty());
         try {
             modifier.changeState("3", DroneStatus.DELIVERING);
@@ -105,24 +101,16 @@ public class AvailabilityTest extends AbstractTransportTest {
     public void addDroneId() {
         assertEquals(1, availability.getDrones().size());
 
-        try {
-            modifier.addDrone("2");
-        } catch (DroneAlreadyExistsException droneAlreadyExists) {
-            droneAlreadyExists.printStackTrace();
-        }
+        modifier.addDrone("2");
+
         assertEquals(2, availability.getDrones().size());
     }
 
 
-
-
     @Test
     public void addDroneNotPossible() {
-        try {
-            modifier.addDrone("1");
-        } catch (DroneAlreadyExistsException droneAlreadyExists) {
-            droneAlreadyExists.printStackTrace();
-        }
+        modifier.addDrone("1");
+
         assertEquals(1, availability.getDrones().size());
     }
 }

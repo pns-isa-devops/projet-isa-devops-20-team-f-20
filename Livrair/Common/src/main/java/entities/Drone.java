@@ -27,6 +27,7 @@ public class Drone {
         this.chargelevel = 100;
         this.flyingTime = 0;
         this.status = DroneStatus.AVAILABLE;
+        this.dailyPlannings = new DailyPlanningList();
     }
 
     public Drone(String id, double chargelevel, double flyingTime) {
@@ -34,6 +35,7 @@ public class Drone {
         this.chargelevel = chargelevel;
         this.flyingTime = flyingTime;
         this.status = DroneStatus.AVAILABLE;
+        this.dailyPlannings = new DailyPlanningList();
     }
 
     @XmlElement(name = "idDrone")
@@ -89,6 +91,7 @@ public class Drone {
     }
 
 
+    @OneToMany
     public DailyPlanningList getDailyPlannings() {
         return dailyPlannings;
     }

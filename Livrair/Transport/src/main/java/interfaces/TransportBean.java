@@ -72,26 +72,8 @@ public class TransportBean implements DroneModifier, Availability {
     }
 
     @Override
-    public void addDrone(String id) throws DroneAlreadyExistsException {
-        if (checkIfDroneIdAlreadyExist(id)) {
-            throw new DroneAlreadyExistsException();
-        }
+    public void addDrone(String id) {
         this.manager.persist(new Drone(id));
     }
 
-
-    private boolean checkIfDroneIdAlreadyExist(String id) {
-        Set<Drone> toCheck;
-        CriteriaBuilder builder = manager.getCriteriaBuilder();
-        CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
-        Root<Drone> root = criteria.from(Drone.class);
-        criteria.select(root).where(builder.equal(root.get("status"), DroneStatus.AVAILABLE));
-        TypedQuery<Drone> query = manager.createQuery(criteria);
-        try {
-            toCheck = new HashSet<>(query.getResultList());
-        } catch (NoResultException nre) {
-            return false;
-        }
-        return toCheck.stream().anyMatch(drone -> drone.getId().equalsIgnoreCase(id));
-    }
 }

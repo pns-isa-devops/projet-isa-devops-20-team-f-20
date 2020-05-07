@@ -24,11 +24,7 @@ public class TransportWebServiceImpl implements TransportWebService {
 
     @Override
     public void addDrone(String id) {
-        try {
-            modifier.addDrone(id);
-        } catch (DroneAlreadyExistsException e) {
-            e.printStackTrace();
-        }
+        modifier.addDrone(id);
     }
 
 

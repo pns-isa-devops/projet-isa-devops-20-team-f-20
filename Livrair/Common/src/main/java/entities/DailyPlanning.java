@@ -134,6 +134,7 @@ public class DailyPlanning<T> implements Serializable {
 
     @XmlElementWrapper(name = "slots")
     @XmlElement(name = "slot")
+    @OneToMany(cascade = {CascadeType.REMOVE})
     public List<Slot> getSlots() {
         return slots;
     }

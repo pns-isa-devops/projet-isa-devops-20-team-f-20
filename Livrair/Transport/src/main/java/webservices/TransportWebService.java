@@ -17,7 +17,7 @@ public interface TransportWebService {
 
     @WebMethod
     @WebResult(name = "add_drone")
-    void addDrone(@WebParam(name = "id") String id) throws DroneAlreadyExistsException;
+    void addDrone(@WebParam(name = "id") String id);
 
 
     @WebMethod

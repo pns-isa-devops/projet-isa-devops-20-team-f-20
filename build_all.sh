@@ -12,13 +12,8 @@ if [[ "$1" != "" ]]; then
         if [[ "$1" == "backend" ]]; then
              # Backend
             cd Livrair
-
             echo "Livrair clean install"
-            mvn -q -DskipTests clean package
-            cd Scheduler
-            echo "Scheduler pacakge"
-            mvn -q -DskipTests package
-            cd ../..
+            mvn -q -DskipTests clean install
         fi
         if [[ "$1" == "vue" ]]; then
              # Client Vue
@@ -48,9 +43,5 @@ else
     echo "Livrair clean install"
     cd Livrair
     mvn -q -DskipTests clean install
-    cd Scheduler
-    echo "Scheduler pacakge"
-    mvn -q -DskipTests package
-    cd ../..
 
 fi
