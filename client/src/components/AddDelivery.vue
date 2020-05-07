@@ -27,7 +27,10 @@
             <v-card>
 
                 <v-card-text>
-                    <p class="headline text--primary">Add New Delivery</p>
+                    <span class="title text-upper" color="" dark>
+                        <span style="margin-right: 5px;" class="font-weight-light">ADD</span>
+                        <span>NEW DELIVERY</span>
+                    </span>
                     <v-form ref="form" v-model="valid" lazy-validation>
                         <v-text-field data-cy="id_field" v-model="id" :counter="10" label="Package Id"
                             prepend-icon="mdi-package-variant-closed" :rules="idRules" required></v-text-field>
@@ -61,7 +64,8 @@
                 <v-card-actions>
                     <v-row align="center" justify="space-around">
                         <v-col cols="4">
-                            <v-btn data-cy="validate_btn" :disabled="!valid" color="purple darken-2 white--text" @click="validate">
+                            <v-btn data-cy="validate_btn" :disabled="!valid" color="purple darken-2 white--text"
+                                @click="validate">
                                 Validate
                             </v-btn>
                         </v-col>

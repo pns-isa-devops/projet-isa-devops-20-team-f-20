@@ -2,7 +2,7 @@
   <v-row>
     <v-col>
       <v-row align="center" justify="center">
-        <span class="title text-upper" color="" dark>
+        <span class="title grey--text text--darken-1 text-upper" color="" dark>
           <span style="margin-right: 5px;">PACKAGE</span>
           <span class="font-weight-light">LIST</span>
         </span>

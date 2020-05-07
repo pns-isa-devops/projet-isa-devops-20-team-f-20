@@ -2,7 +2,7 @@
   <v-row>
     <v-col>
       <v-row align="center" justify="center">
-        <span class="title text-upper" color="" dark>
+        <span class="title grey--text text--darken-1 text-upper" dark>
           <span style="margin-right: 5px;">DELIVERY</span>
           <span class="font-weight-light">LIST</span>
         </span>
@@ -11,11 +11,17 @@
         </v-btn>
       </v-row>
       <v-row align="center" justify="center">
-        <v-data-table :headers="headers" :items="deliveries" class="elevation-4">
-          <template v-slot:item.status="{ item }">
-            <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
-          </template>
-        </v-data-table>
+        <v-card>
+          <v-card-title>
+            <v-text-field v-model="search" append-icon="mdi-magnify" label="Search" single-line hide-details>
+            </v-text-field>
+          </v-card-title>
+          <v-data-table :headers="headers" :items="packages" :search="search" class="elevation-4">
+            <template v-slot:item.status="{ item }">
+              <v-chip :color="getColor(item.status)" dark>{{ item.status }}</v-chip>
+            </template>
+          </v-data-table>
+        </v-card>
       </v-row>
     </v-col>
   </v-row>
@@ -31,6 +37,7 @@
     data() {
       return {
         xmlhttp: new XMLHttpRequest(),
+        search : '',
         headersFull: [{
             text: 'Delivery ID',
             align: 'start',

@@ -7,8 +7,8 @@
           transition="scale-transition" width="40" />
       </div>
       <v-toolbar-title class="headline text-upper" @click="goToHome">
-        <span>LIVRAIR - </span>
-        <span data-cy="garage_title" class="font-weight-light">GARAGE</span>
+        <span class="font-weight-light">LIVRAIR - </span>
+        <span data-cy="garage_title">GARAGE</span>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -34,7 +34,7 @@
                     required></v-text-field>
                 </v-col>
                 <v-col cols="3">
-                  <v-select  data-cy="garage_drone_status" :items="items" v-model="sroneStatus" label="Drone Satut" :rules="statusRules">
+                  <v-select  data-cy="garage_drone_status" :items="items" v-model="sroneStatus" label="Drone Status" :rules="statusRules">
                   </v-select>
                 </v-col>
                 <v-col cols="3">

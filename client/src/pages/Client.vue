@@ -7,8 +7,8 @@
           width="40" />
       </div>
       <v-toolbar-title class="headline text-upper" @click="goToHome()">
-        <span>LIVRAIR - </span>
-        <span data-cy="client_title" class="font-weight-light">SERVICE CLIENT</span>
+        <span class="font-weight-light">LIVRAIR - </span>
+        <span data-cy="client_title">SERVICE CLIENT</span>
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
@@ -29,7 +29,7 @@
       </v-col>
     </v-row>
 
-    <v-row align="center" justify="space-around">
+    <v-row align="start" justify="space-around">
       <v-col cols="4">
         <DeliveryList ref="deliveryList" mode="full"/>
       </v-col>

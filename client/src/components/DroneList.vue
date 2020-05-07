@@ -2,7 +2,7 @@
     <v-row>
         <v-col>
             <v-row align="center" justify="center">
-                <span class="title text-upper" color="" dark>
+                <span class="title grey--text text--darken-1 text-upper" color="" dark>
                     <span style="margin-right: 5px;">DRONE</span>
                     <span class="font-weight-light">LIST</span>
                 </span>
@@ -72,26 +72,26 @@
                 drones: [{
                         id: '0',
                         status: 'AVAILABLE',
-                        chargeLevel: '25',
-                        flyingTime: '10h',
+                        chargeLevel: '100',
+                        flyingTime: '0h',
                     },
                     {
                         id: '1',
                         status: 'DELIVERING',
-                        chargeLevel: '50',
-                        flyingTime: '18h',
+                        chargeLevel: '75',
+                        flyingTime: '2h',
                     },
                     {
                         id: '2',
                         status: 'CHARGING',
-                        chargeLevel: '75',
-                        flyingTime: '74h',
+                        chargeLevel: '50',
+                        flyingTime: '10h',
                     },
                     {
                         id: '3',
                         status: 'REVIEW',
-                        chargeLevel: '100',
-                        flyingTime: '74h',
+                        chargeLevel: '25',
+                        flyingTime: '20h',
                     }
                 ],
 
