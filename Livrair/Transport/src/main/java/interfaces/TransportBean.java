@@ -56,25 +56,6 @@ public class TransportBean implements DroneModifier, Availability {
         }
     }
 
-    @Override
-    public Set<Drone> getAvailableDrones(LocalDateTime date) {
-        CriteriaBuilder builder = manager.getCriteriaBuilder();
-        CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
-        Root<Drone> root = criteria.from(Drone.class);
-        criteria.select(root);
-        TypedQuery<Drone> query = manager.createQuery(criteria);
-        Set<Drone> result = new HashSet<>(query.getResultList());
-        Set<Drone> tmp = new HashSet<>();
-        for( Drone d : tmp){
-            for(DailyPlanning dP : d.getDailyPlannings()){ //Todo If the daily of the date doesn't exist, then drone is available
-                if(dP.availableSlotForGivenDate(date.getHour())){
-                    tmp.add(d);
-                }
-            }
-        }
-        return tmp;
-    }
-
 
     @Override
     public void changeState(String droneId, DroneStatus droneStatus) throws DroneDoesNotExistException {

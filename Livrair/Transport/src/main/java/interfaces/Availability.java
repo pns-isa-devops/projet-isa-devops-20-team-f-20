@@ -13,7 +13,4 @@ public interface Availability {
 
     Set<Drone> getAvailableDrones();
 
-    Set<Drone> getAvailableDrones(LocalDateTime date);
-
-
 }
