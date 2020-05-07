@@ -1,4 +1,4 @@
-package tests;
+/*package tests;
 
 import arquillian.AbstractSchedulerTest;
 import entities.Package;
@@ -98,5 +98,5 @@ public class GetPlanningTest extends AbstractSchedulerTest {
         } catch (Exception e) {
             assert (false);
         }
-    }*/
-}
+    }
+}*/

@@ -13,6 +13,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,22 +30,28 @@ public class AvailabilityTest extends AbstractTransportTest {
     private DroneModifier modifier;
 
     private Drone drone;
+    private Drone dronebis;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Before
     public void setUp() {
-        drone = new Drone("1");
+        entityManager.persist(drone = new Drone("1"));
     }
 
     @Test
     public void getAvailabilitiesDrone() {
         try {
-            modifier.addDrone(drone);
+            modifier.addDrone("3");
         } catch (DroneAlreadyExistsException droneAlreadyExists) {
             droneAlreadyExists.printStackTrace();
         }
         assertFalse(availability.getAvailableDrones().isEmpty());
         try {
-            modifier.changeState(drone, DroneStatus.DELIVERING);
+            modifier.changeState("3", DroneStatus.DELIVERING);
+            modifier.changeState("1", DroneStatus.DELIVERING);
+
         } catch (DroneDoesNotExistException e) {
             e.printStackTrace();
         }
@@ -51,42 +59,23 @@ public class AvailabilityTest extends AbstractTransportTest {
     }
 
     @Test
-    public void changeStateByDrone() {
-        try {
-            modifier.addDrone(drone);
-        } catch (DroneAlreadyExistsException droneAlreadyExists) {
-            droneAlreadyExists.printStackTrace();
-        }
-        assertEquals(DroneStatus.AVAILABLE, drone.getStatus());
-        try {
-            modifier.changeState(drone, DroneStatus.DELIVERING);
-        } catch (DroneDoesNotExistException e) {
-            e.printStackTrace();
-        }
-        assertNotEquals(DroneStatus.AVAILABLE, drone.getStatus());
-    }
-
-    @Test
     public void changeStateById() {
+        dronebis = new Drone("2");
+        entityManager.persist(dronebis);
+        assertEquals(DroneStatus.AVAILABLE, dronebis.getStatus());
         try {
-            modifier.addDrone(drone);
-        } catch (DroneAlreadyExistsException droneAlreadyExists) {
-            droneAlreadyExists.printStackTrace();
-        }
-        assertEquals(DroneStatus.AVAILABLE, drone.getStatus());
-        try {
-            modifier.changeState("1", DroneStatus.DELIVERING);
+            modifier.changeState("2", DroneStatus.DELIVERING);
         } catch (DroneDoesNotExistException e) {
             e.printStackTrace();
         }
-        assertNotEquals(DroneStatus.AVAILABLE, drone.getStatus());
+        assertNotEquals(DroneStatus.AVAILABLE, dronebis.getStatus());
     }
 
     @Test
     public void changeStateDroneDoesNotExist() {
         Throwable error = null;
         try {
-            modifier.changeState("1", DroneStatus.DELIVERING);
+            modifier.changeState("4", DroneStatus.DELIVERING);
         } catch (DroneDoesNotExistException ignored) {
 
         } catch (javax.ejb.EJBTransactionRolledbackException e2) {
@@ -98,7 +87,7 @@ public class AvailabilityTest extends AbstractTransportTest {
     }
 
 
-    @Test
+/*    @Test
     public void changeStateDroneDoesNotExist2() {
         Throwable error = null;
         try {
@@ -110,37 +99,22 @@ public class AvailabilityTest extends AbstractTransportTest {
         }
         assertNotNull(error);
         assertEquals(error.getClass(), DroneDoesNotExistException.class);
-    }
+    }*/
 
     @Test
     public void addDroneId() {
+        assertEquals(1, availability.getDrones().size());
+
         try {
-            modifier.addDrone("1");
+            modifier.addDrone("2");
         } catch (DroneAlreadyExistsException droneAlreadyExists) {
             droneAlreadyExists.printStackTrace();
         }
-        assertEquals(1, availability.getDrones().size());
+        assertEquals(2, availability.getDrones().size());
     }
 
-    @Test
-    public void addDroneIdAndAttributes() {
-        try {
-            modifier.addDrone("1", 100, 0);
-        } catch (DroneAlreadyExistsException droneAlreadyExists) {
-            droneAlreadyExists.printStackTrace();
-        }
-        assertEquals(1, availability.getDrones().size());
-    }
 
-    @Test
-    public void addDroneDrone() {
-        try {
-            modifier.addDrone(new Drone("1"));
-        } catch (DroneAlreadyExistsException droneAlreadyExists) {
-            droneAlreadyExists.printStackTrace();
-        }
-        assertEquals(1, availability.getDrones().size());
-    }
+
 
     @Test
     public void addDroneNotPossible() {
@@ -150,8 +124,5 @@ public class AvailabilityTest extends AbstractTransportTest {
             droneAlreadyExists.printStackTrace();
         }
         assertEquals(1, availability.getDrones().size());
-        assertThrows(DroneAlreadyExistsException.class, () -> modifier.addDrone("1"));
-        assertEquals(1, availability.getDrones().size());
     }
-
 }

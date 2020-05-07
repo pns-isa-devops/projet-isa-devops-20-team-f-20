@@ -77,14 +77,6 @@ public class TransportBean implements DroneModifier, Availability {
 
 
     @Override
-    public void changeState(Drone drone, DroneStatus droneStatus) throws DroneDoesNotExistException {
-        if (!checkIfDroneIdAlreadyExist(drone.getId())) {
-            throw new DroneDoesNotExistException();
-        }
-        drone.setStatus(droneStatus);
-    }
-
-    @Override
     public void changeState(String droneId, DroneStatus droneStatus) throws DroneDoesNotExistException {
         if (!checkIfDroneIdAlreadyExist(droneId)) {
             throw new DroneDoesNotExistException();
@@ -109,21 +101,6 @@ public class TransportBean implements DroneModifier, Availability {
         this.manager.persist(new Drone(id));
     }
 
-    @Override
-    public void addDrone(String id, double chargeLevel, double flyingTime) throws DroneAlreadyExistsException {
-        if (checkIfDroneIdAlreadyExist(id)) {
-            throw new DroneAlreadyExistsException();
-        }
-        this.manager.persist(new Drone(id, chargeLevel, flyingTime));
-    }
-
-    @Override
-    public void addDrone(Drone drone) throws DroneAlreadyExistsException {
-        if (checkIfDroneIdAlreadyExist(drone.getId())) {
-            throw new DroneAlreadyExistsException();
-        }
-        this.manager.persist(drone);
-    }
 
     private boolean checkIfDroneIdAlreadyExist(String id) {
         Set<Drone> toCheck;
