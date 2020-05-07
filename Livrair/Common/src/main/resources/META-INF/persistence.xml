@@ -14,6 +14,7 @@
         <class>entities.Invoice</class>
         <class>entities.Slot</class>
         <class>entities.DailyPlanning</class>
+        <class>entities.DailyPlanningList</class>
 
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>

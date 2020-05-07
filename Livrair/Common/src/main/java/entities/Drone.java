@@ -91,7 +91,7 @@ public class Drone {
     }
 
 
-    @OneToMany
+    @OneToOne(cascade = CascadeType.PERSIST)
     public DailyPlanningList getDailyPlannings() {
         return dailyPlannings;
     }

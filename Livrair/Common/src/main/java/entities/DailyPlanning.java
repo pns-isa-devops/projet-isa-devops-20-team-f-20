@@ -21,7 +21,6 @@ public class DailyPlanning<T> implements Serializable {
     private String planningDateTS;
 
     public DailyPlanning() {
-
     }
 
 
@@ -88,7 +87,7 @@ public class DailyPlanning<T> implements Serializable {
     /**
      * Build the planning slots with the given deliveries
      *
-     * @param deliveries Deliveries of the day
+     * @param hashT Hashtable Hour <-> T
      */
     private void build(HashMap<T, Integer> hashT) throws Exception {
         if (getSlots() == null || getSlots().isEmpty())
@@ -160,18 +159,19 @@ public class DailyPlanning<T> implements Serializable {
         this.planningDateTS = planningDateTS;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof DailyPlanning)) return false;
-        DailyPlanning<?> that = (DailyPlanning<?>) o;
-        return Objects.equals(getSlots(), that.getSlots()) &&
-                Objects.equals(getPlanningDateTS(), that.getPlanningDateTS());
+        if (o == null || getClass() != o.getClass()) return false;
+        DailyPlanning<?> planning = (DailyPlanning<?>) o;
+        return Objects.equals(getSlots(), planning.getSlots()) &&
+                Objects.equals(getPlanningDateTS(), planning.getPlanningDateTS());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSlots().hashCode(), getPlanningDateTS());
+        return Objects.hash(getSlots(), getPlanningDateTS());
     }
 
     @Id

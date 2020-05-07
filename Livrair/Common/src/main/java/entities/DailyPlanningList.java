@@ -1,6 +1,8 @@
 package entities;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -43,7 +45,9 @@ public class DailyPlanningList implements Serializable {
         dailyPlannings.add(new DailyPlanning(LocalDate.now()));
     }
 
-    @OneToMany(cascade = {CascadeType.REMOVE})
+    @XmlElementWrapper(name = "dailyPlannings")
+    @XmlElement(name = "dailyPlanning")
+    @OneToMany(cascade = {CascadeType.PERSIST})
     public List<DailyPlanning> getDailyPlannings() {
         return dailyPlannings;
     }
@@ -74,4 +78,5 @@ public class DailyPlanningList implements Serializable {
     public int hashCode() {
         return Objects.hash(getDailyPlannings());
     }
+
 }
