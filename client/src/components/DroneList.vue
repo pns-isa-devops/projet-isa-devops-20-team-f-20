@@ -6,7 +6,7 @@
                     <span style="margin-right: 5px;">DRONE</span>
                     <span class="font-weight-light">LIST</span>
                 </span>
-                <v-btn data-cy="refresh_drone" color="purple darken-2" icon @click="this.getAllDrones">
+                <v-btn data-cy="refresh_drone" color="grey darken-2" icon @click="this.getAllDrones">
                     <v-icon>mdi-cached</v-icon>
                 </v-btn>
             </v-row>

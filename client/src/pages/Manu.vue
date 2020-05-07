@@ -1,12 +1,12 @@
 <template>
   <v-container fluid>
 
-    <v-app-bar app color="green darken-2" dark>
-      <div class="d-flex align-center" @click="goToHome()">
+    <v-app-bar app color="blue lighten-2" dark>
+      <div class="d-flex align-center" @click="goToHome">
         <v-img alt="Livrair'" class="shrink mr-2" contain src="../assets/drone_package.png"
           transition="scale-transition" width="40" />
       </div>
-      <v-toolbar-title class="headline text-upper" @click="goToHome()">
+      <v-toolbar-title class="headline text-upper" @click="goToHome">
         <span>LIVRAIR - </span>
         <span data-cy="manu_title" class="font-weight-light">MANUTENTIONNAIRE</span>
       </v-toolbar-title>
@@ -39,7 +39,7 @@
                 </v-col>
               </v-row>
               <v-row align="center" justify="space-around">
-                <v-btn tile data-cy="manu_package_status_button" :disabled="!validPackage" color="success" @click="validate">
+                <v-btn tile data-cy="manu_package_status_button" :disabled="!validPackage" color="blue white--text" @click="validate">
                   Change package status
                 </v-btn>
               </v-row>
@@ -53,7 +53,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="6">
+      <v-col cols="5">
         <CalendarDelivery mode='day' />
       </v-col>
       <v-col cols="3" align-self="start">
@@ -71,7 +71,7 @@
                 </v-col>
               </v-row>
               <v-row align="center" justify="space-around">
-                <v-btn tile data-cy="manu_launch_delivery_button" :disabled="!validDelivery" color="success" @click="validate">
+                <v-btn tile data-cy="manu_launch_delivery_button" :disabled="!validDelivery" color="blue white--text" @click="validate">
                   Launch Drone and Delivery
                 </v-btn>
               </v-row>

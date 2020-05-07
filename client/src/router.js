@@ -2,16 +2,22 @@ import Home from './pages/Home.vue';
 import Client from './pages/Client.vue';
 import Manu from './pages/Manu.vue';
 import Garage from './pages/Garage.vue';
+import Fail from './pages/404.vue';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 const routes = [
     {
+        path: '/404',
+        name: '404',
+        component: Fail,
+        alias : '/'
+    },
+    {
         path: '/home',
         name: 'Home',
         component: Home,
-        alias : '/'
     },
     {
         path: '/client',

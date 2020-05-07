@@ -29,7 +29,7 @@
             <v-card-subtitle class="pb-0">Le service client</v-card-subtitle>
 
             <v-card-text class="text--primary">
-              <div>Whitsunday Island, Whitsunday Islands</div>
+              <div>Responsable de la creation et plannifictaion des livraisons</div>
             </v-card-text>
 
             <v-card-actions>
@@ -47,7 +47,7 @@
             <v-card-subtitle class="pb-0">Le manutentionnaire</v-card-subtitle>
 
             <v-card-text class="text--primary">
-              <div>Whitsunday Island, Whitsunday Islands</div>
+              <div>Responsable de la flotte de drone et du lancement des livraisons</div>
             </v-card-text>
 
             <v-card-actions>
@@ -57,15 +57,15 @@
             </v-card-actions>
 
           </v-card>
-          <v-card class="pa-1 mx-auto" outlined tile max-width="250">
+          <v-card data-cy="garage" class="pa-1 mx-auto" outlined tile max-width="250"  @click="goToGarage()">
 
             <v-img class="white--text align-end" height="250px" transition="scale-transition"
-              src="../assets/drone_empty.png" />
+              src="../assets/drone_fix.png" />
 
-            <v-card-subtitle class="pb-0">Le gestionnaire</v-card-subtitle>
+            <v-card-subtitle class="pb-0">Le mecanicien</v-card-subtitle>
 
             <v-card-text class="text--primary">
-              <div>Whitsunday Island, Whitsunday Islands</div>
+              <div>Responsable des reparations sur les drones</div>
             </v-card-text>
 
             <v-card-actions>
@@ -82,7 +82,7 @@
             <v-card-subtitle class="pb-0">Le chargeur</v-card-subtitle>
 
             <v-card-text class="text--primary">
-              <div>Whitsunday Island, Whitsunday Islands</div>
+              <div>Responsable du chargement des drones</div>
             </v-card-text>
 
             <v-card-actions>
@@ -94,12 +94,12 @@
           <v-card class="pa-1 mx-auto" outlined tile max-width="250">
 
             <v-img class="white--text align-end" height="250px" transition="scale-transition"
-              src="../assets/drone_fix.png" />
+              src="../assets/drone_empty.png" />
 
-            <v-card-subtitle class="pb-0">Le mecanicien</v-card-subtitle>
+            <v-card-subtitle class="pb-0">Le gestionnaire</v-card-subtitle>
 
             <v-card-text class="text--primary">
-              <div>Whitsunday Island, Whitsunday Islands</div>
+              <div>Responsable des factures</div>
             </v-card-text>
 
             <v-card-actions>
@@ -133,10 +133,7 @@
       goToGarage() {
         this.$router.push('/garage')
       }
-    },
-    beforeRouteEnter(to, from, next) {
-      next({ path: '/' })
-    },
+    }
   }
 </script>
 

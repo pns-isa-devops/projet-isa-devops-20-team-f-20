@@ -2,11 +2,11 @@
   <v-container fluid>
 
     <v-app-bar app color="yellow darken-2" dark>
-      <div class="d-flex align-center" @click="goToHome()">
+      <div class="d-flex align-center" @click="goToHome">
         <v-img alt="Livrair'" class="shrink mr-2" contain src="../assets/drone_fix.png"
           transition="scale-transition" width="40" />
       </div>
-      <v-toolbar-title class="headline text-upper" @click="goToHome()">
+      <v-toolbar-title class="headline text-upper" @click="goToHome">
         <span>LIVRAIR - </span>
         <span data-cy="garage_title" class="font-weight-light">GARAGE</span>
       </v-toolbar-title>
