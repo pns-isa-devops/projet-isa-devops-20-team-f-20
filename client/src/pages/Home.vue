@@ -91,7 +91,7 @@
               </v-btn>
             </v-card-actions>
           </v-card>
-          <v-card class="pa-1 mx-auto" outlined tile max-width="250">
+          <v-card class="pa-1 mx-auto" outlined tile max-width="250" @click="goToGestio()">
 
             <v-img class="white--text align-end" height="250px" transition="scale-transition"
               src="../assets/drone_empty.png" />
@@ -132,6 +132,9 @@
       },
       goToGarage() {
         this.$router.push('/garage')
+      },
+      goToGestio() {
+        this.$router.push('/gestio')
       }
     }
   }

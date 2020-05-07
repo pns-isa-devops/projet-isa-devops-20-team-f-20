@@ -2,6 +2,7 @@ import Home from './pages/Home.vue';
 import Client from './pages/Client.vue';
 import Manu from './pages/Manu.vue';
 import Garage from './pages/Garage.vue';
+import Gestio from './pages/Gestio.vue';
 import Fail from './pages/404.vue';
 import Vue from 'vue';
 import VueRouter from 'vue-router';
@@ -33,6 +34,11 @@ const routes = [
         path: '/garage',
         name: 'Garage',
         component: Garage
+    },
+    {
+        path: '/gestio',
+        name: 'Gestio',
+        component: Gestio
     },
 ]
 
