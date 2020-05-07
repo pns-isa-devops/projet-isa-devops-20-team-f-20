@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +28,7 @@ public class Drone {
         this.chargelevel = 100;
         this.flyingTime = 0;
         this.status = DroneStatus.AVAILABLE;
-        this.dailyPlannings = new DailyPlanningList();
+        this.dailyPlannings = new DailyPlanningList(new ArrayList<>());
     }
 
     public Drone(String id, double chargelevel, double flyingTime) {
@@ -35,7 +36,7 @@ public class Drone {
         this.chargelevel = chargelevel;
         this.flyingTime = flyingTime;
         this.status = DroneStatus.AVAILABLE;
-        this.dailyPlannings = new DailyPlanningList();
+        this.dailyPlannings = new DailyPlanningList(new ArrayList<>());
     }
 
     @XmlElement(name = "idDrone")
@@ -91,7 +92,7 @@ public class Drone {
     }
 
 
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     public DailyPlanningList getDailyPlannings() {
         return dailyPlannings;
     }

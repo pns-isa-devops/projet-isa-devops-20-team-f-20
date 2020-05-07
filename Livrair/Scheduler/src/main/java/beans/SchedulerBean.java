@@ -98,7 +98,7 @@ public class SchedulerBean implements PlanningInterface {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<DailyPlanning> criteria = builder.createQuery(DailyPlanning.class);
         Root<DailyPlanning> root = criteria.from(DailyPlanning.class);
-        criteria.select(root).where(builder.equal(root.get("planningDateTS"), String.valueOf(date.toEpochDay())));
+        criteria.select(root).where(builder.equal(root.get("date"), String.valueOf(date.toEpochDay())));
         TypedQuery<DailyPlanning> query = manager.createQuery(criteria);
         try {
             return query.getSingleResult();

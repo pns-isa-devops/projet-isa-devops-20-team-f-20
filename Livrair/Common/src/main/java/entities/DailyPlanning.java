@@ -18,7 +18,7 @@ public class DailyPlanning<T> implements Serializable {
 
     private List<Slot> slots;
 
-    private String planningDateTS;
+    private String date;
 
     public DailyPlanning() {
     }
@@ -133,7 +133,7 @@ public class DailyPlanning<T> implements Serializable {
 
     @XmlElementWrapper(name = "slots")
     @XmlElement(name = "slot")
-    @OneToMany(cascade = {CascadeType.REMOVE})
+    @OneToMany(cascade = {CascadeType.ALL})
     public List<Slot> getSlots() {
         return slots;
     }
@@ -142,21 +142,13 @@ public class DailyPlanning<T> implements Serializable {
         this.slots = slots;
     }
 
+    @XmlElement(name = "dailyPlanningDate")
     public LocalDate getDate() {
-        return LocalDate.ofEpochDay(Long.valueOf(planningDateTS));
+        return LocalDate.ofEpochDay(Long.valueOf(date));
     }
 
     public void setDate(LocalDate date) {
-        this.planningDateTS = String.valueOf(date.toEpochDay());
-    }
-
-    @XmlElement(name = "planningDate")
-    public String getPlanningDateTS() {
-        return planningDateTS;
-    }
-
-    public void setPlanningDateTS(String planningDateTS) {
-        this.planningDateTS = planningDateTS;
+        this.date = String.valueOf(date.toEpochDay());
     }
 
 
@@ -166,14 +158,15 @@ public class DailyPlanning<T> implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         DailyPlanning<?> planning = (DailyPlanning<?>) o;
         return Objects.equals(getSlots(), planning.getSlots()) &&
-                Objects.equals(getPlanningDateTS(), planning.getPlanningDateTS());
+                Objects.equals(getDate(), planning.getDate());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSlots(), getPlanningDateTS());
+        return Objects.hash(getSlots().hashCode(), getDate());
     }
 
+    @XmlElement(name = "idDailyPlanning")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public String getId() {

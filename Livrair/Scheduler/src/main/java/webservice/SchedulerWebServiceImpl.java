@@ -21,8 +21,7 @@ public class SchedulerWebServiceImpl implements SchedulerWebService {
     @Override
     public boolean planDelivery(String id, int jour, int mois, int annee, int heure, int minute) {
         try {
-            planning.planDelivery(id, LocalDateTime.of(annee, mois, jour, heure, minute)).get();
-            return true;
+            return planning.planDelivery(id, LocalDateTime.of(annee, mois, jour, heure, minute)).isPresent();
         } catch (Exception e) {
             e.printStackTrace();
             return false; // TODO return excpetion spécifique ?

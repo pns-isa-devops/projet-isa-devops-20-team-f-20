@@ -1,14 +1,17 @@
 package entities;
 
-import javax.persistence.Embeddable;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
+import java.util.Objects;
 
-
-@Embeddable
+@Entity
+@Table(name="slots")
 public class Slot<T> implements Serializable {
     private int start;
     private int finish;
+
+    private String id;
 
     private T t;
     private boolean isAvailable;
@@ -83,4 +86,30 @@ public class Slot<T> implements Serializable {
         return isAvailable;
     }
 
+    @XmlElement(name = "idSlot")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Slot)) return false;
+        Slot<?> slot = (Slot<?>) o;
+        return getStart() == slot.getStart() &&
+                getFinish() == slot.getFinish() &&
+                isAvailable() == slot.isAvailable() &&
+                Objects.equals(t, slot.t);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStart(), getFinish(), t, isAvailable());
+    }
 }

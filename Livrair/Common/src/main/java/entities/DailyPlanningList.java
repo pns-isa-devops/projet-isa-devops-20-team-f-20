@@ -1,6 +1,7 @@
 package entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;
@@ -16,16 +17,24 @@ public class DailyPlanningList implements Serializable {
     private List<DailyPlanning> dailyPlannings;
     private int id;
 
-    public DailyPlanningList() {
-        dailyPlannings = new ArrayList<>();
+    public DailyPlanningList(){
+
+    }
+
+    public DailyPlanningList(List<DailyPlanning> dailys) {
+        dailyPlannings = dailys;
     }
 
     public DailyPlanning getPlanningOfDate(LocalDate date) {
-        DailyPlanning planning = null;
+        if(dailyPlannings == null)
+            dailyPlannings = new ArrayList<>();
         for (DailyPlanning dp : dailyPlannings) {
             if(dp.getDate().equals(date))
-                planning = dp;
+                return dp;
         }
+
+        DailyPlanning planning = new DailyPlanning(date);
+        dailyPlannings.add(planning);
         return planning;
     }
 
@@ -45,9 +54,11 @@ public class DailyPlanningList implements Serializable {
         dailyPlannings.add(new DailyPlanning(LocalDate.now()));
     }
 
+
+    @NotNull
     @XmlElementWrapper(name = "dailyPlannings")
     @XmlElement(name = "dailyPlanning")
-    @OneToMany(cascade = {CascadeType.PERSIST})
+    @OneToMany(cascade = {CascadeType.ALL})
     public List<DailyPlanning> getDailyPlannings() {
         return dailyPlannings;
     }
@@ -56,6 +67,7 @@ public class DailyPlanningList implements Serializable {
         this.dailyPlannings = dailyPlannings;
     }
 
+    @XmlElement(name = "idDailyPlanningList")
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int getId() {
