@@ -5,7 +5,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.ZoneOffset;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,7 +20,7 @@ public class DailyPlanning<T> implements Serializable {
 
     private String planningDateTS;
 
-    public DailyPlanning(){
+    public DailyPlanning() {
 
     }
 
@@ -67,11 +67,10 @@ public class DailyPlanning<T> implements Serializable {
      * @return true if the slot is available for the given date, false otherwise
      */
     public boolean availableSlotForGivenDate(int date) {
-        for (Slot s :
-                getAvailabilities()) {
+        for (Slot s : getAvailabilities())
             if (s.matchThisHour(date))
                 return true;
-        }
+
         return false;
     }
 
@@ -120,6 +119,16 @@ public class DailyPlanning<T> implements Serializable {
         slots.add(new Slot(11, 14));
         slots.add(new Slot(14, 17));
         slots.add(new Slot(17, 20));
+    }
+
+    public void book(T t, LocalDateTime date) throws Exception {
+        if (!availableSlotForGivenDate(date.getHour()))
+            throw new Exception("Cannot book"); // TODO custom exception
+
+        for (Slot s :  getAvailabilities())
+            if (s.matchThisHour(date.getHour()))
+                s.book(t);
+
     }
 
 
