@@ -17,7 +17,7 @@ public class Drone {
 
     private DroneStatus status;
 
-    private List<DailyPlanning> dailyPlannings;
+    private DailyPlanningList dailyPlannings;
 
     public Drone() {
     }
@@ -89,12 +89,11 @@ public class Drone {
     }
 
 
-    @OneToMany
-    public List<DailyPlanning> getDailyPlannings() {
+    public DailyPlanningList getDailyPlannings() {
         return dailyPlannings;
     }
 
-    public void setDailyPlannings(List<DailyPlanning> dailyPlannings) {
+    public void setDailyPlannings(DailyPlanningList dailyPlannings) {
         this.dailyPlannings = dailyPlannings;
     }
 }

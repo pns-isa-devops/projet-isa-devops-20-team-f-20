@@ -31,6 +31,11 @@ public class DailyPlanning<T> implements Serializable {
         build(hashT);
     }
 
+    public DailyPlanning(LocalDate date) {
+        setDate(date);
+        initSlots();
+    }
+
     public DailyPlanning(HashMap<T, Integer> hashT, LocalDate date) throws Exception {
         setDate(date);
         initSlots();
