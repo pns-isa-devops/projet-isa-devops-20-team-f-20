@@ -83,4 +83,22 @@ public class BillerBean implements InvoiceModifier {
     private boolean checkIfInvoiceIdAlreadyExistById(String id) {
         return invoices.stream().anyMatch(invoice -> invoice.getId().equalsIgnoreCase(id));
     }
+
+    public Optional<Invoice> getInvoiceBySupplierName(String name){
+        EntityManager em = entityManagerFactory.createEntityManager();
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Invoice> query = cb.createQuery(Invoice.class);
+        Root<Invoice> invoice = query.from(Invoice.class);
+        ListJoin<Invoice, Supplier> supplier = invoice.join(Invoice_.supplier);
+        query.select(invoice)
+                .where(cb.equal(supplier.get(Supplier.name), name))
+                .distinct(true);
+        TypedQuery<Invoice> typedQuery = em.createQuery(query);
+        //typedQuery.getResultList().forEach(System.out::println);
+        try {
+            return Optional.of(typedQuery.getResultList());
+        } catch (NoResultException nre) {
+            return Optional.empty();
+        }
+    }
 }

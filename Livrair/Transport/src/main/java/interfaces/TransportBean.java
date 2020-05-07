@@ -78,10 +78,7 @@ public class TransportBean implements DroneModifier, Availability {
 
     @Override
     public void changeState(String droneId, DroneStatus droneStatus) throws DroneDoesNotExistException {
-        if (!checkIfDroneIdAlreadyExist(droneId)) {
-            throw new DroneDoesNotExistException();
-        }
-        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        /*CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
         Root<Drone> root = criteria.from(Drone.class);
         criteria.select(root).where(builder.equal(root.get("id"), droneId));
@@ -90,7 +87,7 @@ public class TransportBean implements DroneModifier, Availability {
             query.getSingleResult().setStatus(droneStatus);
         } catch (NoResultException nre) {
             throw new DroneDoesNotExistException();
-        }
+        }*/
     }
 
     @Override
