@@ -25,22 +25,16 @@ public class DailyPlanning<T> implements Serializable {
     }
 
 
-    public DailyPlanning(HashMap<T, Integer> hashT) throws Exception {
+    public DailyPlanning(Set<Drone> flotte) {
         setDate(LocalDate.now());
-        initSlots();
-        build(hashT);
+        initSlots(flotte);
     }
 
-    public DailyPlanning(LocalDate date) {
+    public DailyPlanning(Set<Drone> flotte, LocalDate date)  {
         setDate(date);
-        initSlots();
+        initSlots(flotte);
     }
 
-    public DailyPlanning(HashMap<T, Integer> hashT, LocalDate date) throws Exception {
-        setDate(date);
-        initSlots();
-        build(hashT);
-    }
 
     public static HashMap<Delivery, Integer> fromDeliveries(List<Delivery> deliveries) {
         HashMap<Delivery, Integer> hashMap = new HashMap<>();
@@ -57,7 +51,7 @@ public class DailyPlanning<T> implements Serializable {
      * @return The list of all slots available
      */
     public List<Slot> getAvailabilities() {
-        return slots.stream().filter((slot) -> slot.isAvailable()).collect(Collectors.toList());
+        return slots.stream().filter((slot) -> slot.getIsAvailable()).collect(Collectors.toList());
     }
 
     /**
@@ -66,12 +60,13 @@ public class DailyPlanning<T> implements Serializable {
      * @param date Hour
      * @return true if the slot is available for the given date, false otherwise
      */
-    public boolean availableSlotForGivenDate(int date) {
+
+    public Optional<Slot> availableSlotForGivenDate(int date) {
         for (Slot s : getAvailabilities())
             if (s.matchThisHour(date))
-                return true;
+                return Optional.of(s);
 
-        return false;
+        return Optional.empty();
     }
 
     /**
@@ -85,44 +80,23 @@ public class DailyPlanning<T> implements Serializable {
         return getAvailabilities().get(0);
     } // TODO Improve Matching : bonus?
 
-    /**
-     * Build the planning slots with the given deliveries
-     *
-     * @param deliveries Deliveries of the day
-     */
-    private void build(HashMap<T, Integer> hashT) throws Exception {
-        if (getSlots() == null || getSlots().isEmpty())
-            throw new Exception("Slots null or empty");
-
-        int booked = 0;
-
-        for (Map.Entry<T, Integer> entry : hashT.entrySet()) {
-            for (Slot s : slots) {
-                if (s.isAvailable() && s.matchThisHour(entry.getValue())) {
-                    s.book(entry.getKey());
-                    booked++;
-                }
-            }
-        }
-
-        if (booked < hashT.size())
-            throw new Exception("Error : " + (hashT.size() - booked) + "/" + hashT.size() + " object(s) not booked");
-    }
 
     /**
      * Initialize default slot of one day
      */
-    private void initSlots() {
+    private void initSlots(Set<Drone> flotte) {
         slots = new ArrayList<>();
 
-        slots.add(new Slot(8, 11));
-        slots.add(new Slot(11, 14));
-        slots.add(new Slot(14, 17));
-        slots.add(new Slot(17, 20));
+        for(Drone d : flotte){
+            slots.add(new Slot(8, 11, d));
+            slots.add(new Slot(11, 14, d));
+            slots.add(new Slot(14, 17, d));
+            slots.add(new Slot(17, 20, d));
+        }
     }
 
     public void book(T t, LocalDateTime date) throws Exception {
-        if (!availableSlotForGivenDate(date.getHour()))
+        if (!availableSlotForGivenDate(date.getHour()).isPresent())
             throw new Exception("Cannot book"); // TODO custom exception
 
         for (Slot s :  getAvailabilities())
@@ -134,7 +108,7 @@ public class DailyPlanning<T> implements Serializable {
 
     @XmlElementWrapper(name = "slots")
     @XmlElement(name = "slot")
-    @OneToMany(cascade = {CascadeType.REMOVE})
+    @OneToMany(cascade = {CascadeType.ALL})
     public List<Slot> getSlots() {
         return slots;
     }
@@ -151,6 +125,7 @@ public class DailyPlanning<T> implements Serializable {
         this.planningDateTS = String.valueOf(date.toEpochDay());
     }
 
+    @Id
     @XmlElement(name = "planningDate")
     public String getPlanningDateTS() {
         return planningDateTS;
@@ -174,13 +149,4 @@ public class DailyPlanning<T> implements Serializable {
         return Objects.hash(getSlots().hashCode(), getPlanningDateTS());
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

@@ -1,26 +1,32 @@
 package entities;
 
-import javax.persistence.Embeddable;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
+import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
 
 
-@Embeddable
+@Entity
+@Table(name="slots")
 public class Slot<T> implements Serializable {
+
+
+    private String id;
     private int start;
     private int finish;
 
     private T t;
     private boolean isAvailable;
+    private Drone drone;
 
     public Slot() {
 
     }
 
-    public Slot(int start, int finish) {
+    public Slot(int start, int finish, Drone d) {
         this.start = start;
         this.finish = finish;
         this.isAvailable = true;
+        this.drone = d;
     }
 
 
@@ -79,8 +85,28 @@ public class Slot<T> implements Serializable {
         return t != null;
     }
 
-    public boolean isAvailable() {
+    public boolean getIsAvailable() {
         return isAvailable;
     }
 
+    @ManyToOne
+    public Drone getDrone() {
+        return drone;
+    }
+
+    public void setDrone(Drone drone) {
+        this.drone = drone;
+    }
+
+
+    @XmlElement(name = "idSlot")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

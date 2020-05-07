@@ -19,6 +19,7 @@ import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -86,7 +87,7 @@ public class StorageTest extends AbstractLivrairTest {
     public void storingDailyPlanning() throws Exception {
         List<Delivery> tmp = new ArrayList<>();
         tmp.add(delivery);
-        DailyPlanning dailyPlanning = new DailyPlanning(DailyPlanning.fromDeliveries(tmp), LocalDate.of(delivery.getDeliveryDate().getYear(), delivery.getDeliveryDate().getMonth(), delivery.getDeliveryDate().getDayOfMonth()));
+        DailyPlanning dailyPlanning = new DailyPlanning(new HashSet<>(), LocalDate.of(delivery.getDeliveryDate().getYear(), delivery.getDeliveryDate().getMonth(), delivery.getDeliveryDate().getDayOfMonth()));
         entityManager.persist(dailyPlanning);
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();

@@ -13,7 +13,7 @@ public class SlotTest {
 
     @Before
     public void setUp() {
-        this.slot = new Slot(10, 13);
+        this.slot = new Slot(10, 13, null);
     }
 
     @Test
@@ -25,7 +25,7 @@ public class SlotTest {
         } catch (Exception e) {
             assert (false);
         }
-        assertFalse(slot.isAvailable());
+        assertFalse(slot.getIsAvailable());
     }
 
     @Test
@@ -36,7 +36,7 @@ public class SlotTest {
         } catch (Exception e) {
             assert (false);
         }
-        assertTrue(slot.isAvailable());
+        assertTrue(slot.getIsAvailable());
         assertNull(slot.get());
     }
 

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -20,7 +21,7 @@ public class DailyPlanningTest {
     @Before
     public void setUp() {
         try {
-            dailyPlanning = new DailyPlanning(new HashMap());
+            dailyPlanning = new DailyPlanning(new HashSet<>());
         } catch (Exception e) {
             assert (false);
         }
@@ -28,7 +29,7 @@ public class DailyPlanningTest {
 
     @Test
     public void availableSlotForGivenDate() {
-        assertTrue(dailyPlanning.availableSlotForGivenDate(9));
+        assertTrue(dailyPlanning.availableSlotForGivenDate(9).isPresent());
         Delivery d1 = new Delivery(new Package("5", "Baptiste",
                 PackageStatus.REGISTERED, "1 rue de la paix",
                 new Supplier("UPS", "2 rue de la paix")), null, LocalDateTime.of(LocalDate.now(), LocalTime.of(9, 0)));
@@ -38,11 +39,11 @@ public class DailyPlanningTest {
 
         DailyPlanning next = null;
         try {
-            next = new DailyPlanning(DailyPlanning.fromDeliveries(deliveries));
+            next = new DailyPlanning(new HashSet<>());
         } catch (Exception e) {
             assert (false);
         }
-        assertFalse(next.availableSlotForGivenDate(9));
+        assertFalse(next.availableSlotForGivenDate(9).isPresent());
 
     }
 

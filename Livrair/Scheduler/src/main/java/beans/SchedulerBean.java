@@ -18,7 +18,6 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -52,23 +51,14 @@ public class SchedulerBean implements PlanningInterface {
         if (!item.getPackageStatus().equals(PackageStatus.REGISTERED))
             return Optional.empty(); // TODO exception specifique ?
 
-        for (Drone drone : availability.getAvailableDrones()) {
-            DailyPlanning currentPlanning = drone.getDailyPlannings().getPlanningOfDate(deliveryDate.toLocalDate());
-            if (currentPlanning == null) {
-                drone.getDailyPlannings().addPlanning(deliveryDate.toLocalDate());
-            }
-
-            if (currentPlanning.availableSlotForGivenDate(deliveryDate.getHour())) {
-                Delivery delivery = new Delivery(item, drone, deliveryDate);
-                item.setPackageStatus(PackageStatus.ASSIGNED);
-                manager.persist(delivery);
-                currentPlanning.book(delivery, deliveryDate);
-
-                // Soccupe du rechargement et de la revision
-                chargeHandler(currentPlanning);
-//               revisionHandler(currentPlanning); // TODO revision
-                return Optional.of(delivery);
-            }
+        DailyPlanning planning = getPlanning(deliveryDate.toLocalDate());
+        Optional<Slot> tmp = planning.availableSlotForGivenDate(deliveryDate.getHour());
+        if(tmp.isPresent()){
+            Delivery delivery = new Delivery(item, tmp.get().getDrone(), deliveryDate);
+            item.setPackageStatus(PackageStatus.ASSIGNED);
+            manager.persist(delivery);
+            tmp.get().book(delivery);
+            return Optional.of(delivery);
         }
         // Sinon return empty
 
@@ -85,7 +75,7 @@ public class SchedulerBean implements PlanningInterface {
         List<Slot> slots = currentPlanning.getSlots();
 
         for (Slot s : slots ) {
-            if (!s.isAvailable() && s.get() instanceof Delivery)
+            if (!s.getIsAvailable() && s.get() instanceof Delivery)
                 flightsCount++;
 
             // TODO do smtg with that
@@ -103,7 +93,7 @@ public class SchedulerBean implements PlanningInterface {
         try {
             return query.getSingleResult();
         } catch (NoResultException nre) {
-            DailyPlanning dP = new DailyPlanning(DailyPlanning.fromDeliveries(deliveryManager.retrievePlannedDeliveries().orElse(new ArrayList<>())), date);
+            DailyPlanning dP = new DailyPlanning(availability.getDrones(), date);
             manager.persist(dP); //Todo This persistence probably shouldnt be here
             return dP;
         }
