@@ -21,7 +21,7 @@ public interface TransportWebService {
 
 
     @WebMethod
-    @WebResult(name = "get_drones")
+    @WebResult(name = "drone")
     Set<Drone> getDrones();
 
     @WebMethod

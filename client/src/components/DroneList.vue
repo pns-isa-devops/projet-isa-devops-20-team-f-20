@@ -143,7 +143,7 @@
                             // });
                             //console.log(respXML)
 
-                            let drones = respXML.getElementsByTagName('drones')
+                            let drones = respXML.getElementsByTagName('drone')
                             //console.log(packages)
 
                             context.drones = []

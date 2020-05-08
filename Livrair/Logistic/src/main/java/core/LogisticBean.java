@@ -167,7 +167,7 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
 
         delivery.start(); // TODO logic switch
 
-        return false;
+        return true;
     }
 
     @Override

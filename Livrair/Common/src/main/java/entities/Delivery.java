@@ -2,7 +2,6 @@ package entities;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -143,7 +142,7 @@ public class Delivery implements Serializable {
 
     public void start() {
         getaPackage().setPackageStatus(PackageStatus.WAITING);
-        status = DeliveryStatus.SENT;
+        setStatus(DeliveryStatus.SENT);
         getDrone().setStatus(DroneStatus.DELIVERING);
     }
 }
