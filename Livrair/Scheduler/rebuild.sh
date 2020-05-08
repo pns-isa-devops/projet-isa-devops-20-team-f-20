@@ -1,7 +1,3 @@
-echo "Clean project..."
-mvn clean
+echo "Clean and Install project..."
 cd ..
-mvn clean
-
-echo "Install project..."
-mvn install
+mvn -q -DskipTests clean install

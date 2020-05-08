@@ -38,8 +38,8 @@
       </v-col>
     </v-row>
 
-    <v-btn fixed dark fab bottom left color="pink">
-      <v-icon>mdi-plus</v-icon>
+    <v-btn data-cy="client_retreive_package" fixed dark fab bottom left color="purple" @click="retreiveIncomingPackage">
+      <v-icon>mdi-archive-arrow-down-outline</v-icon>
     </v-btn>
 
   </v-container>
@@ -63,10 +63,39 @@
     },
     data() {
       return {
-
+        xmlhttp: new XMLHttpRequest(),
       }
     },
     methods: {
+      retreiveIncomingPackage(){
+        console.log(process.env)
+
+
+        this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND +
+          ':8080/scheduler/webservices/LogisticWS?wsdl', true);
+
+        // build SOAP request
+        var sr =
+          `<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+                <Body>
+                    <retrieveIncomingPackages xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/logistic"/>
+                </Body>
+            </Envelope>`
+
+        let context = this
+
+        this.xmlhttp.onreadystatechange = function () {
+          if (context.xmlhttp.readyState == 4) {
+            if (context.xmlhttp.status == 200) {
+              let respXML = context.xmlhttp.responseXML;
+              console.log(respXML);
+            }
+          }
+        }
+        // Send the POST request
+        this.xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+        this.xmlhttp.send(sr);
+      },
       goToHome() {
         this.$router.push('/home');
       },
