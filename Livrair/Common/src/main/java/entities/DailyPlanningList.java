@@ -6,6 +6,9 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -26,15 +29,14 @@ public class DailyPlanningList implements Serializable {
     }
 
     public DailyPlanning getPlanningOfDate(LocalDate date) {
+        DailyPlanning planning = null;
         if(dailyPlannings == null)
             dailyPlannings = new ArrayList<>();
         for (DailyPlanning dp : dailyPlannings) {
-            if(dp.getDate().equals(date))
-                return dp;
+            if(dp.getPlanningDateTS().equals(String.valueOf(LocalDateTime.of(date, LocalTime.of(0,0)).toEpochSecond(ZoneOffset.UTC))))
+                planning = dp;
         }
 
-        DailyPlanning planning = new DailyPlanning(date);
-        dailyPlannings.add(planning);
         return planning;
     }
 
@@ -58,7 +60,7 @@ public class DailyPlanningList implements Serializable {
     @NotNull
     @XmlElementWrapper(name = "dailyPlannings")
     @XmlElement(name = "dailyPlanning")
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     public List<DailyPlanning> getDailyPlannings() {
         return dailyPlannings;
     }

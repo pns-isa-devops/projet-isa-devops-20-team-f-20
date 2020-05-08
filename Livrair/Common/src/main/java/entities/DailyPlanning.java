@@ -6,6 +6,8 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,25 +20,25 @@ public class DailyPlanning<T> implements Serializable {
 
     private List<Slot> slots;
 
-    private String date;
+    private String planningDateTS;
 
     public DailyPlanning() {
     }
 
 
     public DailyPlanning(HashMap<T, Integer> hashT) throws Exception {
-        setDate(LocalDate.now());
+        setplanningDate(LocalDateTime.of(LocalDate.now(), LocalTime.of(0,0)));
         initSlots();
         build(hashT);
     }
 
     public DailyPlanning(LocalDate date) {
-        setDate(date);
+        setplanningDate(LocalDateTime.of(date, LocalTime.of(0,0)));
         initSlots();
     }
 
     public DailyPlanning(HashMap<T, Integer> hashT, LocalDate date) throws Exception {
-        setDate(date);
+        setplanningDate(LocalDateTime.of(date, LocalTime.of(0,0)));
         initSlots();
         build(hashT);
     }
@@ -133,7 +135,7 @@ public class DailyPlanning<T> implements Serializable {
 
     @XmlElementWrapper(name = "slots")
     @XmlElement(name = "slot")
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     public List<Slot> getSlots() {
         return slots;
     }
@@ -142,13 +144,24 @@ public class DailyPlanning<T> implements Serializable {
         this.slots = slots;
     }
 
-    @XmlElement(name = "dailyPlanningDate")
-    public LocalDate getDate() {
-        return LocalDate.ofEpochDay(Long.valueOf(date));
+    @XmlElement(name = "planningDate")
+    public String getPlanningDateTS() {
+        return planningDateTS;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = String.valueOf(date.toEpochDay());
+    public void setPlanningDateTS(String deliveryDateTS) {
+        this.planningDateTS = deliveryDateTS;
+    }
+
+    //@XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
+    public LocalDateTime getPlanningDate() {
+        return LocalDateTime.ofEpochSecond(Long.valueOf(planningDateTS), 0, ZoneOffset.UTC);
+        //return deliveryDate;
+    }
+
+    public void setplanningDate(LocalDateTime deliveryDate) {
+        this.planningDateTS = String.valueOf(deliveryDate.toEpochSecond(ZoneOffset.UTC));
+        //this.deliveryDate = deliveryDate;
     }
 
 
@@ -158,12 +171,12 @@ public class DailyPlanning<T> implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         DailyPlanning<?> planning = (DailyPlanning<?>) o;
         return Objects.equals(getSlots(), planning.getSlots()) &&
-                Objects.equals(getDate(), planning.getDate());
+                Objects.equals(getPlanningDateTS(), planning.getPlanningDateTS());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSlots().hashCode(), getDate());
+        return Objects.hash(getSlots().hashCode(), getPlanningDateTS());
     }
 
     @XmlElement(name = "idDailyPlanning")

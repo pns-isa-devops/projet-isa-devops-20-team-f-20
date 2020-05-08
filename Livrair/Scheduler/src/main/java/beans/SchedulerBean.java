@@ -18,6 +18,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -56,6 +58,7 @@ public class SchedulerBean implements PlanningInterface {
             DailyPlanning currentPlanning = drone.getDailyPlannings().getPlanningOfDate(deliveryDate.toLocalDate());
             if (currentPlanning == null) {
                 drone.getDailyPlannings().addPlanning(deliveryDate.toLocalDate());
+                currentPlanning = drone.getDailyPlannings().getPlanningOfDate(deliveryDate.toLocalDate());
             }
 
             if (currentPlanning.availableSlotForGivenDate(deliveryDate.getHour())) {
@@ -98,7 +101,7 @@ public class SchedulerBean implements PlanningInterface {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<DailyPlanning> criteria = builder.createQuery(DailyPlanning.class);
         Root<DailyPlanning> root = criteria.from(DailyPlanning.class);
-        criteria.select(root).where(builder.equal(root.get("date"), String.valueOf(date.toEpochDay())));
+        criteria.select(root).where(builder.equal(root.get("planningDateTS"), String.valueOf(LocalDateTime.of(date, LocalTime.of(0,0)).toEpochSecond(ZoneOffset.UTC))));
         TypedQuery<DailyPlanning> query = manager.createQuery(criteria);
         try {
             return query.getSingleResult();
@@ -119,6 +122,6 @@ public class SchedulerBean implements PlanningInterface {
         TypedQuery<DailyPlanning> query = manager.createQuery(criteria);
 
         List<DailyPlanning> tmp = query.getResultList();
-        return tmp.stream().filter((dailyPlanning -> (from.toEpochDay() <= dailyPlanning.getDate().toEpochDay() && dailyPlanning.getDate().toEpochDay() <= to.toEpochDay()))).collect(Collectors.toList());
+        return tmp.stream().filter((dailyPlanning -> (from.toEpochDay() <= dailyPlanning.getPlanningDate().toLocalDate().toEpochDay() && dailyPlanning.getPlanningDate().toLocalDate().toEpochDay() <= to.toEpochDay()))).collect(Collectors.toList());
     }
 }

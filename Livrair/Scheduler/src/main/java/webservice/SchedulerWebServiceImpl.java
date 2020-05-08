@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 @WebService(targetNamespace = "http://www.polytech.unice.fr/si/4a/isa/drone-delivery/scheduler")
 @Stateless(name = "SchedulerWS")
@@ -31,7 +32,7 @@ public class SchedulerWebServiceImpl implements SchedulerWebService {
     @Override
     public DailyPlanning getPlanning(String date) {
         try {
-            return planning.getPlanning(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            return planning.getPlanning(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US)));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -41,7 +42,7 @@ public class SchedulerWebServiceImpl implements SchedulerWebService {
     @Override
     public List<DailyPlanning> getPlanningRange(String from, String to) {
         try {
-            return planning.getPlanning(LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd")), LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            return planning.getPlanning(LocalDate.parse(from, DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US)), LocalDate.parse(to, DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US)));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
