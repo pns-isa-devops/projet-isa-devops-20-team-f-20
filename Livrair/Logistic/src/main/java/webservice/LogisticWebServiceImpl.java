@@ -5,6 +5,7 @@ import core.PackageFinder;
 import core.PackageInventory;
 import entities.Delivery;
 import entities.Package;
+import entities.PackageStatus;
 
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
@@ -41,6 +42,21 @@ public class LogisticWebServiceImpl implements LogisticWebService {
     @Override
     public void retrieveIncomingPackages() {
         inventory.retrieveIncomingPackages();
+    }
+
+    @Override
+    public boolean changePackageStatut(String id, PackageStatus packageStatus) {
+        return delivery.changePackageStatut(id, packageStatus);
+    }
+
+    @Override
+    public boolean startDelivery(String id) {
+        return delivery.startDelivery(id);
+    }
+
+    @Override
+    public Delivery getDeliveryById(String id) {
+        return delivery.getDeliveryById(id).get();
     }
 
 

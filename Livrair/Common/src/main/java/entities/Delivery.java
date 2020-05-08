@@ -141,4 +141,9 @@ public class Delivery implements Serializable {
         return Objects.hash(getaPackage().getId(), getDrone(), getDeliveryDateTS(), getStatus());
     }
 
+    public void start() {
+        getaPackage().setPackageStatus(PackageStatus.WAITING);
+        status = DeliveryStatus.SENT;
+        getDrone().setStatus(DroneStatus.DELIVERING);
+    }
 }

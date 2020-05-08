@@ -31,7 +31,8 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
     private EntityManager manager;
 
 
-    @PostConstruct private void setupExternalAPI(){
+    @PostConstruct
+    private void setupExternalAPI() {
         try {
             Properties prop = new Properties();
             prop.load(LogisticBean.class.getResourceAsStream("/supplier.properties"));
@@ -115,7 +116,7 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
     public void retrieveIncomingPackages() {
         try {
             packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
-                if(!findById(incomingPackage.getId()).isPresent()){
+                if (!findById(incomingPackage.getId()).isPresent()) {
                     manager.persist(incomingPackage);
                 }
             });
@@ -140,6 +141,44 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
         TypedQuery<Delivery> query = manager.createQuery(criteria);
         try {
             return Optional.of(query.getResultList());
+        } catch (NoResultException nre) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public boolean changePackageStatut(String id, PackageStatus packageStatus) {
+        Package pac = findById(id).orElse(null);
+
+        if(pac == null)
+            return false; // TODO exceptions ?
+
+        pac.setPackageStatus(packageStatus); // TODO switch detat
+
+        return true;
+    }
+
+    @Override
+    public boolean startDelivery(String id) {
+        Delivery delivery = getDeliveryById(id).orElse(null);
+
+        if(delivery == null)
+            return false; // TODO exceptions ?
+
+        delivery.start(); // TODO logic switch
+
+        return false;
+    }
+
+    @Override
+    public Optional<Delivery> getDeliveryById(String id) {
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Delivery> criteria = builder.createQuery(Delivery.class);
+        Root<Delivery> root = criteria.from(Delivery.class);
+        criteria.select(root).where(builder.equal(root.get("id"), id));
+        TypedQuery<Delivery> query = manager.createQuery(criteria);
+        try {
+            return Optional.of(query.getSingleResult());
         } catch (NoResultException nre) {
             return Optional.empty();
         }
