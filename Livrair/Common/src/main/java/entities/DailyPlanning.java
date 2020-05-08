@@ -58,7 +58,11 @@ public class DailyPlanning<T> implements Serializable {
      * @return The list of all slots available
      */
     public List<Slot> getAvailabilities() {
-        return slots.stream().filter((slot) -> slot.isAvailable()).collect(Collectors.toList());
+        System.out.println("ON EST DANS AVAILABILITIES" + slots.size());
+
+        System.out.println("ON A "+slots.stream().filter((slot) -> slot.getAvailable()).collect(Collectors.toList()).size() + " SLOTS DISPO");
+
+        return slots.stream().filter((slot) -> slot.getAvailable()).collect(Collectors.toList());
     }
 
     /**
@@ -68,10 +72,12 @@ public class DailyPlanning<T> implements Serializable {
      * @return true if the slot is available for the given date, false otherwise
      */
     public boolean availableSlotForGivenDate(int date) {
-        for (Slot s : getAvailabilities())
-            if (s.matchThisHour(date))
-                return true;
 
+        for (Slot s : getAvailabilities()) {
+            if (s.matchThisHour(date)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -99,7 +105,7 @@ public class DailyPlanning<T> implements Serializable {
 
         for (Map.Entry<T, Integer> entry : hashT.entrySet()) {
             for (Slot s : slots) {
-                if (s.isAvailable() && s.matchThisHour(entry.getValue())) {
+                if (s.getAvailable() && s.matchThisHour(entry.getValue())) {
                     s.book(entry.getKey());
                     booked++;
                 }
@@ -126,10 +132,12 @@ public class DailyPlanning<T> implements Serializable {
         if (!availableSlotForGivenDate(date.getHour()))
             throw new Exception("Cannot book"); // TODO custom exception
 
-        for (Slot s :  getAvailabilities())
-            if (s.matchThisHour(date.getHour()))
+        for (Slot s :  getAvailabilities()){
+            if (s.matchThisHour(date.getHour())){
                 s.book(t);
-
+                break;
+            }
+        }
     }
 
 

@@ -14,7 +14,7 @@ public class Slot<T> implements Serializable {
     private String id;
 
     private T t;
-    private boolean isAvailable;
+    private boolean available;
 
     public Slot() {
 
@@ -23,29 +23,29 @@ public class Slot<T> implements Serializable {
     public Slot(int start, int finish) {
         this.start = start;
         this.finish = finish;
-        this.isAvailable = true;
+        this.available = true;
     }
 
 
     public void book() throws Exception {
-        if (isAvailable == false)
+        if (available == false)
             throw new Exception("Cannot book, already booked");
-        this.isAvailable = false;
+        this.available = false;
     }
 
     public void book(T t) throws Exception {
-        if (isAvailable == false)
+        if (available == false)
             throw new Exception("Cannot book, already booked");
         this.t = t;
-        this.isAvailable = false;
+        this.available = false;
     }
 
     public T unbook() throws Exception {
-        if (isAvailable == true)
+        if (available == true)
             throw new Exception("Cannot unbook, not booked");
         T t = this.t;
         this.t = null;
-        this.isAvailable = true;
+        this.available = true;
         return t;
     }
 
@@ -82,8 +82,9 @@ public class Slot<T> implements Serializable {
         return t != null;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
+    @Column(columnDefinition="tinyint(1) default 1")
+    public boolean getAvailable() {
+        return available;
     }
 
     @XmlElement(name = "idSlot")
@@ -104,12 +105,17 @@ public class Slot<T> implements Serializable {
         Slot<?> slot = (Slot<?>) o;
         return getStart() == slot.getStart() &&
                 getFinish() == slot.getFinish() &&
-                isAvailable() == slot.isAvailable() &&
+                getAvailable() == slot.getAvailable() &&
                 Objects.equals(t, slot.t);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getStart(), getFinish(), t, isAvailable());
+        return Objects.hash(getStart(), getFinish(), t, getAvailable());
+    }
+
+    @Override
+    public String toString() {
+        return "STATUS DU SLOT" + getAvailable();
     }
 }
