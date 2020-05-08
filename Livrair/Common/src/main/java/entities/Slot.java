@@ -82,9 +82,12 @@ public class Slot<T> implements Serializable {
         return t != null;
     }
 
-    @Column(columnDefinition="tinyint(1) default 1")
     public boolean getAvailable() {
         return available;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 
     @XmlElement(name = "idSlot")
