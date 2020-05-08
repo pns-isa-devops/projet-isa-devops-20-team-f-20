@@ -82,7 +82,7 @@ describe('Init Test', () => {
       var env = `
       <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
           <Body>
-              <addDrone xmlns="http://www.delivrair.fr/backend/transport">
+              <addDrone xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/transport">
                   <id xmlns="">0</id>
               </addDrone>
           </Body>

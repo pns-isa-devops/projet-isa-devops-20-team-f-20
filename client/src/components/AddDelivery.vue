@@ -17,11 +17,11 @@
         </v-snackbar> -->
 
             <v-alert data-cy="success_alert" dismissible dense text type="success" v-model="this.displaySuccess">
-                Delivery <strong>succesfully</strong> created ! {{ this.displaySuccess }}
+                Delivery <strong>succesfully</strong> created !
             </v-alert>
 
             <v-alert data-cy="failed_alert" dismissible dense outlined type="error" v-model="this.displayFailed">
-                Creation of the delivery <strong>failed</strong> ! {{ this.displayFailed }}
+                Creation of the delivery <strong>failed</strong> !
             </v-alert>
 
             <v-card>

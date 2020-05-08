@@ -21,13 +21,20 @@
 
     <v-row align="strat" justify="space-around">
       <v-col cols="3" align-self="center">
+        <v-alert data-cy="manu_package_success_alert" dismissible dense text type="success" v-model="this.displaySuccessPackage">
+                Package status <strong>succesfully</strong> changed !
+            </v-alert>
+
+            <v-alert data-cy="manu_package_failed_alert" dismissible dense outlined type="error" v-model="this.displayFailedPackage">
+                Package status modification <strong>failed</strong> !
+            </v-alert>
         <v-card>
           <v-card-text>
             <span class="title text-upper" color="" dark>
               <span style="margin-right: 5px;" class="font-weight-light">CHANGE</span>
               <span>PACKAGE STATUS</span>
             </span>
-            <v-form ref="form" v-model="validPackage" lazy-validation>
+            <v-form ref="formPackage" v-model="validPackage" lazy-validation>
               <v-row align="center" justify="space-around">
                 <v-col cols="4">
                   <v-text-field data-cy="manu_package_id" name="packageID" v-model="packageId" label="Package ID"
@@ -41,7 +48,7 @@
               </v-row>
               <v-row align="center" justify="space-around">
                 <v-btn tile data-cy="manu_package_status_button" :disabled="!validPackage" color="blue white--text"
-                  @click="validate">
+                  @click="validatePackage">
                   Change package status
                 </v-btn>
               </v-row>
@@ -64,22 +71,29 @@
         <CalendarDelivery mode='day' />
       </v-col>
       <v-col cols="3" align-self="start">
+        <v-alert data-cy="manu_delivery_success_alert" dismissible dense text type="success" v-model="this.displaySuccessDelivery">
+                Delivery <strong>succesfully</strong> launched !
+            </v-alert>
+
+            <v-alert data-cy="manu_delivery_failed_alert" dismissible dense outlined type="error" v-model="this.displayFailedDelivery">
+                Delivery launching <strong>failed</strong> !
+            </v-alert>
         <v-card>
           <v-card-text>
             <span class="title text-upper" color="" dark>
               <span style="margin-right: 5px;" class="font-weight-light">LAUNCH</span>
               <span>DELIVERY</span>
             </span>
-            <v-form ref="form" v-model="validDelivery" lazy-validation>
+            <v-form ref="formDelivery" v-model="validDelivery" lazy-validation>
               <v-row align="center" justify="center">
                 <v-col cols="4">
-                  <v-text-field data-cy="manu_launch_delivery_drone_id" name="DroneID" v-model="packageId"
-                    label="Drone ID" id="idDrone" :rules="idRules" required></v-text-field>
+                  <v-text-field data-cy="manu_launch_delivery_delivery_id" name="DeliveryID" v-model="deliveryId"
+                    label="Delivery ID" id="idDelivery" :rules="idRules" required></v-text-field>
                 </v-col>
               </v-row>
               <v-row align="center" justify="space-around">
                 <v-btn tile data-cy="manu_launch_delivery_button" :disabled="!validDelivery" color="blue white--text"
-                  @click="validate">
+                  @click="validateDelivery">
                   Launch Drone and Delivery
                 </v-btn>
               </v-row>
@@ -122,6 +136,7 @@
         validPackage: true,
         validDelivery: true,
         packageId: '',
+        deliveryId: '',
         idRules: [
           v => (v && !isNaN(v)) || 'ID must be a number',
         ],
@@ -129,13 +144,133 @@
         statusRules: [
           v => (v && (v == 'REGISTERED' || v == 'WAITING' || v == 'ASSIGNED')) || 'Status not correct',
         ],
-
+        displaySuccessPackage: false,
+        displayFailedPackage: false,
+        displayedPackage: false,
+        packageChanged: false,
+        displaySuccessDelivery: false,
+        displayFailedDelivery: false,
+        displayedDelivery: false,
+        createdDelivery: false,
       }
     },
     methods: {
-      validate() {
-        let valid = this.$refs.form.validate()
+      changePackageStatus() {
+        this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND +
+          ':8080/scheduler/webservices/SchedulerWS?wsdl', true);
+
+        // build SOAP request
+        var sr = `
+                    <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+                        <Body>
+                            <changePackageStatut xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/logistic">
+                                <id xmlns="">`+ this.packageId +`</id>
+                                <packageStatus xmlns="">`+ this.packageStatus +`</packageStatus>
+                            </changePackageStatut>
+                        </Body>
+                    </Envelope>
+                    `
+
+        console.log(sr)
+
+        let context = this
+
+        this.xmlhttp.onreadystatechange = function () {
+          if (context.xmlhttp.readyState == 4) {
+            if (context.xmlhttp.status == 200) {
+
+              let respXML = context.xmlhttp.responseXML;
+
+              let packageChanged = respXML.getElementsByTagName('changed')[0].innerHTML
+              console.log(packageChanged)
+
+              if (packageChanged == 'true') {
+                context.resetPackage()
+                context.packageChanged = true;
+                context.displaySuccessPackage = true;
+                context.displayFailedPackage = false;
+              } else {
+                context.packageChanged = false;
+                context.displaySuccessPackage = false;
+                context.displayFailedPackage = true;
+              }
+              context.displayedPackage = true;
+            }
+          }
+        }
+        // Send the POST request
+        this.xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+        this.xmlhttp.send(sr);
+      },
+      launchDelivery() {
+        this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND +
+          ':8080/scheduler/webservices/SchedulerWS?wsdl', true);
+
+        // build SOAP request
+        var sr = `
+                    <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+                        <Body>
+                            <startDelivery xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/logistic">
+                                <id xmlns="">`+ this.deliveryId +`</id>
+                            </startDelivery>
+                        </Body>
+                    </Envelope>
+                    `
+
+        console.log(sr)
+
+        let context = this
+
+        this.xmlhttp.onreadystatechange = function () {
+          if (context.xmlhttp.readyState == 4) {
+            if (context.xmlhttp.status == 200) {
+
+              let respXML = context.xmlhttp.responseXML;
+
+              let createdDelivery = respXML.getElementsByTagName('strated')[0].innerHTML
+              console.log(createdDelivery)
+
+              if (createdDelivery == 'true') {
+                context.resetDelivery()
+                context.createdDelivery = true;
+                context.displaySuccessDelivery = true;
+                context.displayFailedDelivery = false;
+              } else {
+                context.createdDelivery = false;
+                context.displaySuccessDelivery = false;
+                context.displayFailedDelivery = true;
+              }
+              context.displayedDelivery = true;
+            }
+          }
+        }
+        // Send the POST request
+        this.xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+        this.xmlhttp.send(sr);
+      },
+      validatePackage() {
+        let valid = this.$refs.formPackage.validate()
+        this.displayFailedPackage = false;
+        this.displaySuccessPackage = false;
+        if(valid){
+          this.changePackageStatus()
+        }
         console.log(valid)
+      },
+      validateDelivery() {
+        let valid = this.$refs.formDelivery.validate()
+        this.displayFailedDelivery = false;
+        this.displaySuccessDelivery = false;
+        if(valid){
+          this.launchDelivery()
+        }
+        console.log(valid)
+      },
+      resetPackage() {
+          this.$refs.formPackage.reset()
+      },
+      resetDelivery() {
+          this.$refs.formDelivery.reset()
       },
       gotoHome() {
         this.$router.push('/home')

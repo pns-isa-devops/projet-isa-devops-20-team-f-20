@@ -123,11 +123,12 @@
                 // build SOAP request
                 var sr =
                     `<?xml version="1.0" encoding="utf-8"?>
-          <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
-              <Body>
-                  <getAllDrones xmlns="http://www.delivrair.fr/backend/transport"/>
-              </Body>
-          </Envelope>`
+                    <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+                        <Body>
+                            <getDrones xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/transport"/>
+                        </Body>
+                    </Envelope>
+                    `
 
                 let context = this
 
@@ -142,18 +143,18 @@
                             // });
                             //console.log(respXML)
 
-                            let packages = respXML.getElementsByTagName('drone')
+                            let drones = respXML.getElementsByTagName('drones')
                             //console.log(packages)
 
-                            context.packages = []
-                            for (let pack of packages) {
+                            context.drones = []
+                            for (let drone of drones) {
                                 //console.log(pack)
 
                                 let respDrone = {
-                                    id: pack.getElementsByTagName('idDrone')[0].innerHTML,
-                                    status: pack.getElementsByTagName('statusDrone')[0].innerHTML,
-                                    chargeLevel: pack.getElementsByTagName('chargeLevel')[0].innerHTML,
-                                    flyingTime: pack.getElementsByTagName('flyingTime')[0].innerHTML,
+                                    id: drone.getElementsByTagName('idDrone')[0].innerHTML,
+                                    status: drone.getElementsByTagName('statusDrone')[0].innerHTML,
+                                    chargeLevel: drone.getElementsByTagName('chargelevel')[0].innerHTML,
+                                    flyingTime: drone.getElementsByTagName('flyingTime')[0].innerHTML+'h',
                                 }
 
                                 context.drones.push(respDrone);

@@ -21,6 +21,13 @@
 
     <v-row md12 align="strat" justify="space-around">
       <v-col cols="8" align-self="center">
+        <v-alert data-cy="manu_delivery_success_alert" dismissible dense text type="success" v-model="this.displaySuccess">
+                Package status <strong>succesfully</strong> changed !
+            </v-alert>
+
+            <v-alert data-cy="manu_delivery_failed_alert" dismissible dense outlined type="error" v-model="this.displayFailed">
+                Package status modification <strong>failed</strong> !
+            </v-alert>
         <v-card>
           <v-card-text>
             <span class="title text-upper" color="" dark>
@@ -89,12 +96,71 @@
         statusRules: [
           v => (v && (v == 'AVAILABLE' || v == 'DELIVERING' || v == 'CHARGING' || v == 'REVIEW')) || 'Status not correct',
         ],
+        displaySuccess: false,
+        displayFailed: false,
+        displayed: false,
+        changed: false,
       }
     },
     methods: {
+      changeDroneStatus() {
+        this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND +
+          ':8080/scheduler/webservices/SchedulerWS?wsdl', true);
+
+        // build SOAP request
+        var sr = `
+                    <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+                        <Body>
+                            <changeState xmlns="http://www.polytech.unice.fr/si/4a/isa/drone-delivery/transport">
+                                <id xmlns="">`+ this.droneId +`</id>
+                                <droneStatus xmlns="">`+ this.droneStatus +`</droneStatus>
+                            </changeState>
+                        </Body>
+                    </Envelope>
+                    `
+
+        console.log(sr)
+
+        let context = this
+
+        this.xmlhttp.onreadystatechange = function () {
+          if (context.xmlhttp.readyState == 4) {
+            if (context.xmlhttp.status == 200) {
+
+              let respXML = context.xmlhttp.responseXML;
+
+              let droneChanged = respXML.getElementsByTagName('changed')[0].innerHTML
+              console.log(droneChanged)
+
+              if (droneChanged == 'true') {
+                context.reset()
+                context.changed = true;
+                context.displaySuccess = true;
+                context.displayFailed = false;
+              } else {
+                context.changed = false;
+                context.displaySuccess = false;
+                context.displayFailed = true;
+              }
+              context.displayed = true;
+            }
+          }
+        }
+        // Send the POST request
+        this.xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+        this.xmlhttp.send(sr);
+      },
       validate() {
         let valid = this.$refs.form.validate()
+        this.displayFailed = false;
+        this.displaySuccess = false;
+        if(valid){
+          this.changeDroneStatus()
+        }
         console.log(valid)
+      },
+      reset() {
+          this.$refs.form.reset()
       },
       gotoHome(){
         this.$router.push('/home')
