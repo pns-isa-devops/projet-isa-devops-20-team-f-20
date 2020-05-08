@@ -2,6 +2,7 @@ package webservice;
 
 
 import entities.DailyPlanning;
+import entities.Slot;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
@@ -22,7 +23,15 @@ public interface SchedulerWebService {
     DailyPlanning getPlanning(@WebParam(name="date") String date);
 
     @WebMethod
-    @WebResult(name="planning")
+    @WebResult(name = "plannings")
+    List<DailyPlanning> getAllPlanning();
+
+    @WebMethod
+    @WebResult(name = "slots")
+    List<Slot> getAllSlot();
+
+    @WebMethod
+    @WebResult(name="planningRange")
     List<DailyPlanning> getPlanningRange(@WebParam(name="from")String from,@WebParam(name="to") String to);
 
 }

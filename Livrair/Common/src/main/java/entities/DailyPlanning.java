@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -14,7 +15,6 @@ import java.util.stream.Collectors;
 @Table(name = "dailyplannings")
 public class DailyPlanning<T> implements Serializable {
 
-    private String id;
 
     private List<Slot> slots;
 
@@ -25,25 +25,13 @@ public class DailyPlanning<T> implements Serializable {
     }
 
 
-    public DailyPlanning(Set<Drone> flotte) {
-        setDate(LocalDate.now());
-        initSlots(flotte);
-    }
 
-    public DailyPlanning(Set<Drone> flotte, LocalDate date)  {
-        setDate(date);
-        initSlots(flotte);
+    public DailyPlanning(List<Slot> slots, LocalDateTime date)  {
+        setplanningDate(date);
+        this.slots = slots;
     }
 
 
-    public static HashMap<Delivery, Integer> fromDeliveries(List<Delivery> deliveries) {
-        HashMap<Delivery, Integer> hashMap = new HashMap<>();
-
-        for (Delivery d : deliveries)
-            hashMap.put(d, d.getDeliveryDate().getHour());
-
-        return hashMap;
-    }
 
     /**
      * List all slot free to be booked for delivery
@@ -51,7 +39,7 @@ public class DailyPlanning<T> implements Serializable {
      * @return The list of all slots available
      */
     public List<Slot> getAvailabilities() {
-        return slots.stream().filter((slot) -> slot.getIsAvailable()).collect(Collectors.toList());
+        return slots.stream().filter((slot) -> slot.getisAvailable()).collect(Collectors.toList());
     }
 
     /**
@@ -81,19 +69,7 @@ public class DailyPlanning<T> implements Serializable {
     } // TODO Improve Matching : bonus?
 
 
-    /**
-     * Initialize default slot of one day
-     */
-    private void initSlots(Set<Drone> flotte) {
-        slots = new ArrayList<>();
 
-        for(Drone d : flotte){
-            slots.add(new Slot(8, 11, d));
-            slots.add(new Slot(11, 14, d));
-            slots.add(new Slot(14, 17, d));
-            slots.add(new Slot(17, 20, d));
-        }
-    }
 
     public void book(T t, LocalDateTime date) throws Exception {
         if (!availableSlotForGivenDate(date.getHour()).isPresent())
@@ -108,7 +84,7 @@ public class DailyPlanning<T> implements Serializable {
 
     @XmlElementWrapper(name = "slots")
     @XmlElement(name = "slot")
-    @OneToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.REMOVE})
     public List<Slot> getSlots() {
         return slots;
     }
@@ -117,22 +93,21 @@ public class DailyPlanning<T> implements Serializable {
         this.slots = slots;
     }
 
-    public LocalDate getDate() {
-        return LocalDate.ofEpochDay(Long.valueOf(planningDateTS));
-    }
-
-    public void setDate(LocalDate date) {
-        this.planningDateTS = String.valueOf(date.toEpochDay());
-    }
-
-    @Id
     @XmlElement(name = "planningDate")
     public String getPlanningDateTS() {
         return planningDateTS;
     }
 
-    public void setPlanningDateTS(String planningDateTS) {
-        this.planningDateTS = planningDateTS;
+    public void setPlanningDateTS(String deliveryDateTS) {
+        this.planningDateTS = deliveryDateTS;
+    }
+
+    public LocalDateTime getPlanningDate() {
+        return LocalDateTime.ofEpochSecond(Long.valueOf(planningDateTS), 0, ZoneOffset.UTC);
+    }
+
+    public void setplanningDate(LocalDateTime deliveryDate) {
+        this.planningDateTS = String.valueOf(deliveryDate.toEpochSecond(ZoneOffset.UTC));
     }
 
     @Override
@@ -140,13 +115,12 @@ public class DailyPlanning<T> implements Serializable {
         if (this == o) return true;
         if (!(o instanceof DailyPlanning)) return false;
         DailyPlanning<?> that = (DailyPlanning<?>) o;
-        return Objects.equals(getSlots(), that.getSlots()) &&
-                Objects.equals(getPlanningDateTS(), that.getPlanningDateTS());
+        return getPlanningDateTS().equals(((DailyPlanning<?>) o).getPlanningDateTS());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getSlots().hashCode(), getPlanningDateTS());
+        return Objects.hash(getPlanningDateTS());
     }
 
 }

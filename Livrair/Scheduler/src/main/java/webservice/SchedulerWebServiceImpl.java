@@ -1,6 +1,7 @@
 package webservice;
 
 import entities.DailyPlanning;
+import entities.Slot;
 import interfaces.PlanningInterface;
 
 import javax.ejb.EJB;
@@ -35,6 +36,26 @@ public class SchedulerWebServiceImpl implements SchedulerWebService {
             System.out.println("LA DATE :"+date);
             System.out.println(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US)).getDayOfYear());
             return planning.getPlanning(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.US)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<DailyPlanning> getAllPlanning() {
+        try {
+            return planning.getAllPlanning();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<Slot> getAllSlot() {
+        try {
+            return planning.getAllSlot();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

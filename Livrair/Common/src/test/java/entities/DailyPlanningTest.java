@@ -21,7 +21,7 @@ public class DailyPlanningTest {
     @Before
     public void setUp() {
         try {
-            dailyPlanning = new DailyPlanning(new HashSet<>());
+            dailyPlanning = new DailyPlanning(new ArrayList<>(), LocalDateTime.now());
         } catch (Exception e) {
             assert (false);
         }
@@ -39,7 +39,7 @@ public class DailyPlanningTest {
 
         DailyPlanning next = null;
         try {
-            next = new DailyPlanning(new HashSet<>());
+            next = new DailyPlanning(new ArrayList<>(), LocalDateTime.now());
         } catch (Exception e) {
             assert (false);
         }

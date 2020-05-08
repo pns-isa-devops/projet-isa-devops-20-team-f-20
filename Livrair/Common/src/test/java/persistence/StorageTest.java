@@ -87,7 +87,7 @@ public class StorageTest extends AbstractLivrairTest {
     public void storingDailyPlanning() throws Exception {
         List<Delivery> tmp = new ArrayList<>();
         tmp.add(delivery);
-        DailyPlanning dailyPlanning = new DailyPlanning(new HashSet<>(), LocalDate.of(delivery.getDeliveryDate().getYear(), delivery.getDeliveryDate().getMonth(), delivery.getDeliveryDate().getDayOfMonth()));
+        DailyPlanning dailyPlanning = new DailyPlanning(new ArrayList<>(), delivery.getDeliveryDate());
         entityManager.persist(dailyPlanning);
 
         CriteriaBuilder builder = entityManager.getCriteriaBuilder();

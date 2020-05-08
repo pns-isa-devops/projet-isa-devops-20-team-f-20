@@ -2,6 +2,7 @@ package interfaces;
 
 import entities.DailyPlanning;
 import entities.Delivery;
+import entities.Slot;
 
 import javax.ejb.Local;
 import java.time.LocalDate;
@@ -15,6 +16,10 @@ public interface PlanningInterface {
     Optional<Delivery> planDelivery(String id, LocalDateTime deliveryDate) throws Exception;
 
     DailyPlanning getPlanning(LocalDate date) throws Exception;
+
+    List<DailyPlanning> getAllPlanning() throws Exception;
+
+    List<Slot> getAllSlot() throws Exception ;
 
     List<DailyPlanning> getPlanning(LocalDate from, LocalDate to) throws Exception;
 }

@@ -3,6 +3,7 @@ package entities;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import java.io.Serializable;
+import java.util.Objects;
 
 
 @Entity
@@ -85,7 +86,7 @@ public class Slot<T> implements Serializable {
         return t != null;
     }
 
-    public boolean getIsAvailable() {
+    public boolean getisAvailable() {
         return isAvailable;
     }
 
@@ -108,5 +109,21 @@ public class Slot<T> implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Slot)) return false;
+        Slot<?> slot = (Slot<?>) o;
+        return getStart() == slot.getStart() &&
+                getFinish() == slot.getFinish() &&
+                getisAvailable() == slot.getisAvailable() &&
+                Objects.equals(getDrone(), slot.getDrone());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStart(), getFinish(), getisAvailable(), getDrone().hashCode());
     }
 }
