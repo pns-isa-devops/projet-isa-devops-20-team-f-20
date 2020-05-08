@@ -44,13 +44,8 @@ public class AvailabilityTest extends AbstractTransportTest {
         modifier.addDrone("3");
 
         assertFalse(availability.getAvailableDrones().isEmpty());
-        try {
-            modifier.changeState("3", DroneStatus.DELIVERING);
-            modifier.changeState("1", DroneStatus.DELIVERING);
-
-        } catch (DroneDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        assertTrue(modifier.changeState("3", DroneStatus.DELIVERING));
+        assertTrue(modifier.changeState("1", DroneStatus.DELIVERING));
         assertTrue(availability.getAvailableDrones().isEmpty());
     }
 
@@ -59,27 +54,13 @@ public class AvailabilityTest extends AbstractTransportTest {
         dronebis = new Drone("2");
         entityManager.persist(dronebis);
         assertEquals(DroneStatus.AVAILABLE, dronebis.getStatus());
-        try {
-            modifier.changeState("2", DroneStatus.DELIVERING);
-        } catch (DroneDoesNotExistException e) {
-            e.printStackTrace();
-        }
+        assertTrue(modifier.changeState("2", DroneStatus.DELIVERING));
         assertNotEquals(DroneStatus.AVAILABLE, dronebis.getStatus());
     }
 
     @Test
     public void changeStateDroneDoesNotExist() {
-        Throwable error = null;
-        try {
-            modifier.changeState("4", DroneStatus.DELIVERING);
-        } catch (DroneDoesNotExistException ignored) {
-
-        } catch (javax.ejb.EJBTransactionRolledbackException e2) {
-            error = e2.getCause().getCause();
-        }
-        assertNotNull(error);
-        assertEquals(error.getClass(), DroneDoesNotExistException.class);
-//        assertThrows(DroneDoesNotExistException.class, () -> modifier.changeState("1", DroneStatus.DELIVERING));
+        assertFalse(modifier.changeState("4", DroneStatus.DELIVERING));
     }
 
 

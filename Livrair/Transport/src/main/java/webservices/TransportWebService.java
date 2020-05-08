@@ -17,11 +17,16 @@ public interface TransportWebService {
 
     @WebMethod
     @WebResult(name = "add_drone")
-    void addDrone(@WebParam(name = "id") String id);
+    boolean addDrone(@WebParam(name = "id") String id);
 
 
     @WebMethod
     @WebResult(name = "get_drones")
     Set<Drone> getDrones();
+
+    @WebMethod
+    @WebResult(name = "changed")
+    boolean changeState(@WebParam(name = "id") String id, @WebParam(name = "droneStatus") DroneStatus droneStatus);
+
 
 }

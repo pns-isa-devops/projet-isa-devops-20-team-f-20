@@ -1,9 +1,7 @@
 package interfaces;
 
-import entities.DailyPlanning;
 import entities.Drone;
 import entities.DroneStatus;
-import exceptions.DroneAlreadyExistsException;
 import exceptions.DroneDoesNotExistException;
 
 import javax.ejb.Stateless;
@@ -14,11 +12,8 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Stateless
 public class TransportBean implements DroneModifier, Availability {
@@ -58,22 +53,26 @@ public class TransportBean implements DroneModifier, Availability {
 
 
     @Override
-    public void changeState(String droneId, DroneStatus droneStatus) throws DroneDoesNotExistException {
-        /*CriteriaBuilder builder = manager.getCriteriaBuilder();
+    public boolean changeState(String id, DroneStatus droneStatus) {
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Drone> criteria = builder.createQuery(Drone.class);
         Root<Drone> root = criteria.from(Drone.class);
-        criteria.select(root).where(builder.equal(root.get("id"), droneId));
+        criteria.select(root).where(builder.equal(root.get("id"), id));
         TypedQuery<Drone> query = manager.createQuery(criteria);
         try {
-            query.getSingleResult().setStatus(droneStatus);
+            query.getSingleResult().setStatus(droneStatus); // TODO logic switch drone statut
+            return true;
         } catch (NoResultException nre) {
-            throw new DroneDoesNotExistException();
-        }*/
+//            throw new DroneDoesNotExistException();
+            return false;
+        }
     }
 
     @Override
-    public void addDrone(String id) {
+    public boolean addDrone(String id) {
         this.manager.persist(new Drone(id));
+        // TODO droneAlredayExist
+        return true;
     }
 
 }

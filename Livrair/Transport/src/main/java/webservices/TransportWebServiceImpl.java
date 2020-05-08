@@ -23,8 +23,8 @@ public class TransportWebServiceImpl implements TransportWebService {
     private DroneModifier modifier;
 
     @Override
-    public void addDrone(String id) {
-        modifier.addDrone(id);
+    public boolean addDrone(String id) {
+        return modifier.addDrone(id);
     }
 
 
@@ -33,6 +33,10 @@ public class TransportWebServiceImpl implements TransportWebService {
         return availability.getDrones();
     }
 
+    @Override
+    public boolean changeState(String id, DroneStatus droneStatus) {
+            return modifier.changeState(id, droneStatus);
+    }
 
 
 }
