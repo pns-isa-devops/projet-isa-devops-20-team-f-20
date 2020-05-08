@@ -36,7 +36,7 @@ public class InvoiceWebServiceImpl implements InvoiceWebService {
     }
 
     @Override
-    public Invoice getInvoiceBySupplierName(String name){
-        return invoiceModifier.getInvoiceBySupplierName(name).get();
+    public Optional<List<Invoice>> getInvoiceBySupplierName(String name){
+        return invoiceModifier.getInvoiceBySupplierName(name);
     }
 }

@@ -29,5 +29,5 @@ public interface InvoiceWebService {
 
     @WebMethod
     @WebResult(name = "matching_invoice")
-    public Invoice getInvoiceBySupplierName(@WebParam(name = "name") String name);
+    public Optional<List<Invoice>> getInvoiceBySupplierName(String name);
 }

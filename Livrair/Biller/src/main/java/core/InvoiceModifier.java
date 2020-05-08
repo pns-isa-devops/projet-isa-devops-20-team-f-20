@@ -18,5 +18,5 @@ public interface InvoiceModifier {
 
     List<Invoice> getInvoices();
 
-    Optional<Invoice> getInvoiceBySupplierName(String name);
+    Optional<List<Invoice>> getInvoiceBySupplierName(String name);
 }
