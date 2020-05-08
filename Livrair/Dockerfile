@@ -38,7 +38,7 @@ COPY ./resources/tomcat-user.xml ./conf/tomcat-users.xml
 COPY ./resources/manager-context.xml ./webapps/manager/META-INF/context.xml
 
 # Copy persistence
-COPY resources/hsqldb.script ./data/hsqldb/hsqldb.log
+COPY resources/hsqldb.script ./data/hsqldb/hsqldb.script
 
 
 # Copy the startup script
