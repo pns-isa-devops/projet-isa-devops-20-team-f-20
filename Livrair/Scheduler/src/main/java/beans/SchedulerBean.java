@@ -54,21 +54,42 @@ public class SchedulerBean implements PlanningInterface {
         if (!item.getPackageStatus().equals(PackageStatus.REGISTERED))
             return Optional.empty(); // TODO exception specifique ?
 
+
         for (Drone drone : availability.getAvailableDrones()) {
+            System.out.println("ON EST APRES GET AVAILABLE DRONES "+drone.getId());
             DailyPlanning currentPlanning = drone.getDailyPlannings().getPlanningOfDate(deliveryDate.toLocalDate());
             if (currentPlanning == null) {
+                System.out.println("ON EST A NULL ");
+
                 drone.getDailyPlannings().addPlanning(deliveryDate.toLocalDate());
                 currentPlanning = drone.getDailyPlannings().getPlanningOfDate(deliveryDate.toLocalDate());
+            }else {
+                System.out.println("ON EST PAS A NULL");
             }
+            System.out.println("ON EST AVANT LAVAILABLE "+drone.getId());
+            System.out.println("ETAT DES SLOT 0 AVANT AVAILABLE" + currentPlanning.getSlots().get(0).toString());
+            System.out.println("ETAT DES SLOT 1 AVANT AVAILABLE" + currentPlanning.getSlots().get(1).toString());
+            System.out.println("ETAT DES SLOT 2 AVANT AVAILABLE" + currentPlanning.getSlots().get(2).toString());
+            System.out.println("ETAT DES SLOT 3 AVANT AVAILABLE" + currentPlanning.getSlots().get(3).toString());
+
 
             if (currentPlanning.availableSlotForGivenDate(deliveryDate.getHour())) {
+
                 Delivery delivery = new Delivery(item, drone, deliveryDate);
                 item.setPackageStatus(PackageStatus.ASSIGNED);
                 manager.persist(delivery);
+
+                System.out.println("ON EST AVANT LE BOOK");
                 currentPlanning.book(delivery, deliveryDate);
+                System.out.println("ETAT DES SLOT 0 APRES BOOK" + currentPlanning.getSlots().get(0).toString());
+                System.out.println("ETAT DES SLOT 1 APRES BOOK" + currentPlanning.getSlots().get(1).toString());
+                System.out.println("ETAT DES SLOT 2 APRES BOOK" + currentPlanning.getSlots().get(2).toString());
+                System.out.println("ETAT DES SLOT 3 APRES BOOK" + currentPlanning.getSlots().get(3).toString());
+
+
 
                 // Soccupe du rechargement et de la revision
-                chargeHandler(currentPlanning);
+                //chargeHandler(currentPlanning);
 //               revisionHandler(currentPlanning); // TODO revision
                 return Optional.of(delivery);
             }
@@ -88,7 +109,7 @@ public class SchedulerBean implements PlanningInterface {
         List<Slot> slots = currentPlanning.getSlots();
 
         for (Slot s : slots ) {
-            if (!s.isAvailable() && s.get() instanceof Delivery)
+            if (!s.getAvailable() && s.get() instanceof Delivery)
                 flightsCount++;
 
             // TODO do smtg with that
