@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ListJoin;
 import javax.persistence.criteria.Root;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,8 +23,6 @@ import java.util.*;
 
 @Stateless
 public class BillerBean implements InvoiceModifier {
-
-    private List<Invoice> invoices = new ArrayList<>();
 
     @PersistenceContext
     private EntityManager manager;
@@ -47,14 +46,14 @@ public class BillerBean implements InvoiceModifier {
         TypedQuery<Delivery> query = manager.createQuery(criteria);
         LocalDateTime tmpDate = query.getSingleResult().getDeliveryDate();
         Date now = Date.from( tmpDate.atZone(ZoneId.systemDefault()).toInstant());
-        Optional<Invoice>tmp = getInvoiceBydate(now);
+        Supplier sup = query.getSingleResult().getaPackage().getSupplier();
+        Optional<Invoice>tmp = getInvoiceBydateAndsup(now,sup);
         if (tmp.isPresent()) {
             tmp.get().addDeliveries(query.getSingleResult());
             return true;
         } else {
             Supplier tmpSupplier = query.getSingleResult().getaPackage().getSupplier();
             Invoice invoice = new Invoice(tmpSupplier, now);
-            invoices.add(invoice);
             this.manager.persist(invoice);
             invoice.addDeliveries(query.getSingleResult());
             return true;
@@ -71,9 +70,9 @@ public class BillerBean implements InvoiceModifier {
         return query.getResultList();
     }
 
-    private Optional<Invoice> getInvoiceBydate(Date day) {
-        for (Invoice invoice : invoices) {
-            if (yearMonthDayPattern.format(invoice.getDate()).equals(yearMonthDayPattern.format(day))){
+    private Optional<Invoice> getInvoiceBydateAndsup(Date day, Supplier sup) {
+        for (Invoice invoice : getInvoices()) {
+            if (yearMonthDayPattern.format(invoice.getDate()).equals(yearMonthDayPattern.format(day)) && invoice.getSupplier().equals(sup)){
                 return Optional.of(invoice);
             }
         }
@@ -81,25 +80,18 @@ public class BillerBean implements InvoiceModifier {
     }
 
     private boolean checkIfInvoiceIdAlreadyExistById(String id) {
-        return invoices.stream().anyMatch(invoice -> invoice.getId().equalsIgnoreCase(id));
+        return getInvoices().stream().anyMatch(invoice -> invoice.getId().equalsIgnoreCase(id));
     }
 
-    public Optional<Invoice> getInvoiceBySupplierName(String name){
-//        EntityManager em = entityManagerFactory.createEntityManager();
-//        CriteriaBuilder cb = em.getCriteriaBuilder();
-//        CriteriaQuery<Invoice> query = cb.createQuery(Invoice.class);
-//        Root<Invoice> invoice = query.from(Invoice.class);
-//        ListJoin<Invoice, Supplier> supplier = invoice.join(Invoice_.supplier);
-//        query.select(invoice)
-//                .where(cb.equal(supplier.get(Supplier.name), name))
-//                .distinct(true);
-//        TypedQuery<Invoice> typedQuery = em.createQuery(query);
-//        //typedQuery.getResultList().forEach(System.out::println);
-//        try {
-//            return Optional.of(typedQuery.getResultList());
-//        } catch (NoResultException nre) {
-//            return Optional.empty();
-//        }
-        return Optional.empty();
+    public Optional<List<Invoice>> getInvoiceBySupplierName(String name){
+        List<Invoice> invoiceList = getInvoices();
+        List<Invoice> supplierInvoicesList = new ArrayList<>();
+        for (Invoice i : invoiceList) {
+            if (i.getSupplier().getName() == name){
+                supplierInvoicesList.add(i);
+            }
+        }
+        return Optional.of(supplierInvoicesList);
+
     }
 }
