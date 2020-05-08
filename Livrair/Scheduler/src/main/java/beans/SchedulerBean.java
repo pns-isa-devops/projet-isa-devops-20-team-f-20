@@ -115,16 +115,16 @@ public class SchedulerBean implements PlanningInterface {
 
         for(Drone d : flotte){
             Slot s1 = new Slot(8, 11, d);
-            manager.persist(s1);
+            //manager.persist(s1);
             slots.add(s1);
             Slot s2 = new Slot(11, 14, d);
-            manager.persist(s2);
+            //manager.persist(s2);
             slots.add(s2);
             Slot s3 = new Slot(14, 17, d);
-            manager.persist(s3);
+            //manager.persist(s3);
             slots.add(s3);
             Slot s4 = new Slot(17, 20, d);
-            manager.persist(s4);
+            //manager.persist(s4);
             slots.add(s4);
         }
 

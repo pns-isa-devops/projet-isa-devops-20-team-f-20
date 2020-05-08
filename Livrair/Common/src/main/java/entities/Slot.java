@@ -73,7 +73,7 @@ public class Slot<T> implements Serializable {
         this.finish = finish;
     }
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
     public T get() {
         return t;
     }

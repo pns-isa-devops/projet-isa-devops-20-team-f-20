@@ -84,7 +84,7 @@ public class DailyPlanning<T> implements Serializable {
 
     @XmlElementWrapper(name = "slots")
     @XmlElement(name = "slot")
-    @ManyToMany(cascade = {CascadeType.REMOVE})
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     public List<Slot> getSlots() {
         return slots;
     }
