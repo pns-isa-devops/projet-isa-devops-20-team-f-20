@@ -21,7 +21,6 @@ public class Delivery implements Serializable {
 
     private LocalDateTime liftOffDate;
 
-    private LocalDateTime deliveryDate;
 
     private String deliveryDateTS;
 
@@ -142,28 +141,9 @@ public class Delivery implements Serializable {
         return Objects.hash(getaPackage().getId(), getDrone(), getDeliveryDateTS(), getStatus());
     }
 
-}
-
-class LocalDateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
-    public LocalDateTime unmarshal(String v) throws Exception {
-        return LocalDateTime.parse(v);
-    }
-
-    public String marshal(LocalDateTime v) throws Exception {
-        return String.valueOf(v.toEpochSecond(ZoneOffset.UTC));
-    }
-}
-
-@Converter
-class LocalDateTimeAttributeConverter implements AttributeConverter<LocalDateTime, String> {
-
-    @Override
-    public String convertToDatabaseColumn(LocalDateTime locDateTime) {
-        return String.valueOf(locDateTime.toEpochSecond(ZoneOffset.UTC));
-    }
-
-    @Override
-    public LocalDateTime convertToEntityAttribute(String sqlTimestamp) {
-        return LocalDateTime.ofEpochSecond(Long.valueOf(sqlTimestamp), 0, ZoneOffset.UTC);
+    public void start() {
+        getaPackage().setPackageStatus(PackageStatus.WAITING);
+        status = DeliveryStatus.SENT;
+        getDrone().setStatus(DroneStatus.DELIVERING);
     }
 }

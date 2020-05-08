@@ -11,9 +11,11 @@
         <class>entities.Supplier</class>
         <class>entities.Delivery</class>
         <class>entities.Drone</class>
+        <class>entities.Invoice</class>
+        <class>entities.Slot</class>
+        <class>entities.DailyPlanning</class>
+        <class>entities.DailyPlanningList</class>
 
-        <!--        <class>fr.unice.polytech.isa.tcf.entities.Item</class>-->
-        <!--        <class>fr.unice.polytech.isa.tcf.entities.Order</class>-->
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>

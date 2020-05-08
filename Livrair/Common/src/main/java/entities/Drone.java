@@ -2,6 +2,8 @@ package entities;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +18,8 @@ public class Drone {
 
     private DroneStatus status;
 
+    private DailyPlanningList dailyPlannings;
+
     public Drone() {
     }
 
@@ -24,6 +28,7 @@ public class Drone {
         this.chargelevel = 100;
         this.flyingTime = 0;
         this.status = DroneStatus.AVAILABLE;
+        this.dailyPlannings = new DailyPlanningList(new ArrayList<>());
     }
 
     public Drone(String id, double chargelevel, double flyingTime) {
@@ -31,6 +36,7 @@ public class Drone {
         this.chargelevel = chargelevel;
         this.flyingTime = flyingTime;
         this.status = DroneStatus.AVAILABLE;
+        this.dailyPlannings = new DailyPlanningList(new ArrayList<>());
     }
 
     @XmlElement(name = "idDrone")
@@ -83,5 +89,15 @@ public class Drone {
     @Override
     public int hashCode() {
         return Objects.hash(getId(), getChargelevel(), getFlyingTime(), getStatus());
+    }
+
+
+    @OneToOne(cascade = CascadeType.ALL)
+    public DailyPlanningList getDailyPlannings() {
+        return dailyPlannings;
+    }
+
+    public void setDailyPlannings(DailyPlanningList dailyPlannings) {
+        this.dailyPlannings = dailyPlannings;
     }
 }

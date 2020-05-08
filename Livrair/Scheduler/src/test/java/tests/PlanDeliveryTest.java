@@ -1,4 +1,4 @@
-package tests;
+/*package tests;
 
 import arquillian.AbstractSchedulerTest;
 import entities.Package;
@@ -79,4 +79,4 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
         System.out.println(d);
         assertFalse(d.isPresent());
     }
-}
+}*/

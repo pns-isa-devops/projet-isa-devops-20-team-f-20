@@ -85,6 +85,9 @@
                     <forkMode>always</forkMode>
                     <!-- otherwise openejb embedded and tomee embedded shares the same context and EJBContainer is broken -->
                     <reuseForks>false</reuseForks>
+                    <excludes>
+                        <exclude>features/*</exclude>
+                    </excludes>
 
                 </configuration>
             </plugin>
@@ -119,7 +122,6 @@
             <groupId>org.hsqldb</groupId>
             <artifactId>hsqldb</artifactId>
             <version>2.4.0</version>
-            <scope>test</scope>
         </dependency>
 
         <dependency>

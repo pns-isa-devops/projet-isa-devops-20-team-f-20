@@ -1,32 +1,44 @@
 package entities;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
+import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
 @Entity
-public class DailyPlanning<T> {
+@Table(name = "dailyplannings")
+public class DailyPlanning<T> implements Serializable {
 
+    private String id;
 
     private List<Slot> slots;
 
-    private LocalDate date;
+    private String planningDateTS;
+
+    public DailyPlanning() {
+    }
+
 
     public DailyPlanning(HashMap<T, Integer> hashT) throws Exception {
-        this.date = LocalDate.now();
+        setplanningDate(LocalDateTime.of(LocalDate.now(), LocalTime.of(0,0)));
         initSlots();
         build(hashT);
     }
 
+    public DailyPlanning(LocalDate date) {
+        setplanningDate(LocalDateTime.of(date, LocalTime.of(0,0)));
+        initSlots();
+    }
+
     public DailyPlanning(HashMap<T, Integer> hashT, LocalDate date) throws Exception {
-        this.date = date;
+        setplanningDate(LocalDateTime.of(date, LocalTime.of(0,0)));
         initSlots();
         build(hashT);
     }
@@ -56,11 +68,10 @@ public class DailyPlanning<T> {
      * @return true if the slot is available for the given date, false otherwise
      */
     public boolean availableSlotForGivenDate(int date) {
-        for (Slot s :
-                getAvailabilities()) {
+        for (Slot s : getAvailabilities())
             if (s.matchThisHour(date))
                 return true;
-        }
+
         return false;
     }
 
@@ -71,13 +82,14 @@ public class DailyPlanning<T> {
      * @return The closest slot available given the date
      */
     public Slot getBestMatchingSlotOf(int date) {
-        return null;
-    } // TODO bonus?
+
+        return getAvailabilities().get(0);
+    } // TODO Improve Matching : bonus?
 
     /**
      * Build the planning slots with the given deliveries
      *
-     * @param deliveries Deliveries of the day
+     * @param hashT Hashtable Hour <-> T
      */
     private void build(HashMap<T, Integer> hashT) throws Exception {
         if (getSlots() == null || getSlots().isEmpty())
@@ -110,9 +122,20 @@ public class DailyPlanning<T> {
         slots.add(new Slot(17, 20));
     }
 
+    public void book(T t, LocalDateTime date) throws Exception {
+        if (!availableSlotForGivenDate(date.getHour()))
+            throw new Exception("Cannot book"); // TODO custom exception
+
+        for (Slot s :  getAvailabilities())
+            if (s.matchThisHour(date.getHour()))
+                s.book(t);
+
+    }
+
 
     @XmlElementWrapper(name = "slots")
     @XmlElement(name = "slot")
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     public List<Slot> getSlots() {
         return slots;
     }
@@ -122,11 +145,48 @@ public class DailyPlanning<T> {
     }
 
     @XmlElement(name = "planningDate")
-    public LocalDate getDate() {
-        return date;
+    public String getPlanningDateTS() {
+        return planningDateTS;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setPlanningDateTS(String deliveryDateTS) {
+        this.planningDateTS = deliveryDateTS;
+    }
+
+    //@XmlJavaTypeAdapter(value = LocalDateTimeAdapter.class)
+    public LocalDateTime getPlanningDate() {
+        return LocalDateTime.ofEpochSecond(Long.valueOf(planningDateTS), 0, ZoneOffset.UTC);
+        //return deliveryDate;
+    }
+
+    public void setplanningDate(LocalDateTime deliveryDate) {
+        this.planningDateTS = String.valueOf(deliveryDate.toEpochSecond(ZoneOffset.UTC));
+        //this.deliveryDate = deliveryDate;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DailyPlanning<?> planning = (DailyPlanning<?>) o;
+        return Objects.equals(getSlots(), planning.getSlots()) &&
+                Objects.equals(getPlanningDateTS(), planning.getPlanningDateTS());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getSlots().hashCode(), getPlanningDateTS());
+    }
+
+    @XmlElement(name = "idDailyPlanning")
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

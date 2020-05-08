@@ -7,6 +7,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebParam;
 import javax.jws.WebResult;
 import javax.jws.WebService;
+import java.util.List;
 
 @WebService(targetNamespace = "http://www.polytech.unice.fr/si/4a/isa/drone-delivery/scheduler")
 public interface SchedulerWebService {
@@ -18,6 +19,10 @@ public interface SchedulerWebService {
 
     @WebMethod
     @WebResult(name = "planning")
-    DailyPlanning getPlanning();
+    DailyPlanning getPlanning(@WebParam(name="date") String date);
+
+    @WebMethod
+    @WebResult(name="planning")
+    List<DailyPlanning> getPlanningRange(@WebParam(name="from")String from,@WebParam(name="to") String to);
 
 }
