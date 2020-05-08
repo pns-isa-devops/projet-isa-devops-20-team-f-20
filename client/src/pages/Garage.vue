@@ -21,14 +21,14 @@
 
     <v-row md12 align="center" justify="space-around">
       <v-col cols="8" align-self="center">
-        <v-alert data-cy="manu_delivery_success_alert" dismissible dense text type="success"
+        <v-alert data-cy="garage_delivery_success_alert" dismissible dense text type="success"
           v-model="this.displaySuccess">
-          Package status <strong>succesfully</strong> changed !
+          Drone status <strong>succesfully</strong> changed !
         </v-alert>
 
-        <v-alert data-cy="manu_delivery_failed_alert" dismissible dense outlined type="error"
+        <v-alert data-cy="garage_delivery_failed_alert" dismissible dense outlined type="error"
           v-model="this.displayFailed">
-          Package status modification <strong>failed</strong> !
+          Drone status modification <strong>failed</strong> !
         </v-alert>
         <v-card>
           <v-card-text>
