@@ -204,7 +204,7 @@
       },
       launchDelivery() {
         this.xmlhttp.open('POST', 'http://' + process.env.VUE_APP_BACKEND +
-          ':8080/scheduler/webservices/SchedulerWS?wsdl', true);
+          ':8080/scheduler/webservices/LogisticWS?wsdl', true);
 
         // build SOAP request
         var sr = `
