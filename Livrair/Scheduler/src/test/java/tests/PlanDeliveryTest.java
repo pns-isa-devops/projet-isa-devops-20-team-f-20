@@ -11,8 +11,6 @@ import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 
 import javax.ejb.EJB;
@@ -30,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @Transactional(TransactionMode.ROLLBACK)
 public class PlanDeliveryTest extends AbstractSchedulerTest {
 
-    Supplier supplier;
 
     @EJB
     private PlanningInterface scheduler;
@@ -42,7 +39,8 @@ public class PlanDeliveryTest extends AbstractSchedulerTest {
     @Before
     public void setUp() {
         // Add & persist a Supplier
-        entityManager.persist(new Supplier("UPS", "Cannes"));
+        Supplier supplier = new Supplier("UPS", "Cannes");
+        entityManager.persist(supplier);
 
         // Add & persist a Drone
         entityManager.persist(new Drone("1"));
