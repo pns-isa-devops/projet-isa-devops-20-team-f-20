@@ -69,30 +69,31 @@
                         align: 'center',
                     },
                 ],
-                drones: [{
-                        id: '0',
-                        status: 'AVAILABLE',
-                        chargeLevel: '100',
-                        flyingTime: '0h',
-                    },
-                    {
-                        id: '1',
-                        status: 'DELIVERING',
-                        chargeLevel: '75',
-                        flyingTime: '2h',
-                    },
-                    {
-                        id: '2',
-                        status: 'CHARGING',
-                        chargeLevel: '50',
-                        flyingTime: '10h',
-                    },
-                    {
-                        id: '3',
-                        status: 'REVIEW',
-                        chargeLevel: '25',
-                        flyingTime: '20h',
-                    }
+                drones: [
+                    // {
+                    //     id: '0',
+                    //     status: 'AVAILABLE',
+                    //     chargeLevel: '100',
+                    //     flyingTime: '0h',
+                    // },
+                    // {
+                    //     id: '1',
+                    //     status: 'DELIVERING',
+                    //     chargeLevel: '75',
+                    //     flyingTime: '2h',
+                    // },
+                    // {
+                    //     id: '2',
+                    //     status: 'CHARGING',
+                    //     chargeLevel: '50',
+                    //     flyingTime: '10h',
+                    // },
+                    // {
+                    //     id: '3',
+                    //     status: 'REVIEW',
+                    //     chargeLevel: '25',
+                    //     flyingTime: '20h',
+                    // }
                 ],
 
             }
