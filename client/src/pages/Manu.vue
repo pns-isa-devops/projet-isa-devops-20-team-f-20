@@ -43,7 +43,7 @@
                                                   label="Package ID"
                                                   id="idPackage" :rules="idRules" required></v-text-field>
                                 </v-col>
-                                <v-col cols="7">
+                                <v-col cols="7" data-cy="manu_package_status_col">
                                     <v-select data-cy="manu_package_status" :items="items" v-model="packageStatus"
                                               label="Package Status"
                                               :rules="statusRules">
