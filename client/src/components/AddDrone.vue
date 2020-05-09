@@ -2,11 +2,11 @@
     <v-row md12>
         <v-col>
 
-            <v-alert data-cy="success_alert" dismissible dense text type="success" v-model="this.displaySuccess">
+            <v-alert data-cy="add_drone_success_alert" dismissible dense text type="success" v-model="this.displaySuccess">
                 Drone <strong>succesfully</strong> created !
             </v-alert>
 
-            <v-alert data-cy="failed_alert" dismissible dense outlined type="error" v-model="this.displayFailed">
+            <v-alert data-cy="add_drone_failed_alert" dismissible dense outlined type="error" v-model="this.displayFailed">
                 Creation of the drone <strong>failed</strong> !
             </v-alert>
 
