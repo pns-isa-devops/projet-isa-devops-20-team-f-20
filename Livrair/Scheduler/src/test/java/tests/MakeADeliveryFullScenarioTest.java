@@ -81,8 +81,8 @@ public class MakeADeliveryFullScenarioTest extends AbstractSchedulerTest {
         packageInventory.retrieveIncomingPackages();
         assertEquals(2, packageFinder.getAllPackages().get().size());
 
-        assertEquals(packageFinder.findById(packTest.getId()), packTest);
-        assertEquals(PackageStatus.REGISTERED, packTest);
+        assertEquals(packageFinder.findById(packTest.getId()).get(), packTest);
+        assertEquals(PackageStatus.REGISTERED, packageFinder.findById(packTest.getId()).get().getPackageStatus());
     }
 
     public void addADroneAndPlanADelivery() {
@@ -108,7 +108,7 @@ public class MakeADeliveryFullScenarioTest extends AbstractSchedulerTest {
 
         assertEquals(DeliveryStatus.READY, delivery.getStatus());
         assertEquals(PackageStatus.ASSIGNED, delivery.getaPackage().getPackageStatus());
-        assertEquals(DroneStatus.AVAILABLE, drone);
+        assertEquals(DroneStatus.AVAILABLE, drone.getStatus());
 
 
     }
@@ -119,7 +119,7 @@ public class MakeADeliveryFullScenarioTest extends AbstractSchedulerTest {
 
         assertEquals(DeliveryStatus.SENT, delivery.getStatus());
         assertEquals(PackageStatus.WAITING, delivery.getaPackage().getPackageStatus());
-        assertEquals(DroneStatus.DELIVERING, drone);
+        assertEquals(DroneStatus.DELIVERING, drone.getStatus());
     }
 
     @Test
@@ -129,7 +129,7 @@ public class MakeADeliveryFullScenarioTest extends AbstractSchedulerTest {
 
         assertEquals(DeliveryStatus.DONE, delivery.getStatus());
         assertEquals(PackageStatus.DELIVERED, delivery.getaPackage().getPackageStatus());
-        assertEquals(DroneStatus.AVAILABLE, drone);
+        assertEquals(DroneStatus.AVAILABLE, drone.getStatus());
 
         // TODO check la facture
     }
