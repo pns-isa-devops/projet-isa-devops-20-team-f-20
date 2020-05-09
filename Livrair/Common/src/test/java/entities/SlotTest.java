@@ -19,7 +19,7 @@ public class SlotTest {
     @Test
     public void book() {
         Delivery d = new Delivery(new Package("5", "Baptiste",
-                PackageStatus.REGISTERED, "1 rue de la paix", new Supplier("UPS", "2 rue de la paix")), null, LocalDateTime.now());
+                "1 rue de la paix", new Supplier("UPS", "2 rue de la paix")), null, LocalDateTime.now());
         try {
             slot.book(d);
         } catch (Exception e) {

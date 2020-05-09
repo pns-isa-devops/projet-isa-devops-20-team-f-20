@@ -42,15 +42,15 @@ public class retrievePlannedDeliveriesTest extends AbstractLogisticTest {
         entityManager.persist(new Drone("2"));
         entityManager.persist(new Drone("3"));
         supplier = new Supplier("UPS", "Cannes");
-        entities.Package pack1 = new entities.Package("0", "testuser0", PackageStatus.REGISTERED, "210 avenue roumanille", supplier);
+        entities.Package pack1 = new entities.Package("0", "testuser0", "210 avenue roumanille", supplier);
         Delivery firstDelivery = new Delivery(pack1, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
         deliveries.add(firstDelivery);
         entityManager.persist(firstDelivery);
-        entities.Package pack2 = new entities.Package("1", "testuser1", PackageStatus.REGISTERED, "9 rue de la touche", supplier);
+        entities.Package pack2 = new entities.Package("1", "testuser1", "9 rue de la touche", supplier);
         Delivery secondDelivery = new Delivery(pack2, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)));
         deliveries.add(secondDelivery);
         entityManager.persist(secondDelivery);
-        entities.Package pack3 = new Package("2", "testuser2", PackageStatus.REGISTERED, "310 promenade des anglais", supplier);
+        entities.Package pack3 = new Package("2", "testuser2", "310 promenade des anglais", supplier);
         Delivery newDayDelivery = new Delivery(pack3, null, LocalDateTime.of(LocalDate.now().plus(1, ChronoUnit.DAYS), LocalTime.of(15, 0)));
         deliveries.add(newDayDelivery);
         entityManager.persist(newDayDelivery);

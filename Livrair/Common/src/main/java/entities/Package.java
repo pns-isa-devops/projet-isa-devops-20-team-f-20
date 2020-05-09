@@ -20,10 +20,10 @@ public class Package implements Serializable {
         // Necessary for JPA instantiation process
     }
 
-    public Package(String id, String customerName, PackageStatus packageStatus, String address, Supplier supplier) {
+    public Package(String id, String customerName, String address, Supplier supplier) {
         this.id = id;
         this.customerName = customerName;
-        this.packageStatus = packageStatus;
+        this.packageStatus = PackageStatus.REGISTERED;
         this.address = address;
         this.supplier = supplier;
     }

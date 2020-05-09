@@ -5,13 +5,11 @@ import core.PackageFinder;
 import core.PackageInventory;
 import core.PackageSupplyAPI;
 import entities.Package;
-import entities.PackageStatus;
 import entities.Supplier;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -45,8 +43,8 @@ public class PackageSupplyTest extends AbstractLogisticTest {
     @Before
     public void setUp() throws Exception{
         supp = new Supplier("Supp", "SuppAdr");
-        packTest  = new Package("1", "testuser1", PackageStatus.REGISTERED,"210 avenue roumanille", supp);
-        packTest2 = new Package("2", "testuser1", PackageStatus.REGISTERED, "10 promenade des anglais", supp);
+        packTest  = new Package("1", "testuser1", "210 avenue roumanille", supp);
+        packTest2 = new Package("2", "testuser1", "10 promenade des anglais", supp);
 
         List<Package> tmp = new ArrayList<>();
         tmp.add(packTest);

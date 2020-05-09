@@ -1,4 +1,4 @@
-/*package tests;
+package tests;
 
 import arquillian.AbstractSchedulerTest;
 import entities.Package;
@@ -38,16 +38,16 @@ public class GetPlanningTest extends AbstractSchedulerTest {
         entityManager.persist(new Drone("1"));
         entityManager.persist(new Drone("2"));
         Supplier ups = new Supplier("UPS", "Cannes");
-        entityManager.persist(new Package("2t", "testuser", PackageStatus.REGISTERED,
-                "210 avenue roumanille", ups ));
-        entityManager.persist(new Package("3t", "testuser", PackageStatus.REGISTERED,
+        entityManager.persist(new Package("2t", "testuser",
+                "210 avenue roumanille", ups));
+        entityManager.persist(new Package("3t", "testuser",
                 "210 avenue roumanille", ups));
     }
 
 
     //Todo Modify 3 nexts tests after rework of Planning
 
-    /*
+
     @Test
     public void getPlanning() {
         Delivery d1 = null, d2 = null;
@@ -99,4 +99,4 @@ public class GetPlanningTest extends AbstractSchedulerTest {
             assert (false);
         }
     }
-}*/
+}

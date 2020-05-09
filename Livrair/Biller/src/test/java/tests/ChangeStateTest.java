@@ -5,7 +5,6 @@ import core.InvoiceModifier;
 import entities.*;
 import entities.Package;
 import exceptions.InvoiceDoesNotExistException;
-import org.apache.openejb.testing.PersistenceRootUrl;
 import org.jboss.arquillian.junit.Arquillian;
 import org.jboss.arquillian.transaction.api.annotation.TransactionMode;
 import org.jboss.arquillian.transaction.api.annotation.Transactional;
@@ -42,7 +41,7 @@ public class ChangeStateTest extends AbstractBillerTest {
     public void setUp() {
         entityManager.persist(new Drone("1"));
         supplier = new Supplier("UPS", "Cannes");
-        entities.Package pack1 = new Package("0", "testuser0", PackageStatus.REGISTERED, "210 avenue roumanille", supplier);
+        entities.Package pack1 = new Package("0", "testuser0", "210 avenue roumanille", supplier);
         Delivery firstDelivery = new Delivery(pack1, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
         entityManager.persist(firstDelivery);
         deliveries.add(firstDelivery);

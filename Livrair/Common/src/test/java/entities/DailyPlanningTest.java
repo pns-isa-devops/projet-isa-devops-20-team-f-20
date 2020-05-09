@@ -30,7 +30,7 @@ public class DailyPlanningTest {
     public void availableSlotForGivenDate() {
         assertTrue(dailyPlanning.availableSlotForGivenDate(9));
         Delivery d1 = new Delivery(new Package("5", "Baptiste",
-                PackageStatus.REGISTERED, "1 rue de la paix",
+                "1 rue de la paix",
                 new Supplier("UPS", "2 rue de la paix")), null, LocalDateTime.of(LocalDate.now(), LocalTime.of(9, 0)));
 
         List<Delivery> deliveries = new ArrayList<>();

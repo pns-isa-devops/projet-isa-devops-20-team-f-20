@@ -1,9 +1,7 @@
 package tests;
 
 import arquillian.AbstractLogisticTest;
-import core.DeliveryManager;
 import core.PackageFinder;
-import core.PackageInventory;
 import entities.Package;
 import entities.PackageStatus;
 import entities.Supplier;
@@ -19,7 +17,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -40,19 +37,19 @@ public class findByTest extends AbstractLogisticTest {
     @Before
     public void setUp() {
         Supplier ups = new Supplier("UPS", "Cannes");
-        Package pack1 = new Package("2", "testuser1", PackageStatus.REGISTERED,
+        Package pack1 = new Package("2", "testuser1",
                 "210 avenue roumanille", ups);
         entityManager.persist(pack1);
-        Package pack2 = new Package("3", "testuser1", PackageStatus.REGISTERED,
+        Package pack2 = new Package("3", "testuser1",
                 "210 avenue das anglais", ups);
         entityManager.persist(pack2);
-        Package pack3 = new Package("4", "testuser2", PackageStatus.REGISTERED,
+        Package pack3 = new Package("4", "testuser2",
                 "9 rue de la touche", ups);
         entityManager.persist(pack3);
-        Package pack4 = new Package("5", "testuser2", PackageStatus.REGISTERED,
+        Package pack4 = new Package("5", "testuser2",
                 "9 rue de la touche", ups);
         entityManager.persist(pack4);
-        Package pack5 = new Package("6", "testuser3", PackageStatus.ASSIGNED,
+        Package pack5 = new Package("6", "testuser3",
                 "10 promenade des anglais", ups);
         entityManager.persist(pack5);
     }
@@ -60,7 +57,7 @@ public class findByTest extends AbstractLogisticTest {
     @Test
     public void findByIdTest(){
         Supplier ups = new Supplier("UPS", "Cannes");
-        Package packTest1 = new Package("3", "testuser1", PackageStatus.REGISTERED,
+        Package packTest1 = new Package("3", "testuser1",
                 "210 avenue roumanille", ups);
         assertTrue(packageFinder.findById("2").isPresent());
         assertEquals(packageFinder.findById("3").get(), packTest1);
@@ -71,7 +68,7 @@ public class findByTest extends AbstractLogisticTest {
     @Test
     public void findByCustomerTest(){
         Supplier ups = new Supplier("UPS", "Cannes");
-        Package packTest = new Package("4", "testuser2", PackageStatus.REGISTERED,
+        Package packTest = new Package("4", "testuser2",
                 "9 rue de la touche", ups);
         assertEquals(2, packageFinder.findByCustomer("testuser1").get().size());
         assertEquals(packageFinder.findByCustomer("testuser2").get().get(0), packTest);
@@ -80,9 +77,9 @@ public class findByTest extends AbstractLogisticTest {
     @Test
     public void findByStatusTest(){
         Supplier ups = new Supplier("UPS", "Cannes");
-        Package packTest  = new Package("2", "testuser1", PackageStatus.REGISTERED,
+        Package packTest  = new Package("2", "testuser1",
                 "210 avenue roumanille", ups);
-        Package packTestbis = new Package("6", "testuser3", PackageStatus.ASSIGNED,
+        Package packTestbis = new Package("6", "testuser3",
                 "10 promenade des anglais", ups);
         assertEquals(4,packageFinder.findByStatus(PackageStatus.REGISTERED).get().size());
         assertEquals(packTest, packageFinder.findByStatus(PackageStatus.REGISTERED).get().get(0));
