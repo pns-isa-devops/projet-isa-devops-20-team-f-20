@@ -58,9 +58,6 @@ public class DailyPlanning<T> implements Serializable {
      * @return The list of all slots available
      */
     public List<Slot> getAvailabilities() {
-        System.out.println("ON EST DANS AVAILABILITIES" + slots.size());
-
-        System.out.println("ON A "+slots.stream().filter((slot) -> slot.getAvailable()).collect(Collectors.toList()).size() + " SLOTS DISPO");
 
         return slots.stream().filter((slot) -> slot.getAvailable()).collect(Collectors.toList());
     }

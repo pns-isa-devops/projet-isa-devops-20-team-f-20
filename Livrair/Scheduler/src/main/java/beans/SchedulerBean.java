@@ -56,21 +56,12 @@ public class SchedulerBean implements PlanningInterface {
 
 
         for (Drone drone : availability.getAvailableDrones()) {
-            System.out.println("ON EST APRES GET AVAILABLE DRONES "+drone.getId());
             DailyPlanning currentPlanning = drone.getDailyPlannings().getPlanningOfDate(deliveryDate.toLocalDate());
             if (currentPlanning == null) {
-                System.out.println("ON EST A NULL ");
 
                 drone.getDailyPlannings().addPlanning(deliveryDate.toLocalDate());
                 currentPlanning = drone.getDailyPlannings().getPlanningOfDate(deliveryDate.toLocalDate());
-            }else {
-                System.out.println("ON EST PAS A NULL");
             }
-            System.out.println("ON EST AVANT LAVAILABLE "+drone.getId());
-            System.out.println("ETAT DES SLOT 0 AVANT AVAILABLE" + currentPlanning.getSlots().get(0).toString());
-            System.out.println("ETAT DES SLOT 1 AVANT AVAILABLE" + currentPlanning.getSlots().get(1).toString());
-            System.out.println("ETAT DES SLOT 2 AVANT AVAILABLE" + currentPlanning.getSlots().get(2).toString());
-            System.out.println("ETAT DES SLOT 3 AVANT AVAILABLE" + currentPlanning.getSlots().get(3).toString());
 
 
             if (currentPlanning.availableSlotForGivenDate(deliveryDate.getHour())) {
@@ -79,12 +70,8 @@ public class SchedulerBean implements PlanningInterface {
                 item.setPackageStatus(PackageStatus.ASSIGNED);
                 manager.persist(delivery);
 
-                System.out.println("ON EST AVANT LE BOOK");
                 currentPlanning.book(delivery, deliveryDate);
-                System.out.println("ETAT DES SLOT 0 APRES BOOK" + currentPlanning.getSlots().get(0).toString());
-                System.out.println("ETAT DES SLOT 1 APRES BOOK" + currentPlanning.getSlots().get(1).toString());
-                System.out.println("ETAT DES SLOT 2 APRES BOOK" + currentPlanning.getSlots().get(2).toString());
-                System.out.println("ETAT DES SLOT 3 APRES BOOK" + currentPlanning.getSlots().get(3).toString());
+
 
 
 
@@ -109,7 +96,7 @@ public class SchedulerBean implements PlanningInterface {
         List<Slot> slots = currentPlanning.getSlots();
 
         for (Slot s : slots ) {
-            if (!s.getAvailable() && s.get() instanceof Delivery)
+            if (!s.getAvailable() && s.getT() instanceof Delivery)
                 flightsCount++;
 
             // TODO do smtg with that
@@ -118,21 +105,37 @@ public class SchedulerBean implements PlanningInterface {
 
     @Override
     public DailyPlanning getPlanning(LocalDate date) throws Exception {
-        // TODO c'est ok ?
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<DailyPlanning> criteria = builder.createQuery(DailyPlanning.class);
         Root<DailyPlanning> root = criteria.from(DailyPlanning.class);
         criteria.select(root).where(builder.equal(root.get("planningDateTS"), String.valueOf(LocalDateTime.of(date, LocalTime.of(0,0)).toEpochSecond(ZoneOffset.UTC))));
         TypedQuery<DailyPlanning> query = manager.createQuery(criteria);
         try {
-            return query.getSingleResult();
-        } catch (NoResultException nre) {
-            DailyPlanning dP = new DailyPlanning(DailyPlanning.fromDeliveries(deliveryManager.retrievePlannedDeliveries().orElse(new ArrayList<>())), date);
-            manager.persist(dP); //Todo This persistence probably shouldnt be here
-            return dP;
-        }
+            List<DailyPlanning> resultList = query.getResultList();
+            DailyPlanning toReturn = new DailyPlanning(resultList.get(0).getPlanningDate().toLocalDate());
 
+
+            for(int i = 0; i< toReturn.getSlots().size(); i++){ //Todo To improve...
+                ((Slot)toReturn.getSlots().get(i)).setAvailable(checkAvailability(resultList,i ));
+            }
+
+            return toReturn;
+
+        } catch (NoResultException nre) {
+            nre.printStackTrace();
+        }
+        return null;
     }
+
+    private boolean checkAvailability(List<DailyPlanning> dp, int slot){
+        boolean toReturn = false;
+        for(DailyPlanning d : dp){
+            if(((Slot) d.getSlots().get(slot)).getAvailable())
+                toReturn =  true;
+        }
+        return toReturn;
+    }
+
 
     @Override
     public List<DailyPlanning> getPlanning(LocalDate from, LocalDate to) throws Exception {

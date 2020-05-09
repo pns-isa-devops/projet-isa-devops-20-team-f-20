@@ -67,8 +67,7 @@ public class PackageSupplyTest extends AbstractLogisticTest {
 
     @Test
     public void retrieveIncomingPackagesAgainTest(){
-        packageInventory.retrieveIncomingPackages();
-        assertEquals(2, packageFinder.getAllPackages().get().size());
+        retrieveIncomingPackagesTest();
 
         packageInventory.retrieveIncomingPackages();
         //Asking for incoming packages again, none of them should be persisted for a second time
@@ -78,8 +77,7 @@ public class PackageSupplyTest extends AbstractLogisticTest {
 
     @Test
     public void onlyMissingIncomingPackagesPersistedTest(){
-        packageInventory.retrieveIncomingPackages();
-        assertEquals(2, packageFinder.getAllPackages().get().size());
+        retrieveIncomingPackagesAgainTest();
 
         manager.remove(packTest);
         //Removing one of the package, only one should remain in the DB

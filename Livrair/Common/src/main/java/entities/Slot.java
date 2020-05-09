@@ -2,8 +2,12 @@ package entities;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlSeeAlso;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Objects;
+
 
 @Entity
 @Table(name="slots")
@@ -69,12 +73,12 @@ public class Slot<T> implements Serializable {
         this.finish = finish;
     }
 
-    @OneToOne
-    public T get() {
+    @OneToOne(fetch = FetchType.LAZY) //Todo Repair XML
+    public T getT() {
         return t;
     }
 
-    public void set(T t) {
+    public void setT(T t) {
         this.t = t;
     }
 
@@ -119,6 +123,6 @@ public class Slot<T> implements Serializable {
 
     @Override
     public String toString() {
-        return "STATUS DU SLOT" + getAvailable();
+        return "STATUS DU SLOT " + getAvailable();
     }
 }

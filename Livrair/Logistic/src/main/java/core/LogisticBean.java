@@ -148,26 +148,25 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
 
     @Override
     public boolean changePackageStatut(String id, PackageStatus packageStatus) {
-        Package pac = findById(id).orElse(null);
+        Optional<Package> pac = findById(id);
 
-        if(pac == null)
-            return false; // TODO exceptions ?
-
-        pac.setPackageStatus(packageStatus); // TODO switch detat
-
-        return true;
+        if(pac.isPresent()){
+            pac.get().setPackageStatus(packageStatus); // TODO switch detat
+            return true;
+        }
+        return false; // TODO exceptions ?
     }
 
     @Override
     public boolean startDelivery(String id) {
-        Delivery delivery = getDeliveryById(id).orElse(null);
+        Optional<Delivery> delivery = getDeliveryById(id);
 
-        if(delivery == null)
-            return false; // TODO exceptions ?
+        if(delivery.isPresent()){
+            delivery.get().start(); // TODO logic switch
+            return true;
+        }
+        return false; // TODO exceptions ?
 
-        delivery.start(); // TODO logic switch
-
-        return true;
     }
 
     @Override
