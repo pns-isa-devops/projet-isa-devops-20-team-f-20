@@ -1,6 +1,7 @@
 package tests;
 
 import arquillian.AbstractBillerTest;
+import core.DeliveryManager;
 import core.InvoiceModifier;
 import entities.*;
 import entities.Package;
@@ -32,6 +33,8 @@ import java.util.List;
         @EJB
         public InvoiceModifier invoiceModifier;
 
+        public DeliveryManager deliveryManager;
+
         private List<Invoice> invoices = new ArrayList<>();
 
         private List<Delivery> deliveries = new ArrayList<>();
@@ -48,28 +51,29 @@ import java.util.List;
             supplier = new Supplier("UPS", "Cannes");
             entities.Package pack1 = new entities.Package("0", "testuser0", PackageStatus.REGISTERED, "210 avenue roumanille", supplier);
             Delivery firstDelivery = new Delivery(pack1, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
-            deliveries.add(firstDelivery);
             entityManager.persist(firstDelivery);
+            deliveries.add(firstDelivery);
             entities.Package pack2 = new entities.Package("1", "testuser1", PackageStatus.REGISTERED, "9 rue de la touche", supplier);
             Delivery secondDelivery = new Delivery(pack2, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)));
-            deliveries.add(secondDelivery);
             entityManager.persist(secondDelivery);
-            entities.Package pack3 = new Package("2", "testuser2", PackageStatus.REGISTERED, "310 promenade des anglais", supplier);
+            deliveries.add(secondDelivery);
+            entities.Package pack3 = new entities.Package("2", "testuser2", PackageStatus.REGISTERED, "310 promenade des anglais", supplier);
             Delivery newDayDelivery = new Delivery(pack3, null, LocalDateTime.of(LocalDate.now().plus(1, ChronoUnit.DAYS), LocalTime.of(15, 0)));
-            deliveries.add(newDayDelivery);
             entityManager.persist(newDayDelivery);
+            deliveries.add(newDayDelivery);
+
         }
 
         @Test
         public void AddItem(){
-            invoiceModifier.addItem("1");
+            invoiceModifier.addItem(deliveries.get(0).getId());
             Invoice invoice = invoiceModifier.getInvoices().get(0);
             assertTrue(invoiceModifier.getInvoices().size() == 1);
             assertTrue(invoice.getDeliveries().size() == 1);
-            invoiceModifier.addItem("2");
+            invoiceModifier.addItem(deliveries.get(1).getId());
             assertTrue(invoiceModifier.getInvoices().size() == 1);
             assertTrue(invoice.getDeliveries().size() == 2);
-            invoiceModifier.addItem("3");
+            invoiceModifier.addItem(deliveries.get(2).getId());
             Invoice invoice2 = invoiceModifier.getInvoices().get(1);
             assertTrue(invoiceModifier.getInvoices().size() == 2);
             assertTrue(invoice.getDeliveries().size() == 2);

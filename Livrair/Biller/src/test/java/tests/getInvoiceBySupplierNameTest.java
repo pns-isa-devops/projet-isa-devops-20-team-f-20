@@ -52,19 +52,19 @@ public class getInvoiceBySupplierNameTest extends AbstractBillerTest {
         supplier2 = new Supplier("CHRONOPOST", "Pegomas");
         entities.Package pack1 = new entities.Package("0", "testuser0", PackageStatus.REGISTERED, "210 avenue roumanille", supplier1);
         Delivery firstDelivery = new Delivery(pack1, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
-        deliveries.add(firstDelivery);
         entityManager.persist(firstDelivery);
+        deliveries.add(firstDelivery);
         entities.Package pack2 = new entities.Package("1", "testuser1", PackageStatus.REGISTERED, "9 rue de la touche", supplier2);
         Delivery secondDelivery = new Delivery(pack2, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(15, 0)));
-        deliveries.add(secondDelivery);
         entityManager.persist(secondDelivery);
+        deliveries.add(secondDelivery);
         entities.Package pack3 = new entities.Package("2", "testuser2", PackageStatus.REGISTERED, "412 promenade des anglais", supplier2);
         Delivery newDayDelivery = new Delivery(pack3, null, LocalDateTime.of(LocalDate.now().plus(1, ChronoUnit.DAYS), LocalTime.of(8, 0)));
-        deliveries.add(newDayDelivery);
         entityManager.persist(newDayDelivery);
-        invoiceModifier.addItem("1");
-        invoiceModifier.addItem("2");
-        invoiceModifier.addItem("3");
+        deliveries.add(newDayDelivery);
+        invoiceModifier.addItem(deliveries.get(0).getId());
+        invoiceModifier.addItem(deliveries.get(1).getId());
+        invoiceModifier.addItem(deliveries.get(2).getId());
 
     }
 
