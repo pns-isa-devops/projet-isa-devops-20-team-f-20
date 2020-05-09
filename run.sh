@@ -1,14 +1,11 @@
 #!/bin/bash
 
-echo "dos2unix All"
-dos2unix *.sh dotnet/*.sh Livrair/*/*.sh
-
 if [[ "$1" != "" ]]; then
     if [[ "$1" == "true" ]]; then
         shift
 
-        echo "./build_all.sh "$@""
-        ./build_all.sh "$@"
+        echo "./build.sh "$@""
+        ./build.sh "$@"
 
         echo "docker-compose up --build -d "$@""
         docker-compose up --build -d "$@"
@@ -21,9 +18,9 @@ if [[ "$1" != "" ]]; then
 
 else
 
-    echo "./build_all.sh"
-    ./build_all.sh
+#    echo "./build.sh"
+#    ./build.sh
 
-    echo "docker-compose up -d"
+    echo "Launch all the solution (docker-compose up -d)"
     docker-compose up -d
 fi

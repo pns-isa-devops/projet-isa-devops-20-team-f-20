@@ -42,8 +42,8 @@ COPY resources/hsqldb.script ./data/hsqldb/hsqldb.script
 
 
 # Copy the startup script
-COPY ./resources/start-tcf.sh .
-RUN ["chmod", "u+x", "./start-tcf.sh"]
+COPY ./resources/start-livrair.sh .
+RUN ["chmod", "u+x", "./start-livrair.sh"]
 
 # Creating an health check verification to check TomEE status
 HEALTHCHECK --interval=5s CMD curl --fail http://localhost:8080/ || exit 1
@@ -52,4 +52,4 @@ HEALTHCHECK --interval=5s CMD curl --fail http://localhost:8080/ || exit 1
 EXPOSE 8080
 
 # Starting the service
-ENTRYPOINT ["./start-tcf.sh"]
+ENTRYPOINT ["./start-livrair.sh"]
