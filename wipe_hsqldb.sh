@@ -11,4 +11,4 @@ echo "Restart backend container"
 docker restart backend
 
 echo "./healthcheck_backend.sh "$host""
-../../healthcheck_backend.sh "$host"
+./healthcheck_backend.sh "$host"
