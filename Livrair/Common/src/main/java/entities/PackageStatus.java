@@ -1,5 +1,5 @@
 package entities;
 
 public enum PackageStatus {
-    REGISTERED, WAITING, ASSIGNED
+    REGISTERED, WAITING, ASSIGNED, DELIVERED ;
 }

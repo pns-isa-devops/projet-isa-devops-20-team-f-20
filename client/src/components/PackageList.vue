@@ -76,8 +76,9 @@
     methods: {
       getColor(status) {
         if (status == 'REGISTERED') return 'red'
-        else if (status == 'WAITING') return 'orange'
-        else if (status == 'ASSIGNED') return 'green'
+        else if (status == 'WAITING') return 'yellow'
+        else if (status == 'ASSIGNED') return 'orange'
+        else if (status == 'DELIVERED') return 'green'
         else return 'grey'
       },
       getAllPackages() {
