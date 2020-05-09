@@ -11,7 +11,7 @@ dos2unix *.sh dotnet/*.sh Livrair/*/*.sh
 
 if [[ "$1" != "" ]]; then
     while [ "$1" != "" ]; do
-        if [[ "$1" == "ext" || "$1" ]]; then
+        if [[ "$1" == "ext" ]]; then
              # Dotnet
             echo "Build Dotnet (./compile.sh).."
             cd dotnet/
@@ -35,6 +35,8 @@ if [[ "$1" != "" ]]; then
         shift
     done
 
+    echo "Custom Builds finished"
+
 else
 
     # Dotnet
@@ -56,12 +58,8 @@ else
 
     # Docker image
     echo "Build Docker images.."
-    docker-compose build backend vue ext
+    docker-compose build --parallel --no-cache backend vue ext
 
+    echo "All build finished"
 fi
 
-echo "All build finished. Start Healtchecks.."
-./healthcheck_backend.sh localhost
-./healthcheck_vue.sh localhost
-
-echo "All done."
