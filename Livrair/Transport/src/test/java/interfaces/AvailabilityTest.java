@@ -87,11 +87,4 @@ public class AvailabilityTest extends AbstractTransportTest {
         assertEquals(2, availability.getDrones().size());
     }
 
-
-    @Test
-    public void addDroneNotPossible() {
-        modifier.addDrone("1");
-
-        assertEquals(1, availability.getDrones().size());
-    }
 }
