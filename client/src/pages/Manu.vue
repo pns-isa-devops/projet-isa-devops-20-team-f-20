@@ -144,7 +144,7 @@
         data() {
             return {
                 xmlhttp: new XMLHttpRequest(),
-                items: ['REGISTERED', 'WAITING', 'ASSIGNED'],
+                items: ['REGISTERED', 'WAITING', 'ASSIGNED', 'DELIVERED'],
                 validPackage: true,
                 validDelivery: true,
                 packageId: '',
@@ -154,7 +154,7 @@
                 ],
                 packageStatus: '',
                 statusRules: [
-                    v => (v && (v == 'REGISTERED' || v == 'WAITING' || v == 'ASSIGNED')) || 'Status not correct',
+                    v => (v && (v == 'REGISTERED' || v == 'WAITING' || v == 'ASSIGNED' || v == 'DELIVERED')) || 'Status not correct',
                 ],
                 displaySuccessPackage: false,
                 displayFailedPackage: false,

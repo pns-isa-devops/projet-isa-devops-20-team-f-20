@@ -29,14 +29,14 @@ describe('Init Test', () => {
       cy.wait(1000)
     })
 
-    it('Should have 3 items in package list', () => {
+    it('Should have 10 items in package list', () => {
       cy.get('[data-cy=refresh_package]').click({force: true})
 
       cy.wait(1000)
 
       cy.get("#app > div > main > div > div > div.row.align-start.justify-space-around > div:nth-child(2) > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody")
         .as('packages')
-      cy.get('@packages').find('tr').should('have.length', 3)
+      cy.get('@packages').find('tr').should('have.length', 10)
     })
 
     it('Should have no items in delivery list', () => {
@@ -153,7 +153,7 @@ describe('Add delivery test', () => {
     })
 
     it('There is a slot taken in the calendar', () => {
-      
+
     })
   })
 })

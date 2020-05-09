@@ -145,4 +145,15 @@ public class Delivery implements Serializable {
         setStatus(DeliveryStatus.SENT);
         getDrone().setStatus(DroneStatus.DELIVERING);
     }
+
+    public void finish() {
+        getaPackage().setPackageStatus(PackageStatus.DELIVERED);
+        setStatus(DeliveryStatus.DONE);
+        getDrone().setStatus(DroneStatus.AVAILABLE);
+    }
+
+    public void fail() {
+        setStatus(DeliveryStatus.FAILED);
+        // TODO more actions
+    }
 }
