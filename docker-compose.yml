@@ -3,6 +3,7 @@ services:
   # External Supplier .Net
   ext:
     build: ./dotnet
+    image: supplier
     container_name: supplier
     expose:
       - "9090"
@@ -11,8 +12,10 @@ services:
     networks:
       - backend
 
+  # VueJS Client app
   vue:
     build: ./client
+    image: vue
     container_name: vue
     ports:
           - "8844:8844"
@@ -28,8 +31,10 @@ services:
       - frontend
       - default
 
+  # J2E Backend
   backend:
     build: ./Livrair
+    image: backend
     container_name: backend
     environment:
       - supplier_host=supplier
@@ -46,10 +51,6 @@ services:
 
 networks:
   frontend:
-    # Use a custom driver
-#    driver: custom-driver-1
+
   backend:
-    # Use a custom driver which takes special options
-#    driver: custom-driver-2
-#    driver_opts:
-#      foo: "1"
+

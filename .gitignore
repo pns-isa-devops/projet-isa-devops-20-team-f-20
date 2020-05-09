@@ -22,8 +22,8 @@ client/src/main/java/fr/*
 artifactory/*
 artifactory_docker.tar
 jenkins_docker.tar
+Dockerfile_for_jenkins
 logs.txt
 package-lock.json
-client/.env
 client/tests/e2e/screenshots/*
 client/tests/e2e/videos/*

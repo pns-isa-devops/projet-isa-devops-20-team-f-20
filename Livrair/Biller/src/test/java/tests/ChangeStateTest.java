@@ -44,9 +44,9 @@ public class ChangeStateTest extends AbstractBillerTest {
         supplier = new Supplier("UPS", "Cannes");
         entities.Package pack1 = new Package("0", "testuser0", PackageStatus.REGISTERED, "210 avenue roumanille", supplier);
         Delivery firstDelivery = new Delivery(pack1, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
-        deliveries.add(firstDelivery);
         entityManager.persist(firstDelivery);
-        invoiceModifier.addItem("1");
+        deliveries.add(firstDelivery);
+        invoiceModifier.addItem(deliveries.get(0).getId());
     }
 
     @Test
