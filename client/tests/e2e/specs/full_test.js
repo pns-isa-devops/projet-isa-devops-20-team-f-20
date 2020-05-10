@@ -24,7 +24,7 @@ describe('Manutentionnaire Part 1', () => {
             cy.get('@packages').find('tr').should('have.length', 10)
         })
 
-        it('Should have registered package in list', () => {
+        it('Should have registered packages in list', () => {
             cy.get('[data-cy=refresh_package]').click({force: true})      
             cy.wait(2000)
             cy.get("#app > div > main > div > div > div.row.align-start.justify-space-around > div:nth-child(2) > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody")
@@ -114,15 +114,15 @@ describe('Client Service Part', () => {
     })
 })
 
-describe('Manutentionnaire Part 1', () => {
+describe('Manutentionnaire Part 2', () => {
 
     context('Marcel can launch a delivery', () => {
         
-        it('Can launch a delivery with right one', () => {
+        it('Can launch the delivery', () => {
             cy.visit('http://' + host + ':8844/manu')
             cy.get('[data-cy=manu_title]').contains('MANUTENTIONNAIRE')
             cy.get('[data-cy=refresh_delivery]').click({force: true})
-            
+
             cy.wait(2000)
 
             cy.get('#app > div > main > div > div > div > div.col.col-3.align-self-start > div.row.align-center.justify-center > div > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody > tr:nth-child(1) > td.text-start')
@@ -146,5 +146,58 @@ describe('Manutentionnaire Part 1', () => {
             })
         })
 
+        it('Should have the delivery updated in list', () => {
+            cy.get('[data-cy=refresh_delivery]').click({force: true})
+      
+            cy.wait(2000)
+      
+            cy.get("#app > div > main > div > div > div > div.col.col-3.align-self-start > div.row.align-center.justify-center > div > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody > tr")
+              .as('deliverie')
+            cy.get('@deliverie').contains('SENT')
+          })
+
+    })
+})
+
+describe('Garage Part 2', () => {
+
+    context('Garfield can change a drone status', () => {
+
+        it('Should have update drone list to delivering', () => {
+            cy.visit('http://' + host + ':8844/garage')
+            cy.get('[data-cy=garage_title]').contains('GARAGE')
+            cy.get('[data-cy=refresh_drone]').scrollIntoView().click({
+              force: true
+            })
+            cy.wait(2000)
+            cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-strat.justify-space-around > div > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody > tr > td:nth-child(2) > span > span")
+            .as('drone')
+            cy.get('@drone').contains('DELIVERING')
+          })
+        
+        it('Can change status for right a drone when delivery is over', () => {
+            cy.get('[data-cy=garage_drone_id]').scrollIntoView().clear({force: true}).type('0', {force: true})
+      
+            cy.get("#app > div > main > div > div > div:nth-child(2) > div > div > div > form > div > div:nth-child(2) > div > div > div.v-input__slot > div.v-select__slot > div.v-input__append-inner")
+              .click()
+            cy.get("#list-item-74-2").click()
+            cy.get('[data-cy=garage_drone_status_button]').scrollIntoView().click()
+      
+            cy.wait(1000)
+      
+            cy.get('[data-cy=garage_drone_success_alert]').should('be.visible').click({
+              force: true
+            })
+          })
+      
+          it('Should have update drone list to charging', () => {
+            cy.get('[data-cy=refresh_drone]').scrollIntoView().click({
+              force: true
+            })
+            cy.wait(2000)
+            cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-strat.justify-space-around > div > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody > tr > td:nth-child(2) > span > span")
+            .as('drone')
+            cy.get('@drone').contains('CHARGING')
+          })
     })
 })
