@@ -38,6 +38,9 @@
         <versions.arquillian.junit>1.1.12.Final</versions.arquillian.junit>
         <versions.arquilian.jta>1.0.3.Final</versions.arquilian.jta>
         <versions.shrinkwrap>2.2.6</versions.shrinkwrap>
+             
+         <version.jacoco>0.8.5</version.jacoco>
+         <version.arquillian_jacoco>1.1.0</version.arquillian_jacoco>
     </properties>
 
     <repositories>
@@ -112,6 +115,26 @@
                 </configuration>
             </plugin>
 
+                 
+            <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>${version.jacoco}</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>prepare-agent</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>report</id>
+                  <phase>prepare-package</phase>
+                  <goals>
+                     <goal>report</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
         </plugins>
     </build>
 
@@ -218,6 +241,19 @@
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.hsqldb/hsqldb -->
 
+             
+        <dependency>
+         <groupId>org.jacoco</groupId>
+         <artifactId>org.jacoco.core</artifactId>
+         <version>${version.jacoco}</version>
+         <scope>test</scope>
+      </dependency>
+      <dependency>
+         <groupId>org.jboss.arquillian.extension</groupId>
+         <artifactId>arquillian-jacoco</artifactId>
+         <version>${version.arquillian_jacoco}</version>
+         <scope>test</scope>
+      </dependency>
     </dependencies>
 
     <distributionManagement>
