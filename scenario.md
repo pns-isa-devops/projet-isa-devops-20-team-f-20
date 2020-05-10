@@ -22,7 +22,14 @@ Il consiste à :
 - 1.d) Cliquer sur le bouton 'Récupérer les pacakges prévus' (sticky bouton rond en bas à gauche)
 - 1.e) Actualiser la liste des packages et constater qu'il y a 10 packages prévus
 - 2.a) Aller sur la page Manutentionnaire [http://localhost:8844/manu]
-- 2.b) 
+- 2.b) Entrer l'id du package voulu (par exemple 0) dans 'Change package status' et séléectionné l'état 'WAITING'
+- 2.c) Une popup de validation doit se lancer et le package doit avoir changer de statut une fois la liste actualiser (boutons en forme de flèches dans 'Package List')
+- 3.a) Aller sur la page Garage [http://localhost:8844/garage]
+- 3.b) Constater qu'il n'y a pas de drone, même en actualisant
+- 3.c) Ajouter un drone avec un ID (par exemple 1) en remplissant le formulaire 'Add Drone' sur la droite
+- 3.d) Une popup de validation doit se lancer et le package doit avoir changer de statut une fois la liste actualiser (boutons en forme de flèches dans 'Drone List')
+- 4.a) Retourner sur la page 'Service Client' : [http://localhost:8844/client]
+- 4.b)
 
 ## Alternatives
 
