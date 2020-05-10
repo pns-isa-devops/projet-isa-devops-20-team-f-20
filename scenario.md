@@ -33,7 +33,7 @@ Il consiste à :
 - 4.c) Actualisé la liste de delivery et de packages et constaté que la delivery est presente et le statut du package a changé
 - 5.a) Retourner sur la page Manutentionnaire [http://localhost:8844/manu]
 - 5.b) Entrer l'ID de la delivery créé et cliquer sur 'Launch drone & delivery', une popup devrait apparaitre
-- 5.c) Actualisé la liste de delivery et constaté que le statut de la delivery a changé
+- 5.c) Actualisé la liste de delivery et constater que le statut de la delivery a changé
 
 ## Alternatives
 
