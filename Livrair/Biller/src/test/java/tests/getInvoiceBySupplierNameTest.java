@@ -49,6 +49,8 @@ public class getInvoiceBySupplierNameTest extends AbstractBillerTest {
         entityManager.persist(new Drone("4"));
         supplier1 = new Supplier("UPS", "Cannes");
         supplier2 = new Supplier("CHRONOPOST", "Pegomas");
+        entityManager.persist(supplier1);
+        entityManager.persist(supplier2);
         entities.Package pack1 = new entities.Package("0", "testuser0", "210 avenue roumanille", supplier1);
         Delivery firstDelivery = new Delivery(pack1, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
         entityManager.persist(firstDelivery);

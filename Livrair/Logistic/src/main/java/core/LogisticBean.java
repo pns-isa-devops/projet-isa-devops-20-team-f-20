@@ -60,6 +60,20 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
 
     }
 
+    public Optional<Supplier> findSupplierById(String id) {
+        CriteriaBuilder builder = manager.getCriteriaBuilder();
+        CriteriaQuery<Supplier> criteria = builder.createQuery(Supplier.class);
+        Root<Supplier> root = criteria.from(Supplier.class);
+        criteria.select(root).where(builder.equal(root.get("name"), id));
+        TypedQuery<Supplier> query = manager.createQuery(criteria);
+        try {
+            return Optional.of(query.getSingleResult());
+        } catch (NoResultException nre) {
+            return Optional.empty();
+        }
+
+    }
+
     @Override
     public Optional<List<Package>> findByCustomer(String customerName) {
         //getAllPackages();
@@ -116,7 +130,12 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
     public void retrieveIncomingPackages() {
         try {
             packageSupplyAPI.retrievePackages().forEach((incomingPackage) -> {
+                if(!findSupplierById(incomingPackage.getSupplier().getName()).isPresent()){
+                    manager.persist(incomingPackage.getSupplier());
+                }
+                Supplier sup = findSupplierById(incomingPackage.getSupplier().getName()).get();
                 if (!findById(incomingPackage.getId()).isPresent()) {
+                    incomingPackage.setSupplier(sup);
                     manager.persist(incomingPackage);
                 }
             });

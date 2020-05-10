@@ -63,6 +63,7 @@ public class MakeADeliveryFullScenarioTest extends AbstractSchedulerTest {
     @Before
     public void setUp() throws Exception{
         supp = new Supplier("Supp", "SuppAdr");
+        entityManager.persist(supp);
         packTest  = new Package("1", "testuser1", "210 avenue roumanille", supp);
         packTest2 = new Package("2", "testuser1", "10 promenade des anglais", supp);
 

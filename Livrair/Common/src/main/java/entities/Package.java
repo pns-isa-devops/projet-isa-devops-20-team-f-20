@@ -68,7 +68,7 @@ public class Package implements Serializable {
     }
 
     //@NotNull
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne
     public Supplier getSupplier() {
         return supplier;
     }

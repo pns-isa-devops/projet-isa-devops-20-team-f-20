@@ -37,6 +37,7 @@ public class StorageTest extends AbstractLivrairTest {
     @Before
     public void setUp(){
         supplier = new Supplier("SupplierTest", "AddressSupplierTest");
+        entityManager.persist(supplier);
         pack = new Package("66", "customerTest", "AddressTest", supplier);
         drone = new Drone("test");
         delivery = new Delivery(pack, drone, LocalDateTime.of(2020, 05 , 02 , 8, 10));

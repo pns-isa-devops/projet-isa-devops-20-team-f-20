@@ -38,6 +38,7 @@ public class findByTest extends AbstractLogisticTest {
     @Before
     public void setUp() {
         Supplier ups = new Supplier("UPS", "Cannes");
+        entityManager.persist(ups);
         Package pack1 = new Package("1", "testuser1",
                 "210 avenue roumanille", ups);
         entityManager.persist(pack1);

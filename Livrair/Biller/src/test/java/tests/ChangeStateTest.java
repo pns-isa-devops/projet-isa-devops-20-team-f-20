@@ -41,6 +41,7 @@ public class ChangeStateTest extends AbstractBillerTest {
     public void setUp() {
         entityManager.persist(new Drone("1"));
         supplier = new Supplier("UPS", "Cannes");
+        entityManager.persist(supplier);
         entities.Package pack1 = new Package("0", "testuser0", "210 avenue roumanille", supplier);
         Delivery firstDelivery = new Delivery(pack1, null, LocalDateTime.of(LocalDate.now(), LocalTime.of(8, 0)));
         entityManager.persist(firstDelivery);
