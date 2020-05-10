@@ -2,8 +2,12 @@
 
 if [[ "$1" != "" ]]; then
 
-    echo "./build.sh "$@""
-    ./build.sh "$@"
+    echo "Launch all the solution with prod mod(docker-compose up -d)"
+    docker-compose up -d
+    echo "All services started. Start healthchecks.."
+    ./healthcheck_backend.sh
+    ./healthcheck_vue.sh
+    echo "Healthcheck done. All done."
 
 else
 
