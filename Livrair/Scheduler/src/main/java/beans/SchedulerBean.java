@@ -51,7 +51,7 @@ public class SchedulerBean implements PlanningInterface {
             return Optional.empty(); // TODO exception specifique ?
         }
 
-        if (!item.getPackageStatus().equals(PackageStatus.WAITING))
+        if (!(item.getPackageStatus().equals(PackageStatus.REGISTERED) || item.getPackageStatus().equals(PackageStatus.WAITING)))
             return Optional.empty(); // TODO exception specifique ?
 
 
