@@ -16,6 +16,8 @@ public interface DeliveryManager {
 
     boolean startDelivery(String id);
 
+    boolean finishDelivery(String id);
+
     Optional<Delivery> getDeliveryById(String id);
     // TODO suivi des deliveries
 }
