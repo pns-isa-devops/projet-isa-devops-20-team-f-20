@@ -31,6 +31,9 @@ Il consiste à :
 - 4.a) Retourner sur la page 'Service Client' : [http://localhost:8844/client]
 - 4.b) Remplir le formulaire 'Add Delivery' en haut à droite avec l'id du précédent package à WAITING en rentrant une date souhaité (ajourd'hui par défaut) et une heure comprise entre 8h01 et 19h59 (11h05 par exemple)
 - 4.c) Actualisé la liste de delivery et de packages et constaté que la delivery est presente et le statut du package a changé
+- 5.a) Retourner sur la page Manutentionnaire [http://localhost:8844/manu]
+- 5.b) Entrer l'ID de la delivery créé et cliquer sur 'Launch drone & delivery', une popup devrait apparaitre
+- 5.c) Actualisé la liste de delivery et constaté que le statut de la delivery a changé
 
 ## Alternatives
 
