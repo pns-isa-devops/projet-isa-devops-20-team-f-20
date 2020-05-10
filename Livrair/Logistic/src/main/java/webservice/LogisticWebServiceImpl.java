@@ -55,6 +55,11 @@ public class LogisticWebServiceImpl implements LogisticWebService {
     }
 
     @Override
+    public boolean finishDelivery(String id) {
+        return delivery.finishDelivery(id);
+    }
+
+    @Override
     public Delivery getDeliveryById(String id) {
         return delivery.getDeliveryById(id).get();
     }

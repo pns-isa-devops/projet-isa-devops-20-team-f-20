@@ -39,6 +39,10 @@ public interface LogisticWebService {
     boolean startDelivery(@WebParam(name = "id") String id);
 
     @WebMethod
+    @WebResult(name = "finished")
+    boolean finishDelivery(@WebParam(name = "id") String id);
+
+    @WebMethod
     @WebResult(name = "delivery")
     Delivery getDeliveryById(@WebParam(name = "id") String id);
 

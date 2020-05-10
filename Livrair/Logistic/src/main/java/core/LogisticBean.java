@@ -189,6 +189,18 @@ public class LogisticBean implements PackageFinder, PackageInventory, DeliveryMa
     }
 
     @Override
+    public boolean finishDelivery(String id) {
+        Optional<Delivery> delivery = getDeliveryById(id);
+
+        if(delivery.isPresent()){
+            delivery.get().finish(); // TODO logic switch
+            return true;
+        }
+        return false; // TODO exceptions ?
+
+    }
+
+    @Override
     public Optional<Delivery> getDeliveryById(String id) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Delivery> criteria = builder.createQuery(Delivery.class);

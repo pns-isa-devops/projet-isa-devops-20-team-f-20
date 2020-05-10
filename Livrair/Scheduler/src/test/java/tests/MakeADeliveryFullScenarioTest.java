@@ -1,6 +1,7 @@
 package tests;
 
 import arquillian.AbstractSchedulerTest;
+import core.DeliveryManager;
 import core.PackageFinder;
 import core.PackageInventory;
 import core.PackageSupplyAPI;
@@ -50,6 +51,9 @@ public class MakeADeliveryFullScenarioTest extends AbstractSchedulerTest {
 
     @EJB
     private PackageFinder packageFinder;
+
+    @EJB
+    private DeliveryManager deliveryManager;
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -116,7 +120,7 @@ public class MakeADeliveryFullScenarioTest extends AbstractSchedulerTest {
 
     public void startTheDelivery() {
         addADroneAndPlanADelivery();
-        delivery.start();
+        deliveryManager.getDeliveryById(delivery.getId()).get().start();
 
         assertEquals(DeliveryStatus.SENT, delivery.getStatus());
         assertEquals(PackageStatus.WAITING, delivery.getaPackage().getPackageStatus());
@@ -126,7 +130,7 @@ public class MakeADeliveryFullScenarioTest extends AbstractSchedulerTest {
     @Test
     public void finishTheDelivery() {
         startTheDelivery();
-        delivery.finish();
+        deliveryManager.getDeliveryById(delivery.getId()).get().finish();
 
         assertEquals(DeliveryStatus.DONE, delivery.getStatus());
         assertEquals(PackageStatus.DELIVERED, delivery.getaPackage().getPackageStatus());
