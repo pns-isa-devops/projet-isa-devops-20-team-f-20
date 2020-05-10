@@ -29,7 +29,8 @@ Il consiste à :
 - 3.c) Ajouter un drone avec un ID (par exemple 1) en remplissant le formulaire 'Add Drone' sur la droite
 - 3.d) Une popup de validation doit se lancer et le package doit avoir changer de statut une fois la liste actualiser (boutons en forme de flèches dans 'Drone List')
 - 4.a) Retourner sur la page 'Service Client' : [http://localhost:8844/client]
-- 4.b)
+- 4.b) Remplir le formulaire 'Add Delivery' en haut à droite avec l'id du précédent package à WAITING en rentrant une date souhaité (ajourd'hui par défaut) et une heure comprise entre 8h01 et 19h59 (11h05 par exemple)
+- 4.c) Actualisé la liste de delivery et de packages et constaté que la delivery est presente et le statut du package a changé
 
 ## Alternatives
 
