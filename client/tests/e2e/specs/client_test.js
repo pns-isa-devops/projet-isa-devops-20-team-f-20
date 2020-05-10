@@ -26,14 +26,13 @@ describe('Init Test', () => {
     it('Retreive incomming packages', () => {
       cy.get('[data-cy=client_retreive_package]').click({force: true})
 
-      cy.wait(1000)
+      cy.wait(5000)
     })
 
     it('Should have 10 items in package list', () => {
       cy.get('[data-cy=refresh_package]').click({force: true})
 
-      cy.wait(1000)
-
+      cy.wait(2000)
       cy.get("#app > div > main > div > div > div.row.align-start.justify-space-around > div:nth-child(2) > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody")
         .as('packages')
       cy.get('@packages').find('tr').should('have.length', 10)
@@ -42,7 +41,7 @@ describe('Init Test', () => {
     it('Should have no items in delivery list', () => {
       cy.get('[data-cy=refresh_delivery]').click({force: true})
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.get("#app > div > main > div > div > div.row.align-start.justify-space-around > div:nth-child(1) > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody > tr > td")
         .as('deliveries')
@@ -81,7 +80,7 @@ describe('Add delivery test', () => {
       cy.get('[data-cy=time_field]').scrollIntoView().clear({force: true}).type('12:00', {force: true})
       cy.get('[data-cy=validate_btn]').scrollIntoView().click({force: true})
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.get('[data-cy=failed_alert]').should('be.visible').click({force: true})
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(1) > div > div.v-alert.v-sheet.theme--light.v-alert--dense.v-alert--outlined.error--text > div > button > span > i")
@@ -95,7 +94,7 @@ describe('Add delivery test', () => {
       cy.get('[data-cy=time_field]').scrollIntoView().clear({force: true}).type('00:00', {force: true})
       cy.get('[data-cy=validate_btn]').scrollIntoView().click({force: true})
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.get('[data-cy=failed_alert]').should('be.visible')
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(1) > div > div.v-alert.v-sheet.theme--light.v-alert--dense.v-alert--outlined.error--text > div > button > span > i")
@@ -108,7 +107,7 @@ describe('Add delivery test', () => {
       cy.get('[data-cy=time_field]').scrollIntoView().clear({force: true}).type('12:00', {force: true})
       cy.get('[data-cy=validate_btn]').scrollIntoView().click({force: true})
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-center.justify-space-around > div.col.col-4.align-self-center > div:nth-child(1) > div > div.v-alert.v-sheet.theme--dark.v-alert--dense.v-alert--text.success--text")
       .should('be.visible')
@@ -124,7 +123,7 @@ describe('Add delivery test', () => {
       cy.get('[data-cy=time_field]').scrollIntoView().clear({force: true}).type('18:00', {force: true})
       cy.get('[data-cy=validate_btn]').scrollIntoView().click({force: true})
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.get('[data-cy=failed_alert]').should('be.visible')
     })
@@ -136,7 +135,7 @@ describe('Add delivery test', () => {
     it('The package sould switch to assigned', () => {
       cy.get('[data-cy=refresh_package]').click({force: true})
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-start.justify-space-around > div:nth-child(2) > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody > tr:nth-child(1) > td.text-center > span > span")
       .contains('ASSIGNED')
@@ -145,7 +144,7 @@ describe('Add delivery test', () => {
     it('Sould have the delivery created in list', () => {
       cy.get('[data-cy=refresh_delivery]').click({force: true})
 
-      cy.wait(1000)
+      cy.wait(2000)
 
       cy.get("#app > div.v-application--wrap > main > div > div > div.row.align-start.justify-space-around > div:nth-child(1) > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody")
         .as('deliveries')

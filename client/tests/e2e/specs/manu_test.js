@@ -81,14 +81,14 @@ describe('Init Test', () => {
 
   context('Load the data in the page by clicking on each refresh buttons', () => {
 
-    it('Should have 3 items in package list', () => {
+    it('Should have 10 items in package list', () => {
       cy.get('[data-cy=refresh_package]').click()
 
       cy.wait(1000)
 
       cy.get("#app > div > main > div > div > div > div.col.col-3.align-self-center > div.row.align-center.justify-center > div > div > div > div:nth-child(2) > div > div.v-data-table.elevation-4.theme--light > div.v-data-table__wrapper > table > tbody")
         .as('packages')
-      cy.get('@packages').find('tr').should('have.length', 3)
+      cy.get('@packages').find('tr').should('have.length', 10)
     })
 
     it('Should have the first package assigned', () => {
@@ -124,7 +124,7 @@ describe('Change status tests', () => {
           force: true
         })
 
-      cy.get("#list-item-152-0").click({
+      cy.get("#list-item-159-0").click({
         force: true
       })
       cy.get('[data-cy=manu_package_status_button]').scrollIntoView().click()
@@ -148,7 +148,7 @@ describe('Change status tests', () => {
         })
 
 
-      cy.get("#list-item-152-1").click({
+      cy.get("#list-item-159-1").click({
         force: true
       })
       cy.get('[data-cy=manu_package_status_button]').scrollIntoView().click()
