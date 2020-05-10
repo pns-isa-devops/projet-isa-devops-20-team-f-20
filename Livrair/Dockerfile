@@ -37,8 +37,8 @@ COPY ./resources/tomcat-user.xml ./conf/tomcat-users.xml
 # Allow one to access to the manager from outside the container
 COPY ./resources/manager-context.xml ./webapps/manager/META-INF/context.xml
 
-# Copy persistence
-COPY resources/hsqldb.script ./data/hsqldb/hsqldb.script
+# Copy persistence (use load instead)
+# COPY resources/hsqldb.script ./data/hsqldb/hsqldb.script
 
 
 # Copy the startup script
