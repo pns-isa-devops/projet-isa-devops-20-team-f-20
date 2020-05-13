@@ -46,6 +46,7 @@ public class LogisticWebServiceImpl implements LogisticWebService {
 
     @Override
     public boolean changePackageStatut(String id, PackageStatus packageStatus) {
+        System.out.println("[LOG] New call : " + "changePackageStatut" + "with args : " + "id=" + id + " packageStatus=" + packageStatus);
         return delivery.changePackageStatut(id, packageStatus);
     }
 
