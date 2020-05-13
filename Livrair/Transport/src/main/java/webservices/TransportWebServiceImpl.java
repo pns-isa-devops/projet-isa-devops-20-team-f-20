@@ -24,6 +24,7 @@ public class TransportWebServiceImpl implements TransportWebService {
 
     @Override
     public boolean addDrone(String id) {
+        System.out.println("[LOG] New call : " + "addDrone" + "with args : " + "id=" + id);
         return modifier.addDrone(id);
     }
 
@@ -35,7 +36,8 @@ public class TransportWebServiceImpl implements TransportWebService {
 
     @Override
     public boolean changeState(String id, DroneStatus droneStatus) {
-            return modifier.changeState(id, droneStatus);
+        System.out.println("[LOG] New call : " + "changeStatus" + "with args : " + "id=" + id + " droneStatus=" + droneStatus);
+        return modifier.changeState(id, droneStatus);
     }
 
 
