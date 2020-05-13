@@ -21,6 +21,7 @@ public class SchedulerWebServiceImpl implements SchedulerWebService {
 
     @Override
     public boolean planDelivery(String id, int jour, int mois, int annee, int heure, int minute) {
+        System.out.println("[LOG] New call on "+"SchedulerWS"+" : " + "planDelivery" + "with args : " + "id=" + id + " date=" + jour+'/'+mois+'/'+annee+' '+minute+':'+heure);
         try {
             return planning.planDelivery(id, LocalDateTime.of(annee, mois, jour, heure, minute)).isPresent();
         } catch (Exception e) {
